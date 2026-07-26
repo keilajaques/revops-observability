@@ -102,14 +102,18 @@ async function main() {
     lossReasons: [], providers: [], contacts: {}, openByStage: {}, sources: {}, warnings: [],
   };
   const setW = (key, w) => { for (const k of ['hoje', '7', '15', '30']) out.windows[k][key] = w[k]; };
+  // série diária (últimos ~46 dias) — permite filtrar qualquer intervalo no front
+  const daily = {};
+  const inDailyWin = (t) => t >= NOW - 46 * DAY;
+  const D = (k) => (daily[k] ||= { created: 0, lost: 0, lost462: 0, csScored: 0, csApproved: 0, autoTotal: 0, infra: 0, semrushUnits: 0, semrushCalls: 0, semrushHits: 0 });
 
   // ===== Pipedrive: funil =====
   if (PD) {
     try {
       const created = W(), lost = W(), lost462 = W();
       for (const s of PIPE33) {
-        for (const d of await pdScan(s, 'all_not_deleted', 'add_time')) bump(created, d.add_time);
-        for (const d of await pdScan(s, 'lost', 'update_time')) { bump(lost, d.lost_time); if (s === 462) bump(lost462, d.lost_time); }
+        for (const d of await pdScan(s, 'all_not_deleted', 'add_time')) { bump(created, d.add_time); const t = ts(d.add_time); if (inDailyWin(t)) D(brtDate(t)).created++; }
+        for (const d of await pdScan(s, 'lost', 'update_time')) { bump(lost, d.lost_time); if (s === 462) bump(lost462, d.lost_time); const t = ts(d.lost_time); if (inDailyWin(t)) { const k = brtDate(t); D(k).lost++; if (s === 462) D(k).lost462++; } }
       }
       setW('created', created); setW('lost', lost); setW('lost462', lost462);
       for (const [name, id] of [['golpes465', 465], ['vm466', 466], ['garimpo467', 467], ['prospeccao434', 434]]) out.openByStage[name] = await pdOpenCount(id);
@@ -123,8 +127,10 @@ async function main() {
     const since = new Date(CUT['30']).toISOString();
     try {
       const cs = await sbPage(SB, KEY, `company_scores?select=deal_id,approved,calculated_at&calculated_at=gte.${since}&order=calculated_at.desc`);
-      const scored = WSet(), approved = WSet();
-      for (const r of cs) { bumpSet(scored, r.calculated_at, r.deal_id); if (r.approved === true) bumpSet(approved, r.calculated_at, r.deal_id); }
+      const scored = WSet(), approved = WSet(), scDay = {}, apDay = {};
+      for (const r of cs) { bumpSet(scored, r.calculated_at, r.deal_id); if (r.approved === true) bumpSet(approved, r.calculated_at, r.deal_id); const t = ts(r.calculated_at); if (inDailyWin(t)) { const k = brtDate(t); (scDay[k] ||= new Set()).add(r.deal_id); if (r.approved === true) (apDay[k] ||= new Set()).add(r.deal_id); } }
+      for (const k in scDay) D(k).csScored = scDay[k].size;
+      for (const k in apDay) D(k).csApproved = apDay[k].size;
       const sc = sizes(scored), ap = sizes(approved);
       setW('csScored', sc); setW('csApproved', ap);
       for (const k of ['hoje', '7', '15', '30']) { out.windows[k].csReproved = sc[k] - ap[k]; out.windows[k].csRate = sc[k] ? +(ap[k] / sc[k] * 100).toFixed(1) : 0; }
@@ -133,7 +139,7 @@ async function main() {
     try {
       const ae = await sbPage(SB, KEY, `automation_errors?select=error_type,occurred_at&occurred_at=gte.${since}&order=occurred_at.desc`);
       const tot = W(), infra = W(), byType = {};
-      for (const r of ae) { bump(tot, r.occurred_at); if (INFRA.has(r.error_type)) bump(infra, r.occurred_at); (byType[r.error_type] ||= W()); bump(byType[r.error_type], r.occurred_at); }
+      for (const r of ae) { bump(tot, r.occurred_at); if (INFRA.has(r.error_type)) bump(infra, r.occurred_at); (byType[r.error_type] ||= W()); bump(byType[r.error_type], r.occurred_at); const t = ts(r.occurred_at); if (inDailyWin(t)) { const k = brtDate(t); D(k).autoTotal++; if (INFRA.has(r.error_type)) D(k).infra++; } }
       setW('autoTotal', tot); setW('infra', infra);
       const total30 = tot['30'] || 1;
       out.lossReasons = Object.entries(byType).sort((a, b) => b[1]['30'] - a[1]['30']).slice(0, 8)
@@ -143,7 +149,7 @@ async function main() {
     try {
       const sm = await sbPage(SB, KEY, `semrush_usage?select=units_consumed,cache_hit,called_at&called_at=gte.${since}&order=called_at.desc`);
       const calls = W(), units = W(), hits = W();
-      for (const r of sm) { bump(calls, r.called_at); bump(units, r.called_at, +r.units_consumed || 0); if (r.cache_hit) bump(hits, r.called_at); }
+      for (const r of sm) { bump(calls, r.called_at); bump(units, r.called_at, +r.units_consumed || 0); if (r.cache_hit) bump(hits, r.called_at); const t = ts(r.called_at); if (inDailyWin(t)) { const k = brtDate(t); const dd = D(k); dd.semrushCalls++; dd.semrushUnits += (+r.units_consumed || 0); if (r.cache_hit) dd.semrushHits++; } }
       setW('semrushCalls', calls); setW('semrushUnits', units);
       for (const k of ['hoje', '7', '15', '30']) out.windows[k].semrushCache = calls[k] ? +(hits[k] / calls[k] * 100).toFixed(2) : 0;
     } catch (e) { out.warnings.push('semrush falhou: ' + e.message); }
@@ -190,6 +196,7 @@ async function main() {
     } catch (e) { out.warnings.push('Enrique garimpo falhou: ' + e.message); }
   } else out.warnings.push('Enrique service_role ausente — providers/áreas via garimpo.* não populados');
 
+  out.daily = daily;
   const dest = path.join(process.cwd(), 'public', 'data.json');
   fs.mkdirSync(path.dirname(dest), { recursive: true });
   fs.writeFileSync(dest, JSON.stringify(out, null, 2));
