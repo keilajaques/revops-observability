@@ -105,7 +105,7 @@ async function main() {
   // série diária (últimos ~46 dias) — permite filtrar qualquer intervalo no front
   const daily = {};
   const inDailyWin = (t) => t >= NOW - 46 * DAY;
-  const D = (k) => (daily[k] ||= { created: 0, lost: 0, lost462: 0, csScored: 0, csApproved: 0, autoTotal: 0, infra: 0, semrushUnits: 0, semrushCalls: 0, semrushHits: 0 });
+  const D = (k) => (daily[k] ||= { created: 0, lost: 0, lost462: 0, csScored: 0, csApproved: 0, autoTotal: 0, infra: 0, semrushUnits: 0, semrushCalls: 0, semrushHits: 0, contactsNew: 0, cEmail: 0, cLinkedin: 0, cPhone: 0, cApollo: 0, cVerified: 0, opecCalls: 0, opecCredits: 0, opecCost: 0 });
 
   // ===== Pipedrive: funil =====
   if (PD) {
@@ -154,9 +154,12 @@ async function main() {
       for (const k of ['hoje', '7', '15', '30']) out.windows[k].semrushCache = calls[k] ? +(hits[k] / calls[k] * 100).toFixed(2) : 0;
     } catch (e) { out.warnings.push('semrush falhou: ' + e.message); }
     try {
-      const c = await sbPage(SB, KEY, `contacts?select=email,email_status,apollo_contact_id,phone,linkedin_url,company_id`);
+      const c = await sbPage(SB, KEY, `contacts?select=email,email_status,apollo_contact_id,phone,linkedin_url,company_id,created_at`);
       const em = new Set(), comp = new Set(); let verif = 0, ph = 0, li = 0, ap = 0, withEmail = 0;
-      for (const r of c) { if (r.email) { em.add(r.email.toLowerCase()); withEmail++; } if (r.email_status === 'verified') verif++; if (r.phone) ph++; if (r.linkedin_url) li++; if (r.apollo_contact_id) ap++; if (r.company_id) comp.add(r.company_id); }
+      for (const r of c) {
+        if (r.email) { em.add(r.email.toLowerCase()); withEmail++; } if (r.email_status === 'verified') verif++; if (r.phone) ph++; if (r.linkedin_url) li++; if (r.apollo_contact_id) ap++; if (r.company_id) comp.add(r.company_id);
+        const t = ts(r.created_at); if (inDailyWin(t)) { const dd = D(brtDate(t)); dd.contactsNew++; if (r.email) dd.cEmail++; if (r.linkedin_url) dd.cLinkedin++; if (r.phone) dd.cPhone++; if (r.apollo_contact_id) dd.cApollo++; if (r.email_status === 'verified') dd.cVerified++; }
+      }
       const tot = c.length || 1;
       out.contacts = { total: c.length, unique: em.size, empresas: comp.size, verified: verif, withPhone: ph, withLinkedin: li, viaApollo: ap,
         covEmail: +(withEmail / tot * 100).toFixed(0), covPhone: +(ph / tot * 100).toFixed(0), covLinkedin: +(li / tot * 100).toFixed(0), covApollo: +(ap / tot * 100).toFixed(0),
@@ -178,6 +181,14 @@ async function main() {
       for (const [k, from] of [['hoje', `${TODAY_BRT}T03:00:00Z`], ['7', new Date(CUT['7']).toISOString()], ['15', new Date(CUT['15']).toISOString()], ['30', new Date(CUT['30']).toISOString()]]) {
         const t = timeout(25000);
         try { const r = await fetch(`${base}/usage?from=${from}&to=${new Date(NOW).toISOString()}`, { headers: { authorization: `Bearer ${OPEC_KEY}` }, signal: t.signal }); const j = await r.json().catch(() => ({})); out.windows[k].opecCalls = j.calls || 0; out.windows[k].opecCredits = j.data_credits || 0; out.windows[k].opecCost = j.cost_brl || 0; } catch (e) { } finally { t.done(); }
+      }
+      // série diária OPEC (um /usage por dia) — permite filtrar por período
+      for (let i = 0; i < 46; i++) {
+        const day = brtDate(NOW - i * DAY);
+        const from = `${day}T03:00:00Z`;
+        const to = i === 0 ? new Date(NOW).toISOString() : `${brtDate(NOW - (i - 1) * DAY)}T03:00:00Z`;
+        const t = timeout(15000);
+        try { const r = await fetch(`${base}/usage?from=${from}&to=${to}`, { headers: { authorization: `Bearer ${OPEC_KEY}` }, signal: t.signal }); const j = await r.json().catch(() => ({})); const dd = D(day); dd.opecCalls = j.calls || 0; dd.opecCredits = j.data_credits || 0; dd.opecCost = j.cost_brl || 0; } catch (e) { } finally { t.done(); }
       }
       log('opec ok via', base);
     } else out.warnings.push('OPEC: nenhuma URL respondeu (Vercel alias rotacionou?) — setar ENRIQUE_OPEC_URL com o domínio de produção estável');

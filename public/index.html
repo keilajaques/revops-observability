@@ -88,7 +88,7 @@ let DATA=null, mode='30', cFrom=null, cTo=null;
 function dayMinus(anchor,n){ const d=new Date(anchor+'T12:00:00Z'); d.setUTCDate(d.getUTCDate()-n); return d.toISOString().slice(0,10); }
 function range(){ const t=DATA.todayBRT||Object.keys(DATA.daily||{}).sort().pop(); if(mode==='hoje')return[t,t]; if(mode==='7')return[dayMinus(t,6),t]; if(mode==='15')return[dayMinus(t,14),t]; if(mode==='30')return[dayMinus(t,29),t]; return[cFrom||dayMinus(t,29), cTo||t]; }
 function nDays(a,b){ return Math.max(1, Math.round((new Date(b+'T12Z')-new Date(a+'T12Z'))/864e5)+1); }
-function sumRange(a,b){ const acc={created:0,lost:0,lost462:0,csScored:0,csApproved:0,autoTotal:0,infra:0,semrushUnits:0,semrushCalls:0,semrushHits:0}; const dd=DATA.daily||{}; for(const k in dd){ if(k>=a&&k<=b){ for(const f in acc) acc[f]+=(dd[k][f]||0); } } return acc; }
+function sumRange(a,b){ const acc={created:0,lost:0,lost462:0,csScored:0,csApproved:0,autoTotal:0,infra:0,semrushUnits:0,semrushCalls:0,semrushHits:0,contactsNew:0,cEmail:0,cLinkedin:0,cPhone:0,cApollo:0,cVerified:0,opecCalls:0,opecCredits:0,opecCost:0}; const dd=DATA.daily||{}; for(const k in dd){ if(k>=a&&k<=b){ for(const f in acc) acc[f]+=(dd[k][f]||0); } } return acc; }
 function label(){ const [a,b]=range(); if(mode==='hoje')return 'hoje ('+a+')'; if(mode==='custom')return a+' → '+b; return mode+' dias'; }
 
 function kpi(v,l,cls,pd){ return `<div class="kpi"><div class="v ${cls||''}">${v}</div><div class="l">${l}</div>${pd?`<div class="pd">${pd}</div>`:''}</div>`; }
@@ -106,13 +106,14 @@ function render(){
 
   let h='';
   h+=`<div class="zone">Topo · leitura rápida</div><h2>KPIs principais</h2><div class="kpis">`;
-  h+=kpi(nf.format(w.created),'Cards captados','accent',perDay(w.created));
+  h+=kpi(nf.format(w.created),'Captados <small style="color:var(--text-faint)">(nascidos)</small>','accent',perDay(w.created));
   h+=kpi(pct(csRate),'Taxa de aprovação (Lia)','');
   h+=kpi(pct(rel),'Confiabilidade técnica','good');
-  h+=kpi(nf.format(w.lost),'Cards perdidos','crit',perDay(w.lost));
-  h+=kpi(nf.format(w.csScored),'Cards pontuados','');
+  h+=kpi(nf.format(w.lost),'Perdidos <small style="color:var(--text-faint)">(baixados · inc. backlog)</small>','crit',perDay(w.lost));
+  h+=kpi(nf.format(w.csScored),'Pontuados no CS','');
   h+=kpi(nf.format(w.csApproved),'Aprovados (seguem)','good');
   h+=`</div>`;
+  h+=`<div class="note"><span class="tag">Como ler estes números</span><b>Captados</b> = cards que <b>nasceram</b> no período (data de criação). <b>Perdidos</b> = cards <b>baixados</b> no período (data da perda), inclusive de coortes antigas — por isso "perdidos" pode passar "captados" num dia: a máquina drena backlog. E ~87% da captação morre no <b>mesmo dia</b> no Company Score. Não é o mesmo conjunto de cards.</div>`;
   h+=alertsHtml(w,cache);
 
   // funil
@@ -145,11 +146,13 @@ function render(){
     <div class="pmet"><span>Reprovados</span><span class="pv" style="color:var(--crit)">${nf.format(w.csScored-w.csApproved)}</span></div>
     <div class="pmet"><span>Confiabilidade</span><span class="pv" style="color:var(--good)">${pct(rel)}</span></div></div>`;
   const c=DATA.contacts||{};
-  h+=`<div class="card proj"><div class="pn">Enrique<small>garimpo · acumulado</small></div>
-    <div class="pmet"><span>Empresas c/ contato</span><span class="pv">${nf.format(c.empresas||0)}</span></div>
-    <div class="pmet"><span>Contatos (únicos)</span><span class="pv">${nf.format(c.total||0)} <small style="color:var(--text-faint)">(${nf.format(c.unique||0)})</small></span></div>
-    <div class="pmet"><span>Média/empresa</span><span class="pv">${c.avgPerCompany||0}</span></div>
-    <div class="pmet"><span>Cobertura e-mail / LinkedIn</span><span class="pv">${c.covEmail||0}% / ${c.covLinkedin||0}%</span></div></div>`;
+  const cn=w.contactsNew||0, covE=cn?Math.round(w.cEmail/cn*100):0, covL=cn?Math.round(w.cLinkedin/cn*100):0, covA=cn?Math.round(w.cApollo/cn*100):0;
+  h+=`<div class="card proj"><div class="pn">Enrique<small>garimpo · no período</small></div>
+    <div class="pmet"><span>Contatos encontrados</span><span class="pv">${nf.format(cn)}</span></div>
+    <div class="pmet"><span>E-mails válidos</span><span class="pv" style="color:var(--good)">${nf.format(w.cVerified||0)}</span></div>
+    <div class="pmet"><span>Cobertura e-mail / LinkedIn</span><span class="pv">${covE}% / ${covL}%</span></div>
+    <div class="pmet"><span>Créditos Apollo (ext.)</span><span class="pv">${nf.format(w.opecCredits||0)} · ${money(w.opecCost||0)}</span></div>
+    <div class="pmet"><span>Base acumulada</span><span class="pv" style="color:var(--text-faint)">${nf.format(c.total||0)} contatos · ${nf.format(c.empresas||0)} emp.</span></div></div>`;
   h+=`</div>`;
 
   // comparativo por janela (fixo 7/15/30, ritmo/dia)

@@ -1,34 +1,34 @@
 {
-  "generatedAt": "2026-07-26T20:41:05.341Z",
-  "generatedAtBRT": "26/07/2026, 17:41:05",
+  "generatedAt": "2026-07-26T20:55:26.837Z",
+  "generatedAtBRT": "26/07/2026, 17:55:26",
   "todayBRT": "2026-07-26",
   "windows": {
     "7": {
-      "created": 923,
-      "lost": 1301,
+      "created": 921,
+      "lost": 1305,
       "lost462": 888,
       "csScored": 1106,
       "csApproved": 57,
       "csReproved": 1049,
       "csRate": 5.2,
-      "autoTotal": 1474,
+      "autoTotal": 1487,
       "infra": 38,
       "semrushCalls": 3330,
       "semrushUnits": 16270,
       "semrushCache": 0.06,
-      "opecCalls": 3584,
+      "opecCalls": 3563,
       "opecCredits": 609,
       "opecCost": 69.55
     },
     "15": {
-      "created": 3367,
-      "lost": 4011,
+      "created": 3365,
+      "lost": 4015,
       "lost462": 2309,
       "csScored": 2849,
       "csApproved": 295,
       "csReproved": 2554,
       "csRate": 10.4,
-      "autoTotal": 4018,
+      "autoTotal": 4031,
       "infra": 132,
       "semrushCalls": 10059,
       "semrushUnits": 47928,
@@ -38,14 +38,14 @@
       "opecCost": 90.35
     },
     "30": {
-      "created": 5731,
-      "lost": 6796,
+      "created": 5729,
+      "lost": 6800,
       "lost462": 4615,
       "csScored": 5077,
       "csApproved": 381,
       "csReproved": 4696,
       "csRate": 7.5,
-      "autoTotal": 6788,
+      "autoTotal": 6801,
       "infra": 133,
       "semrushCalls": 18258,
       "semrushUnits": 89805,
@@ -56,13 +56,13 @@
     },
     "hoje": {
       "created": 210,
-      "lost": 351,
+      "lost": 355,
       "lost462": 210,
       "csScored": 215,
       "csApproved": 8,
       "csReproved": 207,
       "csRate": 3.7,
-      "autoTotal": 390,
+      "autoTotal": 403,
       "infra": 33,
       "semrushCalls": 594,
       "semrushUnits": 2943,
@@ -80,7 +80,7 @@
       "d15": 2742,
       "d30": 5020,
       "hoje": 303,
-      "share": 74,
+      "share": 73.8,
       "ratePerDay7": 161.7,
       "ratePerDay30": 167.3
     },
@@ -120,13 +120,13 @@
     {
       "key": "garimpo_no_channel",
       "label": "Sem canal (e-mail/tel)",
-      "d7": 24,
-      "d15": 105,
-      "d30": 116,
-      "hoje": 4,
+      "d7": 27,
+      "d15": 108,
+      "d30": 119,
+      "hoje": 7,
       "share": 1.7,
-      "ratePerDay7": 3.4,
-      "ratePerDay30": 3.9
+      "ratePerDay7": 3.9,
+      "ratePerDay30": 4
     },
     {
       "key": "lost_duplicate",
@@ -180,7 +180,7 @@
   "openByStage": {
     "golpes465": 1058,
     "vm466": 712,
-    "garimpo467": 13,
+    "garimpo467": 18,
     "prospeccao434": 634
   },
   "sources": {
@@ -201,7 +201,16 @@
       "infra": 0,
       "semrushUnits": 2850,
       "semrushCalls": 663,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 91,
+      "cEmail": 69,
+      "cLinkedin": 91,
+      "cPhone": 0,
+      "cApollo": 91,
+      "cVerified": 0,
+      "opecCalls": 58,
+      "opecCredits": 8,
+      "opecCost": 0.6
     },
     "2026-07-18": {
       "created": 137,
@@ -213,7 +222,16 @@
       "infra": 2,
       "semrushUnits": 2299,
       "semrushCalls": 455,
-      "semrushHits": 1
+      "semrushHits": 1,
+      "contactsNew": 9,
+      "cEmail": 9,
+      "cLinkedin": 9,
+      "cPhone": 2,
+      "cApollo": 0,
+      "cVerified": 5,
+      "opecCalls": 312,
+      "opecCredits": 61,
+      "opecCost": 3.05
     },
     "2026-07-16": {
       "created": 230,
@@ -225,7 +243,16 @@
       "infra": 17,
       "semrushUnits": 6262,
       "semrushCalls": 1326,
-      "semrushHits": 23
+      "semrushHits": 23,
+      "contactsNew": 69,
+      "cEmail": 49,
+      "cLinkedin": 69,
+      "cPhone": 0,
+      "cApollo": 68,
+      "cVerified": 0,
+      "opecCalls": 725,
+      "opecCredits": 37,
+      "opecCost": 1.85
     },
     "2026-07-15": {
       "created": 136,
@@ -237,7 +264,16 @@
       "infra": 2,
       "semrushUnits": 2720,
       "semrushCalls": 560,
-      "semrushHits": 9
+      "semrushHits": 9,
+      "contactsNew": 134,
+      "cEmail": 111,
+      "cLinkedin": 134,
+      "cPhone": 0,
+      "cApollo": 134,
+      "cVerified": 0,
+      "opecCalls": 479,
+      "opecCredits": 30,
+      "opecCost": 1.5
     },
     "2026-07-14": {
       "created": 587,
@@ -249,7 +285,16 @@
       "infra": 37,
       "semrushUnits": 6750,
       "semrushCalls": 1632,
-      "semrushHits": 3
+      "semrushHits": 3,
+      "contactsNew": 332,
+      "cEmail": 204,
+      "cLinkedin": 332,
+      "cPhone": 5,
+      "cApollo": 283,
+      "cVerified": 84,
+      "opecCalls": 1689,
+      "opecCredits": 50,
+      "opecCost": 2.9
     },
     "2026-07-13": {
       "created": 138,
@@ -261,7 +306,16 @@
       "infra": 0,
       "semrushUnits": 2218,
       "semrushCalls": 436,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 61,
+      "cEmail": 37,
+      "cLinkedin": 61,
+      "cPhone": 0,
+      "cApollo": 61,
+      "cVerified": 9,
+      "opecCalls": 50,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-07-12": {
       "created": 149,
@@ -273,7 +327,16 @@
       "infra": 0,
       "semrushUnits": 2584,
       "semrushCalls": 514,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 25,
+      "cEmail": 21,
+      "cLinkedin": 22,
+      "cPhone": 0,
+      "cApollo": 18,
+      "cVerified": 4,
+      "opecCalls": 160,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-07-09": {
       "created": 106,
@@ -285,7 +348,16 @@
       "infra": 0,
       "semrushUnits": 1894,
       "semrushCalls": 364,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 0,
+      "cEmail": 0,
+      "cLinkedin": 0,
+      "cPhone": 0,
+      "cApollo": 0,
+      "cVerified": 0,
+      "opecCalls": 4,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-07-08": {
       "created": 169,
@@ -297,7 +369,16 @@
       "infra": 1,
       "semrushUnits": 3181,
       "semrushCalls": 607,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 0,
+      "cEmail": 0,
+      "cLinkedin": 0,
+      "cPhone": 0,
+      "cApollo": 0,
+      "cVerified": 0,
+      "opecCalls": 15,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-07-06": {
       "created": 164,
@@ -309,7 +390,16 @@
       "infra": 0,
       "semrushUnits": 2961,
       "semrushCalls": 576,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 0,
+      "cEmail": 0,
+      "cLinkedin": 0,
+      "cPhone": 0,
+      "cApollo": 0,
+      "cVerified": 0,
+      "opecCalls": 8,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-07-05": {
       "created": 209,
@@ -321,7 +411,16 @@
       "infra": 0,
       "semrushUnits": 3443,
       "semrushCalls": 662,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 0,
+      "cEmail": 0,
+      "cLinkedin": 0,
+      "cPhone": 0,
+      "cApollo": 0,
+      "cVerified": 0,
+      "opecCalls": 28,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-07-04": {
       "created": 178,
@@ -333,7 +432,16 @@
       "infra": 0,
       "semrushUnits": 3355,
       "semrushCalls": 637,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 0,
+      "cEmail": 0,
+      "cLinkedin": 0,
+      "cPhone": 0,
+      "cApollo": 0,
+      "cVerified": 0,
+      "opecCalls": 8,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-07-02": {
       "created": 154,
@@ -345,7 +453,16 @@
       "infra": 0,
       "semrushUnits": 2956,
       "semrushCalls": 598,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 0,
+      "cEmail": 0,
+      "cLinkedin": 0,
+      "cPhone": 0,
+      "cApollo": 0,
+      "cVerified": 0,
+      "opecCalls": 0,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-07-01": {
       "created": 148,
@@ -357,7 +474,16 @@
       "infra": 0,
       "semrushUnits": 2731,
       "semrushCalls": 535,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 45,
+      "cEmail": 39,
+      "cLinkedin": 45,
+      "cPhone": 0,
+      "cApollo": 45,
+      "cVerified": 0,
+      "opecCalls": 8,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-06-30": {
       "created": 211,
@@ -369,7 +495,16 @@
       "infra": 0,
       "semrushUnits": 3531,
       "semrushCalls": 714,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 471,
+      "cEmail": 357,
+      "cLinkedin": 471,
+      "cPhone": 0,
+      "cApollo": 471,
+      "cVerified": 3,
+      "opecCalls": 12,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-06-29": {
       "created": 187,
@@ -381,7 +516,16 @@
       "infra": 0,
       "semrushUnits": 3361,
       "semrushCalls": 670,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 0,
+      "cEmail": 0,
+      "cLinkedin": 0,
+      "cPhone": 0,
+      "cApollo": 0,
+      "cVerified": 0,
+      "opecCalls": 56,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-06-28": {
       "created": 237,
@@ -393,7 +537,16 @@
       "infra": 0,
       "semrushUnits": 4033,
       "semrushCalls": 784,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 0,
+      "cEmail": 0,
+      "cLinkedin": 0,
+      "cPhone": 0,
+      "cApollo": 0,
+      "cVerified": 0,
+      "opecCalls": 36,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-06-27": {
       "created": 186,
@@ -405,7 +558,16 @@
       "infra": 0,
       "semrushUnits": 3102,
       "semrushCalls": 609,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 0,
+      "cEmail": 0,
+      "cLinkedin": 0,
+      "cPhone": 0,
+      "cApollo": 0,
+      "cVerified": 0,
+      "opecCalls": 4,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-06-26": {
       "created": 203,
@@ -417,7 +579,16 @@
       "infra": 0,
       "semrushUnits": 891,
       "semrushCalls": 171,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 0,
+      "cEmail": 0,
+      "cLinkedin": 0,
+      "cPhone": 0,
+      "cApollo": 0,
+      "cVerified": 0,
+      "opecCalls": 0,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-06-25": {
       "created": 100,
@@ -429,7 +600,16 @@
       "infra": 0,
       "semrushUnits": 0,
       "semrushCalls": 0,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 603,
+      "cEmail": 540,
+      "cLinkedin": 603,
+      "cPhone": 0,
+      "cApollo": 602,
+      "cVerified": 16,
+      "opecCalls": 22,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-06-24": {
       "created": 59,
@@ -441,7 +621,16 @@
       "infra": 0,
       "semrushUnits": 0,
       "semrushCalls": 0,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 191,
+      "cEmail": 174,
+      "cLinkedin": 191,
+      "cPhone": 2,
+      "cApollo": 186,
+      "cVerified": 7,
+      "opecCalls": 44,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-06-23": {
       "created": 51,
@@ -453,7 +642,16 @@
       "infra": 0,
       "semrushUnits": 0,
       "semrushCalls": 0,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 250,
+      "cEmail": 149,
+      "cLinkedin": 247,
+      "cPhone": 1,
+      "cApollo": 243,
+      "cVerified": 3,
+      "opecCalls": 12,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-06-22": {
       "created": 31,
@@ -465,7 +663,16 @@
       "infra": 0,
       "semrushUnits": 0,
       "semrushCalls": 0,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 90,
+      "cEmail": 33,
+      "cLinkedin": 89,
+      "cPhone": 2,
+      "cApollo": 86,
+      "cVerified": 1,
+      "opecCalls": 9,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-06-21": {
       "created": 23,
@@ -477,7 +684,16 @@
       "infra": 0,
       "semrushUnits": 0,
       "semrushCalls": 0,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 13,
+      "cEmail": 7,
+      "cLinkedin": 13,
+      "cPhone": 0,
+      "cApollo": 8,
+      "cVerified": 6,
+      "opecCalls": 0,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-06-19": {
       "created": 28,
@@ -489,7 +705,16 @@
       "infra": 0,
       "semrushUnits": 0,
       "semrushCalls": 0,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 256,
+      "cEmail": 177,
+      "cLinkedin": 253,
+      "cPhone": 7,
+      "cApollo": 239,
+      "cVerified": 11,
+      "opecCalls": 5,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-06-18": {
       "created": 1,
@@ -501,7 +726,16 @@
       "infra": 0,
       "semrushUnits": 0,
       "semrushCalls": 0,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 0,
+      "cEmail": 0,
+      "cLinkedin": 0,
+      "cPhone": 0,
+      "cApollo": 0,
+      "cVerified": 0,
+      "opecCalls": 19,
+      "opecCredits": 1,
+      "opecCost": 0.25
     },
     "2026-06-17": {
       "created": 21,
@@ -513,7 +747,16 @@
       "infra": 0,
       "semrushUnits": 0,
       "semrushCalls": 0,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 2,
+      "cEmail": 2,
+      "cLinkedin": 2,
+      "cPhone": 0,
+      "cApollo": 2,
+      "cVerified": 2,
+      "opecCalls": 8,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-06-16": {
       "created": 23,
@@ -525,7 +768,16 @@
       "infra": 0,
       "semrushUnits": 0,
       "semrushCalls": 0,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 14,
+      "cEmail": 11,
+      "cLinkedin": 14,
+      "cPhone": 0,
+      "cApollo": 13,
+      "cVerified": 11,
+      "opecCalls": 16,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-06-15": {
       "created": 20,
@@ -537,7 +789,16 @@
       "infra": 0,
       "semrushUnits": 0,
       "semrushCalls": 0,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 0,
+      "cEmail": 0,
+      "cLinkedin": 0,
+      "cPhone": 0,
+      "cApollo": 0,
+      "cVerified": 0,
+      "opecCalls": 14,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-06-14": {
       "created": 34,
@@ -549,7 +810,16 @@
       "infra": 0,
       "semrushUnits": 0,
       "semrushCalls": 0,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 7,
+      "cEmail": 7,
+      "cLinkedin": 7,
+      "cPhone": 0,
+      "cApollo": 7,
+      "cVerified": 7,
+      "opecCalls": 26,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-06-13": {
       "created": 21,
@@ -561,7 +831,16 @@
       "infra": 0,
       "semrushUnits": 0,
       "semrushCalls": 0,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 1,
+      "cEmail": 1,
+      "cLinkedin": 1,
+      "cPhone": 0,
+      "cApollo": 1,
+      "cVerified": 1,
+      "opecCalls": 16,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-06-12": {
       "created": 34,
@@ -573,19 +852,37 @@
       "infra": 0,
       "semrushUnits": 0,
       "semrushCalls": 0,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 48,
+      "cEmail": 34,
+      "cLinkedin": 36,
+      "cPhone": 39,
+      "cApollo": 2,
+      "cVerified": 34,
+      "opecCalls": 73,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-07-26": {
       "created": 210,
-      "lost": 351,
+      "lost": 355,
       "lost462": 210,
       "csScored": 215,
       "csApproved": 8,
-      "autoTotal": 390,
+      "autoTotal": 403,
       "infra": 33,
       "semrushUnits": 2943,
       "semrushCalls": 594,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 0,
+      "cEmail": 0,
+      "cLinkedin": 0,
+      "cPhone": 0,
+      "cApollo": 0,
+      "cVerified": 0,
+      "opecCalls": 133,
+      "opecCredits": 35,
+      "opecCost": 3.6
     },
     "2026-07-25": {
       "created": 123,
@@ -597,7 +894,16 @@
       "infra": 0,
       "semrushUnits": 1611,
       "semrushCalls": 307,
-      "semrushHits": 1
+      "semrushHits": 1,
+      "contactsNew": 0,
+      "cEmail": 0,
+      "cLinkedin": 0,
+      "cPhone": 0,
+      "cApollo": 0,
+      "cVerified": 0,
+      "opecCalls": 0,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-07-17": {
       "created": 876,
@@ -609,10 +915,19 @@
       "infra": 36,
       "semrushUnits": 5389,
       "semrushCalls": 1160,
-      "semrushHits": 19
+      "semrushHits": 19,
+      "contactsNew": 1153,
+      "cEmail": 915,
+      "cLinkedin": 1153,
+      "cPhone": 0,
+      "cApollo": 1152,
+      "cVerified": 14,
+      "opecCalls": 2550,
+      "opecCredits": 197,
+      "opecCost": 10.65
     },
     "2026-07-24": {
-      "created": 100,
+      "created": 98,
       "lost": 92,
       "lost462": 72,
       "csScored": 105,
@@ -621,7 +936,16 @@
       "infra": 0,
       "semrushUnits": 1365,
       "semrushCalls": 267,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 55,
+      "cEmail": 37,
+      "cLinkedin": 55,
+      "cPhone": 0,
+      "cApollo": 55,
+      "cVerified": 0,
+      "opecCalls": 346,
+      "opecCredits": 97,
+      "opecCost": 14.95
     },
     "2026-07-23": {
       "created": 86,
@@ -633,7 +957,16 @@
       "infra": 0,
       "semrushUnits": 1253,
       "semrushCalls": 245,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 162,
+      "cEmail": 123,
+      "cLinkedin": 162,
+      "cPhone": 0,
+      "cApollo": 162,
+      "cVerified": 0,
+      "opecCalls": 568,
+      "opecCredits": 223,
+      "opecCost": 20
     },
     "2026-07-22": {
       "created": 120,
@@ -645,7 +978,16 @@
       "infra": 0,
       "semrushUnits": 2932,
       "semrushCalls": 565,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 0,
+      "cEmail": 0,
+      "cLinkedin": 0,
+      "cPhone": 0,
+      "cApollo": 0,
+      "cVerified": 0,
+      "opecCalls": 1237,
+      "opecCredits": 94,
+      "opecCost": 8.4
     },
     "2026-07-21": {
       "created": 140,
@@ -657,7 +999,16 @@
       "infra": 5,
       "semrushUnits": 2871,
       "semrushCalls": 604,
-      "semrushHits": 1
+      "semrushHits": 1,
+      "contactsNew": 34,
+      "cEmail": 27,
+      "cLinkedin": 34,
+      "cPhone": 0,
+      "cApollo": 34,
+      "cVerified": 0,
+      "opecCalls": 920,
+      "opecCredits": 132,
+      "opecCost": 21
     },
     "2026-07-19": {
       "created": 170,
@@ -669,7 +1020,16 @@
       "infra": 0,
       "semrushUnits": 3169,
       "semrushCalls": 595,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 254,
+      "cEmail": 167,
+      "cLinkedin": 254,
+      "cPhone": 0,
+      "cApollo": 254,
+      "cVerified": 2,
+      "opecCalls": 510,
+      "opecCredits": 29,
+      "opecCost": 1.85
     },
     "2026-07-11": {
       "created": 107,
@@ -681,7 +1041,16 @@
       "infra": 0,
       "semrushUnits": 2131,
       "semrushCalls": 412,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 0,
+      "cEmail": 0,
+      "cLinkedin": 0,
+      "cPhone": 0,
+      "cApollo": 0,
+      "cVerified": 0,
+      "opecCalls": 0,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-07-10": {
       "created": 72,
@@ -693,7 +1062,16 @@
       "infra": 0,
       "semrushUnits": 1236,
       "semrushCalls": 237,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 0,
+      "cEmail": 0,
+      "cLinkedin": 0,
+      "cPhone": 0,
+      "cApollo": 0,
+      "cVerified": 0,
+      "opecCalls": 8,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-07-07": {
       "created": 147,
@@ -705,7 +1083,16 @@
       "infra": 0,
       "semrushUnits": 2553,
       "semrushCalls": 510,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 0,
+      "cEmail": 0,
+      "cLinkedin": 0,
+      "cPhone": 0,
+      "cApollo": 0,
+      "cVerified": 0,
+      "opecCalls": 16,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-07-03": {
       "created": 62,
@@ -717,7 +1104,16 @@
       "infra": 0,
       "semrushUnits": 1230,
       "semrushCalls": 249,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 0,
+      "cEmail": 0,
+      "cLinkedin": 0,
+      "cPhone": 0,
+      "cApollo": 0,
+      "cVerified": 0,
+      "opecCalls": 8,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-06-11": {
       "created": 24,
@@ -729,7 +1125,16 @@
       "infra": 0,
       "semrushUnits": 0,
       "semrushCalls": 0,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 15,
+      "cEmail": 4,
+      "cLinkedin": 15,
+      "cPhone": 0,
+      "cApollo": 6,
+      "cVerified": 3,
+      "opecCalls": 0,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-06-10": {
       "created": 53,
@@ -741,7 +1146,16 @@
       "infra": 0,
       "semrushUnits": 0,
       "semrushCalls": 0,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 3,
+      "cEmail": 1,
+      "cLinkedin": 3,
+      "cPhone": 0,
+      "cApollo": 0,
+      "cVerified": 1,
+      "opecCalls": 0,
+      "opecCredits": 0,
+      "opecCost": 0
     },
     "2026-06-20": {
       "created": 13,
@@ -753,7 +1167,16 @@
       "infra": 0,
       "semrushUnits": 0,
       "semrushCalls": 0,
-      "semrushHits": 0
+      "semrushHits": 0,
+      "contactsNew": 15,
+      "cEmail": 4,
+      "cLinkedin": 15,
+      "cPhone": 0,
+      "cApollo": 14,
+      "cVerified": 4,
+      "opecCalls": 0,
+      "opecCredits": 0,
+      "opecCost": 0
     }
   }
 }
