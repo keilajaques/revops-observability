@@ -1,0 +1,34 @@
+name: Coletor diário RevOps
+
+on:
+  schedule:
+    - cron: '0 9 * * *'   # 09:00 UTC = 06:00 America/Sao_Paulo
+  workflow_dispatch: {}     # permite rodar manualmente pelo botão "Run workflow"
+
+permissions:
+  contents: write           # necessário pra commitar o data.json
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Coletar métricas
+        env:
+          PIPEDRIVE_API_TOKEN: ${{ secrets.PIPEDRIVE_API_TOKEN }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          ENRIQUE_OPEC_KEY: ${{ secrets.ENRIQUE_OPEC_KEY }}
+          ENRIQUE_SUPABASE_URL: ${{ secrets.ENRIQUE_SUPABASE_URL }}
+          ENRIQUE_SERVICE_ROLE_KEY: ${{ secrets.ENRIQUE_SERVICE_ROLE_KEY }}
+        run: node scripts/collect.mjs
+      - name: Commit data.json
+        run: |
+          git config user.name "revops-bot"
+          git config user.email "revops-bot@users.noreply.github.com"
+          git add public/data.json
+          git commit -m "chore: atualiza data.json ($(TZ=America/Sao_Paulo date +%d/%m/%Y))" || echo "sem mudanças"
+          git push

@@ -1,0 +1,193 @@
+{
+  "generatedAt": "2026-07-26T20:22:33.366Z",
+  "generatedAtBRT": "26/07/2026, 17:22:33",
+  "todayBRT": "2026-07-26",
+  "windows": {
+    "7": {
+      "created": 922,
+      "lost": 1297,
+      "lost462": 888,
+      "csScored": 1106,
+      "csApproved": 57,
+      "csReproved": 1049,
+      "csRate": 5.2,
+      "autoTotal": 1449,
+      "infra": 38,
+      "semrushCalls": 3330,
+      "semrushUnits": 16270,
+      "semrushCache": 0.06,
+      "opecCalls": 3585,
+      "opecCredits": 609,
+      "opecCost": 69.55
+    },
+    "15": {
+      "created": 3366,
+      "lost": 4004,
+      "lost462": 2309,
+      "csScored": 2849,
+      "csApproved": 295,
+      "csReproved": 2554,
+      "csRate": 10.4,
+      "autoTotal": 3993,
+      "infra": 132,
+      "semrushCalls": 10059,
+      "semrushUnits": 47928,
+      "semrushCache": 0.57,
+      "opecCalls": 9719,
+      "opecCredits": 992,
+      "opecCost": 90.3
+    },
+    "30": {
+      "created": 5730,
+      "lost": 6789,
+      "lost462": 4615,
+      "csScored": 5077,
+      "csApproved": 381,
+      "csReproved": 4696,
+      "csRate": 7.5,
+      "autoTotal": 6763,
+      "infra": 133,
+      "semrushCalls": 18258,
+      "semrushUnits": 89805,
+      "semrushCache": 0.31,
+      "opecCalls": 9930,
+      "opecCredits": 992,
+      "opecCost": 90.3
+    },
+    "hoje": {
+      "created": 210,
+      "lost": 344,
+      "lost462": 210,
+      "csScored": 215,
+      "csApproved": 8,
+      "csReproved": 207,
+      "csRate": 3.7,
+      "autoTotal": 365,
+      "infra": 33,
+      "semrushCalls": 594,
+      "semrushUnits": 2943,
+      "semrushCache": 0,
+      "opecCalls": 115,
+      "opecCredits": 34,
+      "opecCost": 3.55
+    }
+  },
+  "lossReasons": [
+    {
+      "key": "lost_weak_pure_brand",
+      "label": "Marca fraca",
+      "d7": 1132,
+      "d15": 2742,
+      "d30": 5020,
+      "hoje": 303,
+      "share": 74.2,
+      "ratePerDay7": 161.7,
+      "ratePerDay30": 167.3
+    },
+    {
+      "key": "lost_cs_low",
+      "label": "Company Score baixo",
+      "d7": 53,
+      "d15": 179,
+      "d30": 390,
+      "hoje": 17,
+      "share": 5.8,
+      "ratePerDay7": 7.6,
+      "ratePerDay30": 13
+    },
+    {
+      "key": "enrique_only_no_contact",
+      "label": "Sem contato encontrado",
+      "d7": 119,
+      "d15": 301,
+      "d30": 301,
+      "hoje": 1,
+      "share": 4.5,
+      "ratePerDay7": 17,
+      "ratePerDay30": 10
+    },
+    {
+      "key": "lost_low_volume",
+      "label": "Volume / mercado baixo",
+      "d7": 15,
+      "d15": 149,
+      "d30": 208,
+      "hoje": 4,
+      "share": 3.1,
+      "ratePerDay7": 2.1,
+      "ratePerDay30": 6.9
+    },
+    {
+      "key": "garimpo_no_channel",
+      "label": "Sem canal (e-mail/tel)",
+      "d7": 20,
+      "d15": 101,
+      "d30": 112,
+      "hoje": 0,
+      "share": 1.7,
+      "ratePerDay7": 2.9,
+      "ratePerDay30": 3.7
+    },
+    {
+      "key": "lost_duplicate",
+      "label": "Duplicidade",
+      "d7": 8,
+      "d15": 56,
+      "d30": 111,
+      "hoje": 1,
+      "share": 1.6,
+      "ratePerDay7": 1.1,
+      "ratePerDay30": 3.7
+    },
+    {
+      "key": "invalid_produto_principal",
+      "label": "Produto principal inválido",
+      "d7": 0,
+      "d15": 110,
+      "d30": 110,
+      "hoje": 0,
+      "share": 1.6,
+      "ratePerDay7": 0,
+      "ratePerDay30": 3.7
+    },
+    {
+      "key": "gd_no_opportunity",
+      "label": "Golpes: sem oportunidade",
+      "d7": 29,
+      "d15": 34,
+      "d30": 77,
+      "hoje": 0,
+      "share": 1.1,
+      "ratePerDay7": 4.1,
+      "ratePerDay30": 2.6
+    }
+  ],
+  "providers": [],
+  "contacts": {
+    "total": 13947,
+    "unique": 10848,
+    "empresas": 660,
+    "verified": 4184,
+    "withPhone": 2897,
+    "withLinkedin": 12155,
+    "viaApollo": 10692,
+    "covEmail": 78,
+    "covPhone": 21,
+    "covLinkedin": 87,
+    "covApollo": 77,
+    "avgPerCompany": 21.1
+  },
+  "openByStage": {
+    "golpes465": 1058,
+    "vm466": 712,
+    "garimpo467": 4,
+    "prospeccao434": 634
+  },
+  "sources": {
+    "pipedrive": "ok",
+    "opec_url": "https://enrique-sable.vercel.app/api/v1"
+  },
+  "warnings": [
+    "Enrique service_role ausente — providers/áreas via garimpo.* não populados"
+  ]
+}

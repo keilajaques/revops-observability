@@ -1,0 +1,11 @@
+{
+  "name": "revops-observability",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Dashboard de observabilidade RevOps Branddi (Lead Gen + Lia + Enrique) com coletor diário.",
+  "scripts": {
+    "collect": "node scripts/collect.mjs",
+    "dev": "node -e \"import('node:http').then(h=>import('node:fs').then(f=>h.createServer((q,s)=>{let p=q.url.split('?')[0];if(p==='/')p='/index.html';try{s.end(f.readFileSync('public'+p))}catch{s.statusCode=404;s.end('404')}}).listen(4000,()=>console.log('http://localhost:4000'))))\""
+  }
+}

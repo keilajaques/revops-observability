@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Observabilidade RevOps — Branddi</title>
+<style>
+  :root{--bg:#002b36;--surface:#003847;--surface-2:#004c54;--border:#0c5560;--border-soft:#0a4a53;--text:#fff;--text-dim:#94a3b8;--text-faint:#6f8790;--accent:#0acfde;--accent-contrast:#002b36;--accent-soft:rgba(10,207,222,.12);--good:#34d399;--good-soft:rgba(52,211,153,.14);--warn:#fbbf24;--warn-soft:rgba(251,191,36,.14);--crit:#f87171;--crit-soft:rgba(248,113,113,.16);--turq:#299fb1;--radius:12px;--display:'Archivo','Inter',system-ui,sans-serif;--sans:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;--mono:ui-monospace,'SF Mono','Cascadia Code',Consolas,monospace;--shadow:0 1px 2px rgba(0,0,0,.25),0 8px 24px rgba(0,0,0,.18);}
+  @media(prefers-color-scheme:light){:root{--bg:#eef4f5;--surface:#fff;--surface-2:#e3edef;--border:#cbdcdf;--border-soft:#dbe8ea;--text:#002b36;--text-dim:#4a6570;--text-faint:#7c949b;--accent:#087f8c;--accent-contrast:#002b36;--accent-soft:rgba(8,127,140,.10);--good:#059669;--good-soft:rgba(5,150,105,.12);--warn:#b45309;--warn-soft:rgba(180,83,9,.12);--crit:#dc2626;--crit-soft:rgba(220,38,38,.10);--turq:#0f6f7c;--shadow:0 1px 2px rgba(0,43,54,.05),0 6px 20px rgba(0,43,54,.06);}}
+  *{box-sizing:border-box;}body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;margin:0;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 24px 90px;}
+  header.mast{padding:46px 0 18px;}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:600;display:flex;align-items:center;gap:9px;}
+  .kicker::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);}
+  h1{font-family:var(--display);font-size:clamp(28px,4.4vw,42px);line-height:1.06;letter-spacing:-.02em;margin:14px 0 0;font-weight:300;}h1 b{font-weight:600;color:var(--accent);}
+  .sub{font-size:16px;color:var(--text-dim);max-width:72ch;margin:14px 0 0;}
+  .toolbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-soft);padding:12px 0;margin-top:10px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+  .seg{display:inline-flex;background:var(--surface-2);border-radius:999px;padding:4px;gap:2px;border:1px solid var(--border);}
+  .seg button{font-family:var(--sans);font-size:13px;font-weight:600;padding:8px 16px;border-radius:999px;border:none;background:transparent;color:var(--text-dim);cursor:pointer;}
+  .seg button.on{background:var(--accent);color:var(--accent-contrast);}.seg button:hover:not(.on){color:var(--text);}
+  .hint{font-size:12.5px;color:var(--text-faint);}.hint b{color:var(--accent);font-family:var(--mono);}
+  .zone{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:40px 0 6px;}
+  h2{font-family:var(--display);font-size:21px;margin:26px 0 0;font-weight:600;}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:13px;margin-top:16px;}
+  .kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:17px 19px;box-shadow:var(--shadow);}
+  .kpi .v{font-family:var(--display);font-size:27px;font-weight:600;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums;}
+  .kpi .v.accent{color:var(--accent);}.kpi .v.crit{color:var(--crit);}.kpi .v.good{color:var(--good);}.kpi .v.warn{color:var(--warn);}
+  .kpi .l{font-size:12.5px;color:var(--text-dim);margin-top:7px;}.kpi .pd{font-family:var(--mono);font-size:11px;color:var(--text-faint);margin-top:2px;}
+  .funnel{margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);}
+  .fstage{display:flex;align-items:center;gap:12px;padding:5px 0;}.fstage .fl{width:190px;flex:none;font-size:13px;}.fstage .fl small{display:block;color:var(--text-faint);font-family:var(--mono);font-size:10.5px;}
+  .fbarwrap{flex:1;}.fbar{height:40px;border-radius:8px;background:linear-gradient(90deg,var(--accent),var(--turq));display:flex;align-items:center;padding-left:12px;color:var(--accent-contrast);font-family:var(--mono);font-weight:700;font-size:13px;min-width:60px;transition:width .3s;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);}
+  .loss{margin-top:14px;display:flex;flex-direction:column;gap:8px;}
+  .lrow{display:grid;grid-template-columns:170px 1fr 96px;align-items:center;gap:12px;font-size:13px;}
+  .lrow .ll{color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .lrow .lt{height:18px;background:var(--surface-2);border-radius:5px;overflow:hidden;}.lrow .lf{height:100%;border-radius:5px;background:var(--crit);}
+  .lrow .lv{font-family:var(--mono);text-align:right;font-weight:600;font-size:12px;}
+  .lrow .lv small{color:var(--text-faint);font-weight:400;}
+  .lrow .lv .up{color:var(--crit);}.lrow .lv .dn{color:var(--good);}
+  .projgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;margin-top:14px;}
+  .proj .pn{font-family:var(--display);font-weight:600;font-size:15px;margin-bottom:8px;}.proj .pn small{color:var(--text-faint);font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.05em;display:block;}
+  .pmet{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-top:1px dashed var(--border-soft);}.pmet:first-of-type{border-top:none;}.pmet .pv{font-family:var(--mono);font-weight:700;}
+  .cmp{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:13px;margin-top:14px;}
+  .cmpc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:15px;box-shadow:var(--shadow);}
+  .cmpc .ct{font-size:12px;color:var(--text-dim);margin-bottom:10px;}
+  .cmpbars{display:flex;gap:8px;align-items:flex-end;height:64px;}.cmpbars .cb{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;height:100%;}
+  .cmpbars .cbar{width:100%;background:var(--accent);border-radius:3px 3px 0 0;min-height:3px;}.cmpbars .cbl{font-family:var(--mono);font-size:9px;color:var(--text-faint);}.cmpbars .cbv{font-family:var(--mono);font-size:10px;font-weight:700;}
+  .alerts{margin-top:14px;display:flex;flex-direction:column;gap:9px;}
+  .alert{display:grid;grid-template-columns:12px 1fr auto;gap:13px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px 15px;box-shadow:var(--shadow);}
+  .alert .dot{width:10px;height:10px;border-radius:50%;}.alert.red{border-left:3px solid var(--crit);}.alert.red .dot{background:var(--crit);}.alert.amber{border-left:3px solid var(--warn);}.alert.amber .dot{background:var(--warn);}.alert.green{border-left:3px solid var(--good);}.alert.green .dot{background:var(--good);}
+  .alert .txt{font-size:13px;}.alert .st{font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;}.alert.red .st{color:var(--crit);}.alert.amber .st{color:var(--warn);}.alert.green .st{color:var(--good);}
+  .note{border:1px solid var(--border);border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:var(--radius);padding:13px 16px;margin-top:16px;font-size:13.5px;}.note .tag{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--accent);display:block;margin-bottom:4px;}.note b{font-weight:700;}
+  .footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--border-soft);font-size:12px;color:var(--text-faint);}
+  .rb{font-family:var(--mono);font-size:9.5px;font-weight:700;text-transform:uppercase;padding:2px 6px;border-radius:5px;background:var(--warn-soft);color:var(--warn);}
+  #err{display:none;background:var(--crit-soft);border:1px solid var(--crit);color:var(--crit);border-radius:10px;padding:14px;margin-top:20px;font-size:14px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="mast">
+    <div class="kicker">Branddi · RevOps · Observabilidade</div>
+    <h1>Saúde do <b>Processo de Enriquecimento</b></h1>
+    <p class="sub">Lead Generator → Lia → Enrique. Atualizado automaticamente todo dia. Cards do Company Score contam <b>cards únicos</b>; "Hoje" usa fuso de Brasília.</p>
+  </header>
+  <div class="toolbar">
+    <div class="seg" id="seg">
+      <button data-w="hoje">Hoje</button><button data-w="7">7 dias</button><button data-w="15">15 dias</button><button data-w="30" class="on">30 dias</button>
+    </div>
+    <span class="hint">Período: <b id="winlbl">30 dias</b></span>
+    <span class="hint" id="updated"></span>
+  </div>
+  <div id="err"></div>
+  <main id="app"></main>
+  <div class="footer" id="footer"></div>
+</div>
+
+<script>
+const nf = new Intl.NumberFormat('pt-BR');
+const money = v => 'R$ ' + (+v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const pct = v => (+v).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1}) + '%';
+let DATA=null, win='30';
+
+function kpi(v,label,cls,pd){ return `<div class="kpi"><div class="v ${cls||''}">${v}</div><div class="l">${label}</div>${pd?`<div class="pd">${pd}</div>`:''}</div>`; }
+
+function render(){
+  if(!DATA) return;
+  const w = DATA.windows[win] || {};
+  const days = win==='hoje'?1:(+win);
+  const perDay = (v)=> win==='hoje'?'parcial (hoje)': nf.format(Math.round((v||0)/days))+'/dia';
+  document.getElementById('winlbl').textContent = win==='hoje' ? ('hoje '+(DATA.todayBRT||'')) : win+' dias';
+
+  let h = '';
+  // TOPO
+  h += `<div class="zone">Topo · leitura rápida</div>`;
+  h += `<h2>KPIs principais</h2><div class="kpis">`;
+  h += kpi(nf.format(w.created||0),'Cards captados','accent',perDay(w.created));
+  h += kpi(pct(w.csRate||0),'Taxa de aprovação (Lia)','');
+  const rel = w.autoTotal? (1-(w.infra||0)/w.autoTotal)*100 : 0;
+  h += kpi(pct(rel),'Confiabilidade técnica','good');
+  h += kpi(nf.format(w.lost||0),'Cards perdidos','crit',perDay(w.lost));
+  h += kpi(nf.format(w.csScored||0),'Cards pontuados (únicos)','');
+  h += kpi(w.opecCost!=null?money(w.opecCost):'—','Créditos Apollo (OPEC ext.)','accent');
+  h += `</div>`;
+  h += alertsHtml(w);
+
+  // MEIO
+  h += `<div class="zone">Meio · diagnóstico</div>`;
+  // Funil
+  h += `<h2>Funil (throughput por etapa)</h2>`;
+  const cr=w.created||0, sc=w.csScored||0, ap=w.csApproved||0, mx=Math.max(cr,sc,1);
+  h += `<div class="funnel">
+    <div class="fstage"><div class="fl">Captação<small>Lead Gen · Pipedrive</small></div><div class="fbarwrap"><div class="fbar" style="width:100%">${nf.format(cr)}</div></div></div>
+    <div class="fstage"><div class="fl">Company Score<small>Lia · cards únicos</small></div><div class="fbarwrap"><div class="fbar" style="width:${Math.max(6,sc/mx*100)}%">${nf.format(sc)}</div></div></div>
+    <div class="fstage"><div class="fl">Aprovados<small>seguem no funil</small></div><div class="fbarwrap"><div class="fbar" style="width:${Math.max(6,ap/mx*100)}%;background:var(--good)">${nf.format(ap)} · ${pct(w.csRate||0)}</div></div></div>
+  </div>`;
+  h += `<div class="note"><span class="tag">Leitura</span>Throughput por etapa no período (não coorte única — a Lia re-pontua e drena backlog). Conversão de coorte exata exige o <code>/deals/flow</code> do Pipedrive. Reprovados no CS: <b>${nf.format(w.csReproved||0)}</b>.</div>`;
+
+  // Motivos de perda
+  h += `<h2>Motivos de perda</h2><div class="card"><div class="loss">`;
+  const reasons = DATA.lossReasons||[]; const rmax = reasons.length? Math.max(...reasons.map(r=>r.d30)) : 1;
+  for(const r of reasons){
+    const arrow = r.ratePerDay7 > r.ratePerDay30*1.15 ? '<span class="up">▲</span>' : (r.ratePerDay7 < r.ratePerDay30*0.85 ? '<span class="dn">▼</span>' : '▬');
+    h += `<div class="lrow"><span class="ll">${r.label}</span><span class="lt"><span class="lf" style="width:${r.d30/rmax*100}%"></span></span><span class="lv">${nf.format(r.d30)} <small>${pct(r.share)}</small><br><small>${r.ratePerDay7}/d ${arrow}</small></span></div>`;
+  }
+  h += `</div></div>`;
+
+  // Por projeto
+  h += `<h2>Visão por projeto</h2><div class="projgrid">`;
+  h += `<div class="card proj"><div class="pn">Lead Generator<small>captação</small></div>
+    <div class="pmet"><span>Leads gerados</span><span class="pv">${nf.format(cr)}</span></div>
+    <div class="pmet"><span>Qualificados (Lia)</span><span class="pv" style="color:var(--good)">${nf.format(ap)}</span></div>
+    <div class="pmet"><span>Taxa de qualificação</span><span class="pv">${pct(w.csRate||0)}</span></div>
+    <div class="pmet"><span>Triagem interna</span><span class="pv"><span class="rb">1 query</span></span></div></div>`;
+  h += `<div class="card proj"><div class="pn">Lia<small>qualificação</small></div>
+    <div class="pmet"><span>Cards pontuados</span><span class="pv">${nf.format(sc)}</span></div>
+    <div class="pmet"><span>Aprovados</span><span class="pv" style="color:var(--good)">${nf.format(ap)}</span></div>
+    <div class="pmet"><span>Reprovados</span><span class="pv" style="color:var(--crit)">${nf.format(w.csReproved||0)}</span></div>
+    <div class="pmet"><span>Confiabilidade</span><span class="pv" style="color:var(--good)">${pct(rel)}</span></div></div>`;
+  const c = DATA.contacts||{};
+  h += `<div class="card proj"><div class="pn">Enrique<small>garimpo</small></div>
+    <div class="pmet"><span>Empresas c/ contato</span><span class="pv">${nf.format(c.empresas||0)}</span></div>
+    <div class="pmet"><span>Contatos (únicos)</span><span class="pv">${nf.format(c.total||0)} <small style="color:var(--text-faint)">(${nf.format(c.unique||0)})</small></span></div>
+    <div class="pmet"><span>Média contatos/empresa</span><span class="pv">${c.avgPerCompany||0}</span></div>
+    <div class="pmet"><span>E-mails válidos</span><span class="pv">${nf.format(c.verified||0)}</span></div>
+    <div class="pmet"><span>Créditos Apollo (ext.)</span><span class="pv">${nf.format(w.opecCredits||0)}</span></div></div>`;
+  h += `</div>`;
+
+  // FIM
+  h += `<div class="zone">Fim · observabilidade</div>`;
+  h += `<h2>Comparativo por janela (ritmo/dia)</h2>` + cmpHtml();
+  if(DATA.providers && DATA.providers.length){
+    h += `<h2>Providers do Enrique</h2><div class="card"><div class="loss">`;
+    const pmax = Math.max(...DATA.providers.map(p=>p.credits),1);
+    for(const p of DATA.providers){ const col = p.successRate>=70?'var(--good)':(p.successRate>=40?'var(--warn)':'var(--crit)');
+      h += `<div class="lrow"><span class="ll">${p.name}</span><span class="lt"><span class="lf" style="width:${p.credits/pmax*100}%;background:var(--accent)"></span></span><span class="lv">${nf.format(p.credits)} cr<br><small style="color:${col}">${p.successRate}% ok</small></span></div>`; }
+    h += `</div></div>`;
+  } else {
+    h += `<div class="note"><span class="tag">Providers do Enrique</span>Taxa de sucesso/créditos por provider (Apollo/Findymail/FullEnrich) requer a <code>service_role</code> do Enrique como secret <b>ENRIQUE_SERVICE_ROLE_KEY</b> — assim que estiver, esta seção popula sozinha. <span class="rb">1 query</span></div>`;
+  }
+  document.getElementById('app').innerHTML = h;
+}
+
+function cmpHtml(){
+  const ws=['7','15','30']; const metric=(key,fmt,color)=>{
+    const vals = ws.map(k=>{ const w=DATA.windows[k]||{}; const days=+k; let v=w[key]||0; if(key==='csRate') return v; return v/days; });
+    const mx=Math.max(...vals,0.001);
+    let b=`<div class="cmpc"><div class="ct">${fmt.label}</div><div class="cmpbars">`;
+    ws.forEach((k,i)=>{ b+=`<div class="cb"><span class="cbv">${fmt.disp(vals[i])}</span><div class="cbar" style="height:${Math.max(6,vals[i]/mx*100)}%;background:${color}"></div><span class="cbl">${k}d</span></div>`; });
+    return b+`</div></div>`;
+  };
+  return `<div class="cmp">`+
+    metric('created',{label:'Cards captados / dia',disp:v=>nf.format(Math.round(v))},'var(--accent)')+
+    metric('lost',{label:'Cards perdidos / dia',disp:v=>nf.format(Math.round(v))},'var(--crit)')+
+    metric('csRate',{label:'Aprovação Lia (%)',disp:v=>v.toFixed(1)},'var(--good)')+
+    metric('opecCost',{label:'Crédito Apollo/dia (R$)',disp:v=>v.toFixed(1)},'var(--warn)')+
+  `</div>`;
+}
+
+function alertsHtml(w){
+  const A=[]; const c=DATA.contacts||{};
+  const cache = w.semrushCache!=null?w.semrushCache:null;
+  if(cache!=null && cache<5) A.push(['red','Crítico',`Cache Semrush ineficiente — hit ${pct(cache)} (limiar ≥ 30%).`]);
+  const prov=(DATA.providers||[]).filter(p=>p.successRate<40 && p.calls>50);
+  if(prov.length) A.push(['red','Crítico',`Provider(s) abaixo do esperado: ${prov.map(p=>p.name+' '+(100-p.successRate)+'% falha').join(' · ')}.`]);
+  const noContact=(DATA.lossReasons||[]).find(r=>r.key==='enrique_only_no_contact');
+  if(noContact && noContact.ratePerDay7 > noContact.ratePerDay30*1.3) A.push(['red','Crítico',`"Sem contato" acelerando — ${noContact.ratePerDay7}/dia (7d) vs ${noContact.ratePerDay30}/dia (30d).`]);
+  const g=(DATA.openByStage||{}); if((g.garimpo467||0)>40) A.push(['amber','Atenção',`${g.garimpo467} cards aguardando no Garimpo · ${(g.golpes465||0)+(g.vm466||0)} travados em Golpes/VM.`]);
+  const rel = w.autoTotal? (1-(w.infra||0)/w.autoTotal)*100 : 100;
+  A.push([rel>=99?'green':'amber', rel>=99?'OK':'Atenção', `Confiabilidade ${pct(rel)} (${nf.format(w.infra||0)} erros de infra).`]);
+  return `<div class="alerts">`+A.map(a=>`<div class="alert ${a[0]}"><span class="dot"></span><div class="txt">${a[2]}</div><span class="st">${a[1]}</span></div>`).join('')+`</div>`;
+}
+
+document.getElementById('seg').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b)return; win=b.dataset.w; document.querySelectorAll('#seg button').forEach(x=>x.classList.toggle('on',x===b)); render(); });
+
+fetch('data.json?t='+Date.now()).then(r=>r.json()).then(d=>{
+  DATA=d;
+  document.getElementById('updated').innerHTML = 'atualizado: <b>'+(d.generatedAtBRT||d.generatedAt||'?')+'</b>';
+  let foot = 'Dados reais · Pipedrive brandmonitor + Supabase Lia + API OPEC Enrique. Atualização diária via GitHub Action.';
+  if(d.warnings && d.warnings.length) foot += ' · Pendências: '+d.warnings.join(' · ');
+  document.getElementById('footer').textContent = foot;
+  render();
+}).catch(e=>{ document.getElementById('err').style.display='block'; document.getElementById('err').textContent='Não foi possível carregar data.json — rode o coletor (npm run collect) ou aguarde a GitHub Action gerar o arquivo. Erro: '+e.message; });
+</script>
+</body>
+</html>
