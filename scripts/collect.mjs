@@ -92,6 +92,28 @@ const LOSS_LABELS = {
   cs_endpoint_failed: 'Erro de API (CS)', garimpo_no_contacts: 'Garimpo: 0 contatos', gd_no_opportunity: 'Golpes: sem oportunidade',
 };
 const INFRA = new Set(['cs_endpoint_failed', 'cs_throw', 'cs_timeout', 'cs_worker_error', 'cs_exception', 'bb4d_failed', 'bb4d_throw', 'bbp_neon_query_error', 'neon_error', 'monitoring_state_error', 'unknown_decision', 'unknown_classification', 'all_campaigns_failed']);
+// Perdas marcadas como recuperáveis pela taxonomia da Lia (monitor-taxonomy.js) = falso negativo re-drivável
+const RECOVERABLE = new Set(['lost_weak_pure_brand', 'lost_cs_low', 'lost_ps_low', 'no_coverage', 'garimpo_no_channel', 'garimpo_no_contacts', 'enrique_only_no_contact', 'cs_missing_dimensions', 'no_keywords_after_cs']);
+// Tarifa R$/crédito por provider (fonte: enrique/lib/enrichment/cost-brl.ts)
+const RATE_PER_CREDIT = { apollo: 0.05, findymail: 0.40, fullenrich: 0.50, debounce: 0.02, cnpja: 0.25, gemini: 0, brasilapi: 0 };
+// Lead Generator Supabase (cai no Supabase da Lia se não houver creds próprias — mesma instância possível)
+const LG_URL = (process.env.LEADGEN_SUPABASE_URL || process.env.SUPABASE_URL || '').replace(/\/+$/, '');
+const LG_KEY = process.env.LEADGEN_SERVICE_ROLE_KEY || process.env.LEADGEN_SUPABASE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_KEY || '';
+// Normaliza a string livre de reason do Lead Generator em categorias legíveis + selo técnico
+function lgReasonCategory(reason) {
+  const r = String(reason || '');
+  if (/^lost_within_cooldown/.test(r)) return { label: 'Reentrada em cooldown (<60d)', tecnico: false };
+  if (/^open_deal_exists/.test(r)) return { label: 'Já existe deal aberto (dedup)', tecnico: false };
+  if (/^won_deal_exists/.test(r)) return { label: 'Cliente ativo (deal ganho)', tecnico: false };
+  if (/^dedup_search_failed/.test(r)) return { label: 'Falha na busca de duplicidade', tecnico: true };
+  if (/^pipeline_error/.test(r)) return { label: 'Erro de pipeline', tecnico: true };
+  if (/non_brazilian_brand/.test(r)) return { label: 'Marca não-brasileira', tecnico: false };
+  if (/invalid_domain|public_suffix|core_too_short|core_too_generic/.test(r)) return { label: 'Domínio inválido / sem site', tecnico: false };
+  if (/name_mentions_client_brand/.test(r)) return { label: 'Nome cita marca de cliente', tecnico: false };
+  if (/price_pattern|ad_copy/.test(r)) return { label: 'Nome é anúncio, não a marca', tecnico: false };
+  if (/safety_net_existing_org/.test(r)) return { label: 'Org já existe (safety-net)', tecnico: false };
+  return { label: r || '(sem motivo)', tecnico: false };
+}
 
 async function main() {
   const out = {
@@ -116,7 +138,7 @@ async function main() {
         for (const d of await pdScan(s, 'lost', 'update_time')) { bump(lost, d.lost_time); if (s === 462) bump(lost462, d.lost_time); const t = ts(d.lost_time); if (inDailyWin(t)) { const k = brtDate(t); D(k).lost++; if (s === 462) D(k).lost462++; } }
       }
       setW('created', created); setW('lost', lost); setW('lost462', lost462);
-      for (const [name, id] of [['golpes465', 465], ['vm466', 466], ['garimpo467', 467], ['prospeccao434', 434]]) out.openByStage[name] = await pdOpenCount(id);
+      for (const [name, id] of [['novo460', 460], ['requa461', 461], ['cs462', 462], ['bb463', 463], ['bbp464', 464], ['golpes465', 465], ['vm466', 466], ['garimpo467', 467], ['prospeccao434', 434]]) out.openByStage[name] = await pdOpenCount(id);
       out.sources.pipedrive = 'ok';
       log('pipedrive ok · criados30d=', created['30']);
     } catch (e) { out.warnings.push('Pipedrive falhou: ' + e.message); log('pipedrive ERRO', e.message); }
@@ -126,15 +148,28 @@ async function main() {
   if (SB && KEY) {
     const since = new Date(CUT['30']).toISOString();
     try {
-      const cs = await sbPage(SB, KEY, `company_scores?select=deal_id,approved,calculated_at&calculated_at=gte.${since}&order=calculated_at.desc`);
+      const cs = await sbPage(SB, KEY, `company_scores?select=deal_id,approved,score_total,decision_reason,calculated_at&calculated_at=gte.${since}&order=calculated_at.desc`);
       const scored = WSet(), approved = WSet(), scDay = {}, apDay = {};
-      for (const r of cs) { bumpSet(scored, r.calculated_at, r.deal_id); if (r.approved === true) bumpSet(approved, r.calculated_at, r.deal_id); const t = ts(r.calculated_at); if (inDailyWin(t)) { const k = brtDate(t); (scDay[k] ||= new Set()).add(r.deal_id); if (r.approved === true) (apDay[k] ||= new Set()).add(r.deal_id); } }
+      // Histograma da distribuição do score (último score por deal, 30d) × aprovado/reprovado
+      const seen = new Set();
+      const HB = [{ range: '0–1', lo: 0, hi: 1 }, { range: '1–2', lo: 1, hi: 2 }, { range: '2–3', lo: 2, hi: 3 }, { range: '3–4', lo: 3, hi: 4 }, { range: '≥4', lo: 4, hi: 1e9 }].map(b => ({ ...b, total: 0, approved: 0 }));
+      let sumA = 0, nA = 0, sumR = 0, nR = 0;
+      for (const r of cs) {
+        bumpSet(scored, r.calculated_at, r.deal_id); if (r.approved === true) bumpSet(approved, r.calculated_at, r.deal_id);
+        const t = ts(r.calculated_at); if (inDailyWin(t)) { const k = brtDate(t); (scDay[k] ||= new Set()).add(r.deal_id); if (r.approved === true) (apDay[k] ||= new Set()).add(r.deal_id); }
+        if (!seen.has(r.deal_id) && typeof r.score_total === 'number') {
+          seen.add(r.deal_id);
+          const b = HB.find(x => r.score_total >= x.lo && r.score_total < x.hi) || HB[HB.length - 1];
+          b.total++; if (r.approved === true) { b.approved++; sumA += r.score_total; nA++; } else { sumR += r.score_total; nR++; }
+        }
+      }
       for (const k in scDay) D(k).csScored = scDay[k].size;
       for (const k in apDay) D(k).csApproved = apDay[k].size;
       const sc = sizes(scored), ap = sizes(approved);
       setW('csScored', sc); setW('csApproved', ap);
       for (const k of ['hoje', '7', '15', '30']) { out.windows[k].csReproved = sc[k] - ap[k]; out.windows[k].csRate = sc[k] ? +(ap[k] / sc[k] * 100).toFixed(1) : 0; }
-      log('company_scores ok · unicos30d=', sc['30']);
+      out.csHistogram = { threshold: 2.0, buckets: HB.map(b => ({ range: b.range, total: b.total, approved: b.approved, reproved: b.total - b.approved })), avgApproved: nA ? +(sumA / nA).toFixed(2) : 0, avgReproved: nR ? +(sumR / nR).toFixed(2) : 0, distinctDeals: seen.size };
+      log('company_scores ok · unicos30d=', sc['30'], '· histograma deals=', seen.size);
     } catch (e) { out.warnings.push('company_scores falhou: ' + e.message); }
     try {
       const ae = await sbPage(SB, KEY, `automation_errors?select=error_type,occurred_at&occurred_at=gte.${since}&order=occurred_at.desc`);
@@ -142,8 +177,11 @@ async function main() {
       for (const r of ae) { bump(tot, r.occurred_at); if (INFRA.has(r.error_type)) bump(infra, r.occurred_at); (byType[r.error_type] ||= W()); bump(byType[r.error_type], r.occurred_at); const t = ts(r.occurred_at); if (inDailyWin(t)) { const k = brtDate(t); D(k).autoTotal++; if (INFRA.has(r.error_type)) D(k).infra++; } }
       setW('autoTotal', tot); setW('infra', infra);
       const total30 = tot['30'] || 1;
-      out.lossReasons = Object.entries(byType).sort((a, b) => b[1]['30'] - a[1]['30']).slice(0, 8)
-        .map(([k, w]) => ({ key: k, label: LOSS_LABELS[k] || k, d7: w['7'], d15: w['15'], d30: w['30'], hoje: w.hoje, share: +(w['30'] / total30 * 100).toFixed(1), ratePerDay7: +(w['7'] / 7).toFixed(1), ratePerDay30: +(w['30'] / 30).toFixed(1) }));
+      out.lossReasons = Object.entries(byType).sort((a, b) => b[1]['30'] - a[1]['30']).slice(0, 10)
+        .map(([k, w]) => ({ key: k, label: LOSS_LABELS[k] || k, d7: w['7'], d15: w['15'], d30: w['30'], hoje: w.hoje, share: +(w['30'] / total30 * 100).toFixed(1), ratePerDay7: +(w['7'] / 7).toFixed(1), ratePerDay30: +(w['30'] / 30).toFixed(1), recoverable: RECOVERABLE.has(k), tecnico: INFRA.has(k) }));
+      // Sumário negócio × técnico × recuperável (30d) — para o selo agregado
+      out.lossSummary = { total: total30, tecnico: 0, recuperavel: 0, legitima: 0 };
+      for (const [k, w] of Object.entries(byType)) { if (INFRA.has(k)) out.lossSummary.tecnico += w['30']; else if (RECOVERABLE.has(k)) out.lossSummary.recuperavel += w['30']; else out.lossSummary.legitima += w['30']; }
       log('automation_errors ok · total30d=', tot['30']);
     } catch (e) { out.warnings.push('automation_errors falhou: ' + e.message); }
     try {
@@ -200,12 +238,31 @@ async function main() {
       const since = new Date(CUT['30']).toISOString();
       const runs = await sbPage(ENQ_URL, ENQ_KEY, `enrichment_runs?select=enrichment_id,status,cost_data_credits,started_at&started_at=gte.${since}`, 'garimpo');
       const prov = {};
-      for (const r of runs) { const p = String(r.enrichment_id || '?').split('.')[0]; (prov[p] ||= { calls: 0, success: 0, credits: 0 }); prov[p].calls++; if (r.status === 'success') prov[p].success++; prov[p].credits += +r.cost_data_credits || 0; }
-      out.providers = Object.entries(prov).map(([name, v]) => ({ name, calls: v.calls, successRate: v.calls ? +(v.success / v.calls * 100).toFixed(0) : 0, credits: Math.round(v.credits) })).sort((a, b) => b.credits - a.credits);
+      for (const r of runs) { const p = String(r.enrichment_id || '?').split('.')[0]; if (p === 'pipedrive') continue; (prov[p] ||= { calls: 0, success: 0, credits: 0 }); prov[p].calls++; if (r.status === 'success') prov[p].success++; prov[p].credits += +r.cost_data_credits || 0; }
+      out.providers = Object.entries(prov).map(([name, v]) => ({ name, calls: v.calls, successRate: v.calls ? +(v.success / v.calls * 100).toFixed(0) : 0, errorRate: v.calls ? +((1 - v.success / v.calls) * 100).toFixed(0) : 0, credits: Math.round(v.credits), brl: +(v.credits * (RATE_PER_CREDIT[name] || 0)).toFixed(2) })).sort((a, b) => b.credits - a.credits);
       out.sources.enrique_garimpo = 'ok';
       log('enrique garimpo ok · providers=', out.providers.length);
     } catch (e) { out.warnings.push('Enrique garimpo falhou: ' + e.message); }
   } else out.warnings.push('Enrique service_role ausente — providers/áreas via garimpo.* não populados');
+
+  // ===== Lead Generator: motivos de descarte (qualification_leads_run) =====
+  if (LG_URL && LG_KEY) {
+    try {
+      const since30 = brtDate(NOW - 30 * DAY);
+      const rows = await sbPage(LG_URL, LG_KEY, `qualification_leads_run?select=action,reason,run_date&run_date=gte.${since30}`);
+      if (rows.length || out.sources.leadgen === undefined) {
+        let created = 0, reopened = 0, skipped = 0; const byCat = {};
+        for (const r of rows) {
+          if (r.action === 'created') created++;
+          else if (r.action === 'reopened') reopened++;
+          else if (r.action === 'skipped') { skipped++; const c = lgReasonCategory(r.reason); (byCat[c.label] ||= { label: c.label, count: 0, tecnico: c.tecnico }); byCat[c.label].count++; }
+        }
+        out.leadgen = { created, reopened, skipped, reasons: Object.values(byCat).sort((a, b) => b.count - a.count) };
+        out.sources.leadgen = rows.length ? 'ok' : 'vazio';
+        log('lead-generator ok · skipped30d=', skipped, '· motivos=', out.leadgen.reasons.length);
+      }
+    } catch (e) { out.warnings.push('Lead Generator (qualification_leads_run) indisponível: ' + e.message + ' — descartes do LG não populados'); }
+  } else out.warnings.push('Lead Generator Supabase ausente — motivos de descarte não populados');
 
   out.daily = daily;
   const dest = path.join(process.cwd(), 'public', 'data.json');
