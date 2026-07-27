@@ -156,7 +156,19 @@ async function main() {
       let sumA = 0, nA = 0, sumR = 0, nR = 0;
       for (const r of cs) {
         bumpSet(scored, r.calculated_at, r.deal_id); if (r.approved === true) bumpSet(approved, r.calculated_at, r.deal_id);
-        const t = ts(r.calculated_at); if (inDailyWin(t)) { const k = brtDate(t); (scDay[k] ||= new Set()).add(r.deal_id); if (r.approved === true) (apDay[k] ||= new Set()).add(r.deal_id); }
+        const t = ts(r.calculated_at);
+        if (inDailyWin(t)) {
+          const k = brtDate(t); const set = (scDay[k] ||= new Set());
+          if (!set.has(r.deal_id)) {  // 1ª ocorrência no dia = score mais recente do dia (rows vêm desc)
+            set.add(r.deal_id); if (r.approved === true) (apDay[k] ||= new Set()).add(r.deal_id);
+            if (typeof r.score_total === 'number') {  // buckets diários do histograma (mesma coorte-por-dia do funil)
+              const bi = HB.findIndex(x => r.score_total >= x.lo && r.score_total < x.hi); const idx = bi < 0 ? HB.length - 1 : bi;
+              const dd = D(k); (dd.csB ||= [0, 0, 0, 0, 0])[idx]++; (dd.csBA ||= [0, 0, 0, 0, 0]);
+              if (r.approved === true) { dd.csBA[idx]++; dd.csSA = (dd.csSA || 0) + r.score_total; dd.csNA = (dd.csNA || 0) + 1; }
+              else { dd.csSR = (dd.csSR || 0) + r.score_total; dd.csNR = (dd.csNR || 0) + 1; }
+            }
+          }
+        }
         if (!seen.has(r.deal_id) && typeof r.score_total === 'number') {
           seen.add(r.deal_id);
           const b = HB.find(x => r.score_total >= x.lo && r.score_total < x.hi) || HB[HB.length - 1];
@@ -174,7 +186,7 @@ async function main() {
     try {
       const ae = await sbPage(SB, KEY, `automation_errors?select=error_type,occurred_at&occurred_at=gte.${since}&order=occurred_at.desc`);
       const tot = W(), infra = W(), byType = {};
-      for (const r of ae) { bump(tot, r.occurred_at); if (INFRA.has(r.error_type)) bump(infra, r.occurred_at); (byType[r.error_type] ||= W()); bump(byType[r.error_type], r.occurred_at); const t = ts(r.occurred_at); if (inDailyWin(t)) { const k = brtDate(t); D(k).autoTotal++; if (INFRA.has(r.error_type)) D(k).infra++; } }
+      for (const r of ae) { bump(tot, r.occurred_at); if (INFRA.has(r.error_type)) bump(infra, r.occurred_at); (byType[r.error_type] ||= W()); bump(byType[r.error_type], r.occurred_at); const t = ts(r.occurred_at); if (inDailyWin(t)) { const k = brtDate(t); const dd = D(k); dd.autoTotal++; if (INFRA.has(r.error_type)) dd.infra++; (dd.loss ||= {}); dd.loss[r.error_type] = (dd.loss[r.error_type] || 0) + 1; } }
       setW('autoTotal', tot); setW('infra', infra);
       const total30 = tot['30'] || 1;
       out.lossReasons = Object.entries(byType).sort((a, b) => b[1]['30'] - a[1]['30']).slice(0, 10)
@@ -182,6 +194,8 @@ async function main() {
       // Sumário negócio × técnico × recuperável (30d) — para o selo agregado
       out.lossSummary = { total: total30, tecnico: 0, recuperavel: 0, legitima: 0 };
       for (const [k, w] of Object.entries(byType)) { if (INFRA.has(k)) out.lossSummary.tecnico += w['30']; else if (RECOVERABLE.has(k)) out.lossSummary.recuperavel += w['30']; else out.lossSummary.legitima += w['30']; }
+      // meta p/ o front categorizar/rotular os buckets diários por qualquer intervalo
+      out.lossMeta = { labels: LOSS_LABELS, recoverable: [...RECOVERABLE], infra: [...INFRA] };
       log('automation_errors ok · total30d=', tot['30']);
     } catch (e) { out.warnings.push('automation_errors falhou: ' + e.message); }
     try {
@@ -238,8 +252,14 @@ async function main() {
       const since = new Date(CUT['30']).toISOString();
       const runs = await sbPage(ENQ_URL, ENQ_KEY, `enrichment_runs?select=enrichment_id,status,cost_data_credits,started_at&started_at=gte.${since}`, 'garimpo');
       const prov = {};
-      for (const r of runs) { const p = String(r.enrichment_id || '?').split('.')[0]; if (p === 'pipedrive') continue; (prov[p] ||= { calls: 0, success: 0, credits: 0 }); prov[p].calls++; if (r.status === 'success') prov[p].success++; prov[p].credits += +r.cost_data_credits || 0; }
+      for (const r of runs) {
+        const p = String(r.enrichment_id || '?').split('.')[0]; if (p === 'pipedrive') continue;
+        const t = ts(r.started_at); const cr = +r.cost_data_credits || 0; const ok = r.status === 'success';
+        (prov[p] ||= { calls: 0, success: 0, credits: 0 }); prov[p].calls++; if (ok) prov[p].success++; prov[p].credits += cr;
+        if (inDailyWin(t)) { const dd = D(brtDate(t)); const pp = ((dd.prov ||= {})[p] ||= { c: 0, s: 0, cr: 0 }); pp.c++; if (ok) pp.s++; pp.cr += cr; }  // bucket diário p/ o filtro
+      }
       out.providers = Object.entries(prov).map(([name, v]) => ({ name, calls: v.calls, successRate: v.calls ? +(v.success / v.calls * 100).toFixed(0) : 0, errorRate: v.calls ? +((1 - v.success / v.calls) * 100).toFixed(0) : 0, credits: Math.round(v.credits), brl: +(v.credits * (RATE_PER_CREDIT[name] || 0)).toFixed(2) })).sort((a, b) => b.credits - a.credits);
+      out.providerRates = RATE_PER_CREDIT;
       out.sources.enrique_garimpo = 'ok';
       log('enrique garimpo ok · providers=', out.providers.length);
     } catch (e) { out.warnings.push('Enrique garimpo falhou: ' + e.message); }

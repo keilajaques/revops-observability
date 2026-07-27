@@ -200,6 +200,32 @@ const nDays=(a,b)=>Math.max(1,Math.round((new Date(b+'T12Z')-new Date(a+'T12Z'))
 function sumRange(a,b){const acc={created:0,lost:0,lost462:0,csScored:0,csApproved:0,autoTotal:0,infra:0,semrushUnits:0,semrushCalls:0,semrushHits:0,contactsNew:0,cEmail:0,cLinkedin:0,cPhone:0,cApollo:0,cVerified:0,opecCalls:0,opecCredits:0,opecCost:0};const dd=DATA.daily||{};for(const k in dd){if(k>=a&&k<=b)for(const f in acc)acc[f]+=(dd[k][f]||0);}return acc;}
 function wlabel(){const[a,b]=range();if(mode==='hoje')return'hoje ('+a+')';if(mode==='custom')return a+' → '+b;return mode+' dias';}
 
+// ---- agregadores dos buckets diários por intervalo [a,b] (fazem os painéis obedecerem o filtro) ----
+function aggProviders(a,b){
+  const dd=DATA.daily||{},rates=DATA.providerRates||{},acc={};let any=false;
+  for(const k in dd){if(k<a||k>b)continue;const pv=dd[k].prov;if(!pv)continue;any=true;for(const n in pv){const s=(acc[n]||={calls:0,success:0,credits:0});s.calls+=pv[n].c||0;s.success+=pv[n].s||0;s.credits+=pv[n].cr||0;}}
+  if(!any)return DATA.providers||[];
+  return Object.entries(acc).map(([name,v])=>({name,calls:v.calls,successRate:v.calls?Math.round(v.success/v.calls*100):0,errorRate:v.calls?Math.round((1-v.success/v.calls)*100):0,credits:Math.round(v.credits),brl:+(v.credits*(rates[name]||0)).toFixed(2)})).sort((x,y)=>y.credits-x.credits);
+}
+function aggLoss(a,b){
+  const dd=DATA.daily||{},meta=DATA.lossMeta||{labels:{},recoverable:[],infra:[]};
+  const rec=new Set(meta.recoverable||[]),inf=new Set(meta.infra||[]),lab=meta.labels||{};
+  const t=DATA.todayBRT||Object.keys(dd).sort().pop(),a7=dayMinus(t,6);
+  const by={},by7={};let any=false;
+  for(const k in dd){const ls=dd[k].loss;if(!ls)continue;const inR=(k>=a&&k<=b),in7=(k>=a7&&k<=t);if(!inR&&!in7)continue;for(const key in ls){if(inR){by[key]=(by[key]||0)+ls[key];any=true;}if(in7)by7[key]=(by7[key]||0)+ls[key];}}
+  if(!any){const LS=DATA.lossSummary||{};return{total:LS.total||0,tecnico:LS.tecnico||0,recuperavel:LS.recuperavel||0,legitima:LS.legitima||0,reasons:(DATA.lossReasons||[]).map(r=>({key:r.key,label:r.label,count:r.d30,share:r.share,rpd:r.ratePerDay30,rpd7:r.ratePerDay7,recoverable:r.recoverable,tecnico:r.tecnico}))};}
+  const days=nDays(a,b);let total=0,tec=0,recu=0,leg=0;
+  for(const key in by){total+=by[key];if(inf.has(key))tec+=by[key];else if(rec.has(key))recu+=by[key];else leg+=by[key];}
+  const reasons=Object.entries(by).sort((x,y)=>y[1]-x[1]).slice(0,10).map(([key,count])=>({key,label:lab[key]||key,count,share:total?+(count/total*100).toFixed(1):0,rpd:+(count/days).toFixed(1),rpd7:+((by7[key]||0)/7).toFixed(1),recoverable:rec.has(key),tecnico:inf.has(key)}));
+  return{total,tecnico:tec,recuperavel:recu,legitima:leg,reasons};
+}
+function aggCs(a,b){
+  const dd=DATA.daily||{},B=[0,0,0,0,0],BA=[0,0,0,0,0],ranges=['0–1','1–2','2–3','3–4','≥4'];let sA=0,nA=0,sR=0,nR=0,any=false;
+  for(const k in dd){if(k<a||k>b)continue;const cb=dd[k].csB;if(!cb)continue;any=true;const ba=dd[k].csBA||[0,0,0,0,0];for(let i=0;i<5;i++){B[i]+=cb[i]||0;BA[i]+=ba[i]||0;}sA+=dd[k].csSA||0;nA+=dd[k].csNA||0;sR+=dd[k].csSR||0;nR+=dd[k].csNR||0;}
+  if(!any)return DATA.csHistogram||null;
+  return{threshold:(DATA.csHistogram&&DATA.csHistogram.threshold)||2,buckets:ranges.map((range,i)=>({range,total:B[i],approved:BA[i],reproved:B[i]-BA[i]})),avgApproved:nA?+(sA/nA).toFixed(2):0,avgReproved:nR?+(sR/nR).toFixed(2):0,distinctDeals:B.reduce((s,x)=>s+x,0)};
+}
+
 function render(){
   if(!DATA)return;
   const [a,b]=range(), w=sumRange(a,b), days=nDays(a,b);
@@ -208,7 +234,8 @@ function render(){
   const yieldE2E=w.created?w.csApproved/w.created*100:0;
   const rel=w.autoTotal?(1-w.infra/w.autoTotal)*100:100;
   const cache=w.semrushCalls?w.semrushHits/w.semrushCalls*100:0;
-  const LS=DATA.lossSummary||{}, recovPct=LS.total?LS.recuperavel/LS.total*100:0;
+  const LS=aggLoss(a,b), recovPct=LS.total?LS.recuperavel/LS.total*100:0;
+  const P=aggProviders(a,b);
   const O=DATA.openByStage||{}, represado=(O.golpes465||0)+(O.vm466||0);
   const custoQ=w.csApproved?(w.opecCost||0)/w.csApproved:0;
   document.getElementById('winlbl').textContent=wlabel();
@@ -222,11 +249,11 @@ function render(){
     <div class="effgrid">
       <div class="eff"><div class="v pass">${pct(yieldGate)}</div><div class="k"><b>Rendimento</b> do Company Score</div><div class="d">aprovados ÷ pontuados</div></div>
       <div class="eff"><div class="v leak">${pct(lossGate)}</div><div class="k"><b>Perda</b> no gate de qualificação</div><div class="d">${nf.format(w.csScored-w.csApproved)} reprovados</div></div>
-      <div class="eff"><div class="v hold">${p0(recovPct)}</div><div class="k"><b>Vazamento recuperável</b> (falso negativo)</div><div class="d">${nf.format(LS.recuperavel||0)} de ${nf.format(LS.total||0)} perdas · 30d</div></div>
+      <div class="eff"><div class="v hold">${p0(recovPct)}</div><div class="k"><b>Vazamento recuperável</b> (falso negativo)</div><div class="d">${nf.format(LS.recuperavel||0)} de ${nf.format(LS.total||0)} perdas · ${wlabel()}</div></div>
       <div class="eff"><div class="v brand">${pct(yieldE2E)}</div><div class="k"><b>Rendimento ponta-a-ponta</b></div><div class="d">aprovados ÷ captados</div></div>
       <div class="eff"><div class="v leak">${nf.format(represado)}</div><div class="k"><b>Capital represado</b> (Golpes+VM)</div><div class="d">parados sem gatilho de avanço</div></div>
     </div></div>`;
-  h+=alertsHtml(w,cache);
+  h+=alertsHtml(w,cache,LS);
 
   // ===== FUNIL de conversão (com perda por etapa) =====
   h+=`<div class="eyebrow">Onde converte e onde vaza</div><h2>Funil de qualificação <span class="tag">· ${wlabel()}</span></h2>`;
@@ -244,27 +271,27 @@ function render(){
   <div class="note"><span class="tag">Como ler</span>Volume por etapa no período (a Lia re-pontua e drena backlog, então não é coorte única). A conversão exata é <b>no gate do Company Score</b>: <b>${pct(yieldGate)}</b> passa, <b>${pct(lossGate)}</b> perde. Custo por lead qualificado (Apollo ext.): <b>${money(custoQ)}</b>.</div></div>`;
 
   // ===== Histograma =====
-  const H=DATA.csHistogram;
+  const H=aggCs(a,b);
   if(H&&H.distinctDeals){
     const hmax=Math.max(...H.buckets.map(x=>x.total),1), below=H.buckets.filter(x=>x.range==='0–1'||x.range==='1–2').reduce((s,x)=>s+x.total,0);
-    h+=`<div class="eyebrow">Por que reprova tanto</div><h2>Distribuição do Company Score <span class="tag">· 30d · corte ${String(H.threshold).replace('.',',')}</span></h2>`;
+    h+=`<div class="eyebrow">Por que reprova tanto</div><h2>Distribuição do Company Score <span class="tag">· ${wlabel()} · corte ${String(H.threshold).replace('.',',')}</span></h2>`;
     h+=`<div class="card"><div class="histo">`;
     for(const x of H.buckets){const cut=(x.range==='1–2');
       h+=`<div class="col"><span class="cn">${nf.format(x.total)}</span><div class="stk ${cut?'cutline':''}" style="height:${x.total/hmax*100}%"><div class="a" style="height:${x.total?x.approved/x.total*100:0}%"></div><div class="r" style="height:${x.total?x.reproved/x.total*100:0}%"></div></div><span class="cl">${x.range}</span></div>`; }
     h+=`</div><div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--ink-dim)"><span><i style="display:inline-block;width:10px;height:10px;background:var(--pass);border-radius:2px"></i> aprovado</span><span><i style="display:inline-block;width:10px;height:10px;background:var(--leak);border-radius:2px"></i> reprovado</span><span style="margin-left:auto">score médio — aprovado <b style="color:var(--pass)">${String(H.avgApproved).replace('.',',')}</b> · reprovado <b style="color:var(--leak)">${String(H.avgReproved).replace('.',',')}</b></span></div>`;
-    h+=`<div class="note"><span class="tag">Leitura</span><b>${p0(below/H.distinctDeals*100)}</b> das ${nf.format(H.distinctDeals)} empresas ficam abaixo do corte — a massa vive em 0–1. Corte apertado demais ou lead de entrada fraco?</div></div>`;
+    h+=`<div class="note"><span class="tag">Leitura</span><b>${p0(below/H.distinctDeals*100)}</b> das ${nf.format(H.distinctDeals)} pontuações do período ficam abaixo do corte — a massa vive em 0–1. Corte apertado demais ou lead de entrada fraco?</div></div>`;
   }
 
   // ===== Motivos de perda =====
-  h+=`<div class="eyebrow">Natureza da perda</div><h2>Motivos de descarte <span class="tag">· 30d</span></h2>`;
+  h+=`<div class="eyebrow">Natureza da perda</div><h2>Motivos de descarte <span class="tag">· ${wlabel()}</span></h2>`;
   if(LS.total){h+=`<div class="comp">
     <div style="width:${LS.recuperavel/LS.total*100}%;background:var(--hold);color:var(--brand-ink)">Recuperável · ${p0(LS.recuperavel/LS.total*100)}</div>
     <div style="width:${LS.legitima/LS.total*100}%;background:var(--teal);color:var(--brand-ink)">Legítima</div>
     <div style="width:${LS.tecnico/LS.total*100}%;background:var(--leak);color:#fff">Téc.</div></div>`;}
   h+=`<div class="card"><div class="bars">`;
-  const R=DATA.lossReasons||[], rmax=R.length?Math.max(...R.map(r=>r.d30)):1;
-  for(const r of R){const arr=r.ratePerDay7>r.ratePerDay30*1.15?'<span class="up">▲</span>':(r.ratePerDay7<r.ratePerDay30*.85?'<span class="dn">▼</span>':'▬');const s=r.tecnico?'<span class="selo tec">TÉC</span>':(r.recoverable?'<span class="selo rec">RECUP</span>':'');
-    h+=`<div class="row"><span class="l">${r.label} ${s}</span><span class="t"><span class="f" style="width:${r.d30/rmax*100}%;background:${r.tecnico?'var(--leak)':(r.recoverable?'var(--hold)':'var(--teal)')}"></span></span><span class="n">${nf.format(r.d30)} <small>${pct(r.share)}</small><br><small>${r.ratePerDay7}/d ${arr}</small></span></div>`; }
+  const R=LS.reasons||[], rmax=R.length?Math.max(...R.map(r=>r.count)):1;
+  for(const r of R){const arr=r.rpd7>r.rpd*1.15?'<span class="up">▲</span>':(r.rpd7<r.rpd*.85?'<span class="dn">▼</span>':'▬');const s=r.tecnico?'<span class="selo tec">TÉC</span>':(r.recoverable?'<span class="selo rec">RECUP</span>':'');
+    h+=`<div class="row"><span class="l">${r.label} ${s}</span><span class="t"><span class="f" style="width:${r.count/rmax*100}%;background:${r.tecnico?'var(--leak)':(r.recoverable?'var(--hold)':'var(--teal)')}"></span></span><span class="n">${nf.format(r.count)} <small>${pct(r.share)}</small><br><small>${r.rpd7}/d ${arr}</small></span></div>`; }
   h+=`</div>${LS.total?`<div class="note leak"><span class="tag">Alavanca de receita</span><b>${p0(recovPct)}</b> das perdas são <b>recuperáveis</b> (falso negativo re-drivável). Só ${p0(LS.legitima/LS.total*100)} é descarte de negócio legítimo. Auditar/reprocessar essa fatia é o maior ganho de pipeline.</div>`:''}</div>`;
 
   // ===== Funil ao vivo por etapa =====
@@ -297,20 +324,20 @@ function render(){
 
   // ===== Custo / API =====
   h+=`<div class="eyebrow">Custo & integrações</div><h2>Semrush — custo &amp; cache <span class="tag">· período</span></h2>`+semrushHtml(w,cache);
-  h+=`<h2>Consumo por API — Enrique <span class="tag">· 30d</span></h2>`+providersHtml();
+  h+=`<h2>Consumo por API — Enrique <span class="tag">· ${wlabel()}</span></h2>`+providersHtml(P);
   h+=`<h2>Lead Generator — por que descarta <span class="tag">· 30d</span></h2>`+leadgenHtml();
 
   // ===== Tendência + gargalos =====
   h+=`<div class="eyebrow">Tendência & decisão</div><h2>Comparativo por janela <span class="tag">· ritmo/dia</span></h2>`+cmpHtml();
-  h+=`<h2>Gargalos &amp; Decisões</h2>`+gargalosHtml(w,cache);
+  h+=`<h2>Gargalos &amp; Decisões</h2>`+gargalosHtml(w,cache,LS,P);
   document.getElementById('app').innerHTML=h;
 }
 
-function alertsHtml(w,cache){
-  const A=[], LS=DATA.lossSummary||{}, O=DATA.openByStage||{};
+function alertsHtml(w,cache,LS){
+  const A=[], O=DATA.openByStage||{};
   if(w.semrushCalls>50&&cache<5)A.push(['red','Crítico',`Cache Semrush em ${pct(cache)} (ideal ≥ 30%) — crédito queimado re-consultando.`]);
-  const nc=(DATA.lossReasons||[]).find(r=>r.key==='enrique_only_no_contact');
-  if(nc&&nc.ratePerDay7>nc.ratePerDay30*1.3)A.push(['red','Crítico',`"Sem contato" acelerando — ${nc.ratePerDay7}/dia (7d) vs ${nc.ratePerDay30}/dia (30d).`]);
+  const nc=(LS.reasons||[]).find(r=>r.key==='enrique_only_no_contact');
+  if(nc&&nc.rpd7>nc.rpd*1.3)A.push(['red','Crítico',`"Sem contato" acelerando — ${nc.rpd7}/dia (7d) vs ${nc.rpd}/dia (período).`]);
   if(((O.golpes465||0)+(O.vm466||0))>100)A.push(['red','Crítico',`${nf.format((O.golpes465||0)+(O.vm466||0))} cards represados em Golpes+VM sem gatilho de avanço.`]);
   if(LS.total&&LS.recuperavel/LS.total>0.5)A.push(['amber','Atenção',`${p0(LS.recuperavel/LS.total*100)} das perdas são recuperáveis — pipeline jogado fora.`]);
   const rel=w.autoTotal?(1-w.infra/w.autoTotal)*100:100;
@@ -330,8 +357,8 @@ function semrushHtml(w,cache){
   const smax=Math.max(...days,1);
   return `<div class="card"><div class="kpis" style="margin-top:0"><div class="kpi"><div class="v hold">${nf.format(w.semrushUnits||0)}</div><div class="k">Units consumidas</div></div><div class="kpi"><div class="v">${nf.format(w.semrushCalls||0)}</div><div class="k">Chamadas</div></div><div class="kpi"><div class="v ${crit?'leak':'pass'}">${pct(cache)}</div><div class="k">Cache hit</div></div></div><div class="spark">${days.map(v=>`<div style="height:${v/smax*100}%"></div>`).join('')}</div><div style="font:11px var(--mono);color:var(--ink-faint);margin-top:6px">units/dia · últimos 14 dias</div>${crit?`<div class="note leak"><span class="tag">Dreno de crédito</span>Cache em <b>${pct(cache)}</b> — quase toda consulta é cobrada. Consertar o cache é economia direta.</div>`:''}</div>`;
 }
-function providersHtml(){
-  const P=DATA.providers||[];
+function providersHtml(P){
+  P=P||DATA.providers||[];
   if(!P.length)return `<div class="note"><span class="tag">Aguardando fonte</span>Consumo por API (Apollo · Findymail · FullEnrich · Debounce · CNPJá) com chamadas, taxa de erro, créditos e R$ vive no schema <b>garimpo</b> do Enrique. Adicionar o secret <b>ENRIQUE_SERVICE_ROLE_KEY</b> popula este painel sozinho.</div>`;
   const cmax=Math.max(...P.map(p=>p.credits),1);
   return `<div class="tw"><table><thead><tr><th>Provider</th><th class="r">Chamadas</th><th class="r">Sucesso</th><th class="r">Erro</th><th class="r">Créditos</th><th class="r">R$</th></tr></thead><tbody>`+P.map(p=>{const col=p.successRate>=70?'var(--pass)':(p.successRate>=40?'var(--hold)':'var(--leak)');return `<tr><td><b>${p.name}</b></td><td class="r num">${nf.format(p.calls)}</td><td class="r num" style="color:${col}">${p.successRate}%</td><td class="r num" style="color:var(--leak)">${p.errorRate}%</td><td class="r num">${nf.format(p.credits)}</td><td class="r num">${p.brl?money(p.brl):'—'}</td></tr>`;}).join('')+`</tbody></table></div>`;
@@ -342,8 +369,8 @@ function leadgenHtml(){
   const mmax=Math.max(...L.reasons.map(r=>r.count),1);
   return `<div class="card"><div class="kpis" style="margin-top:0"><div class="kpi"><div class="v pass">${nf.format(L.created)}</div><div class="k">Criados</div></div><div class="kpi"><div class="v brand">${nf.format(L.reopened)}</div><div class="k">Reabertos</div></div><div class="kpi"><div class="v leak">${nf.format(L.skipped)}</div><div class="k">Descartados</div></div></div><div class="bars" style="margin-top:14px">`+L.reasons.map(r=>`<div class="row"><span class="l">${r.label} ${r.tecnico?'<span class="selo tec">TÉC</span>':''}</span><span class="t"><span class="f" style="width:${r.count/mmax*100}%;background:${r.tecnico?'var(--leak)':'var(--teal)'}"></span></span><span class="n">${nf.format(r.count)}</span></div>`).join('')+`</div></div>`;
 }
-function gargalosHtml(w,cache){
-  const O=DATA.openByStage||{},LS=DATA.lossSummary||{},P=DATA.providers||[],rows=[];
+function gargalosHtml(w,cache,LS,P){
+  const O=DATA.openByStage||{},rows=[];LS=LS||DATA.lossSummary||{};P=P||DATA.providers||[];
   const st=(O.golpes465||0)+(O.vm466||0);
   if(st>100)rows.push(['leak','Crítico','Lia',`Golpes + VM represados (${nf.format(st)} cards)`,'Implementar score de produto/gatilho de avanço p/ GD e VM; enquanto isso, mutirão manual.']);
   if((LS.recuperavel||0)>500)rows.push(['leak','Falso negativo','Lia',`${nf.format(LS.recuperavel)} perdas recuperáveis (${p0(LS.recuperavel/(LS.total||1)*100)})`,'Auditar amostra de weak_pure_brand + trilha de reprocessamento.']);
@@ -359,6 +386,7 @@ document.getElementById('seg').addEventListener('click',e=>{const b=e.target.clo
 document.getElementById('applyC').addEventListener('click',()=>{const f=document.getElementById('fromD').value,t=document.getElementById('toD').value;if(f&&t){cFrom=f<=t?f:t;cTo=f<=t?t:f;mode='custom';render();}});
 function init(){
   document.getElementById('upd').innerHTML='· atualizado <b>'+(DATA.generatedAtBRT||'?')+'</b>';
+  const mx=DATA.todayBRT||Object.keys(DATA.daily||{}).sort().pop();if(mx){const mn=dayMinus(mx,29);['fromD','toD'].forEach(id=>{const el=document.getElementById(id);if(el){el.min=mn;el.max=mx;}});}
   let f='Dados reais · Pipedrive brandmonitor + Supabase Lia + API OPEC Enrique · atualização diária (GitHub Action).';
   if(DATA.warnings&&DATA.warnings.length)f+=' Pendências: '+DATA.warnings.join(' · ');
   document.getElementById('foot').textContent=f; render();

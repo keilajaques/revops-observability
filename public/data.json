@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-27T16:03:49.875Z",
-  "generatedAtBRT": "27/07/2026, 13:03:49",
+  "generatedAt": "2026-07-27T16:19:00.328Z",
+  "generatedAtBRT": "27/07/2026, 13:19:00",
   "todayBRT": "2026-07-27",
   "windows": {
     "7": {
@@ -16,9 +16,9 @@
       "semrushCalls": 3255,
       "semrushUnits": 16303,
       "semrushCache": 0.06,
-      "opecCalls": 3790,
-      "opecCredits": 753,
-      "opecCost": 103.55
+      "opecCalls": 3813,
+      "opecCredits": 759,
+      "opecCost": 105.45
     },
     "15": {
       "created": 3330,
@@ -33,9 +33,9 @@
       "semrushCalls": 10049,
       "semrushUnits": 47882,
       "semrushCache": 0.57,
-      "opecCalls": 10253,
-      "opecCredits": 1157,
-      "opecCost": 125.35
+      "opecCalls": 10276,
+      "opecCredits": 1163,
+      "opecCost": 127.25
     },
     "30": {
       "created": 5662,
@@ -50,9 +50,9 @@
       "semrushCalls": 18188,
       "semrushUnits": 89321,
       "semrushCache": 0.31,
-      "opecCalls": 10476,
-      "opecCredits": 1157,
-      "opecCost": 125.35
+      "opecCalls": 10499,
+      "opecCredits": 1163,
+      "opecCost": 127.25
     },
     "hoje": {
       "created": 42,
@@ -67,9 +67,9 @@
       "semrushCalls": 189,
       "semrushUnits": 972,
       "semrushCache": 0,
-      "opecCalls": 73,
-      "opecCredits": 12,
-      "opecCost": 3.75
+      "opecCalls": 96,
+      "opecCredits": 18,
+      "opecCost": 5.65
     }
   },
   "lossReasons": [
@@ -207,74 +207,74 @@
   "providers": [
     {
       "name": "apollo",
-      "calls": 5755,
-      "successRate": 85,
-      "errorRate": 15,
-      "credits": 2945,
-      "brl": 147.25
-    },
-    {
-      "name": "debounce",
-      "calls": 703,
-      "successRate": 75,
-      "errorRate": 25,
-      "credits": 563,
-      "brl": 11.26
+      "calls": 6234,
+      "successRate": 82,
+      "errorRate": 18,
+      "credits": 2518,
+      "brl": 125.9
     },
     {
       "name": "findymail",
-      "calls": 1567,
+      "calls": 1759,
       "successRate": 34,
       "errorRate": 66,
-      "credits": 487,
-      "brl": 194.8
+      "credits": 542,
+      "brl": 216.8
+    },
+    {
+      "name": "debounce",
+      "calls": 590,
+      "successRate": 76,
+      "errorRate": 24,
+      "credits": 448,
+      "brl": 8.96
     },
     {
       "name": "fullenrich",
-      "calls": 1057,
-      "successRate": 11,
-      "errorRate": 89,
-      "credits": 81,
-      "brl": 40.5
+      "calls": 1160,
+      "successRate": 10,
+      "errorRate": 90,
+      "credits": 85,
+      "brl": 42.5
     },
     {
       "name": "cnpja",
-      "calls": 16,
-      "successRate": 19,
-      "errorRate": 81,
-      "credits": 16,
-      "brl": 4
+      "calls": 14,
+      "successRate": 7,
+      "errorRate": 93,
+      "credits": 14,
+      "brl": 3.5
     },
     {
-      "name": "brasilapi",
-      "calls": 186,
-      "successRate": 92,
-      "errorRate": 8,
+      "name": "gemini",
+      "calls": 525,
+      "successRate": 81,
+      "errorRate": 19,
       "credits": 0,
       "brl": 0
     },
     {
-      "name": "gemini",
-      "calls": 567,
-      "successRate": 89,
-      "errorRate": 11,
+      "name": "brasilapi",
+      "calls": 186,
+      "successRate": 93,
+      "errorRate": 7,
       "credits": 0,
       "brl": 0
     }
   ],
   "contacts": {
-    "total": 13947,
-    "unique": 10848,
+    "total": 13969,
+    "unique": 10849,
     "empresas": 660,
     "verified": 4184,
     "withPhone": 2897,
-    "withLinkedin": 12155,
-    "viaApollo": 10692,
+    "withLinkedin": 12177,
+    "viaApollo": 10714,
     "covEmail": 78,
     "covPhone": 21,
     "covLinkedin": 87,
     "covApollo": 77,
-    "avgPerCompany": 21.1
+    "avgPerCompany": 21.2
   },
   "openByStage": {
     "novo460": 0,
@@ -338,6 +338,57 @@
     "recuperavel": 6014,
     "legitima": 652
   },
+  "lossMeta": {
+    "labels": {
+      "lost_weak_pure_brand": "Marca fraca",
+      "lost_cs_low": "Company Score baixo",
+      "enrique_only_no_contact": "Sem contato encontrado",
+      "lost_low_volume": "Volume / mercado baixo",
+      "lost_duplicate": "Duplicidade",
+      "garimpo_no_channel": "Sem canal (e-mail/tel)",
+      "invalid_produto_principal": "Produto principal inválido",
+      "lost_ps_low": "Product Score baixo",
+      "cs_missing_dimensions": "Dimensões insuficientes",
+      "cs_endpoint_failed": "Erro de API (CS)",
+      "garimpo_no_contacts": "Garimpo: 0 contatos",
+      "gd_no_opportunity": "Golpes: sem oportunidade"
+    },
+    "recoverable": [
+      "lost_weak_pure_brand",
+      "lost_cs_low",
+      "lost_ps_low",
+      "no_coverage",
+      "garimpo_no_channel",
+      "garimpo_no_contacts",
+      "enrique_only_no_contact",
+      "cs_missing_dimensions",
+      "no_keywords_after_cs"
+    ],
+    "infra": [
+      "cs_endpoint_failed",
+      "cs_throw",
+      "cs_timeout",
+      "cs_worker_error",
+      "cs_exception",
+      "bb4d_failed",
+      "bb4d_throw",
+      "bbp_neon_query_error",
+      "neon_error",
+      "monitoring_state_error",
+      "unknown_decision",
+      "unknown_classification",
+      "all_campaigns_failed"
+    ]
+  },
+  "providerRates": {
+    "apollo": 0.05,
+    "findymail": 0.4,
+    "fullenrich": 0.5,
+    "debounce": 0.02,
+    "cnpja": 0.25,
+    "gemini": 0,
+    "brasilapi": 0
+  },
   "leadgen": {
     "created": 0,
     "reopened": 0,
@@ -364,7 +415,65 @@
       "cVerified": 0,
       "opecCalls": 58,
       "opecCredits": 8,
-      "opecCost": 0.6
+      "opecCost": 0.6,
+      "csB": [
+        130,
+        8,
+        1,
+        2,
+        5
+      ],
+      "csBA": [
+        0,
+        0,
+        1,
+        2,
+        5
+      ],
+      "csSR": 9.5,
+      "csNR": 138,
+      "csSA": 29,
+      "csNA": 8,
+      "loss": {
+        "lost_weak_pure_brand": 186,
+        "lost_cs_low": 22,
+        "lost_low_volume": 5,
+        "cs_missing_dimensions": 2,
+        "garimpo_no_channel": 1,
+        "lost_duplicate": 2
+      },
+      "prov": {
+        "brasilapi": {
+          "c": 6,
+          "s": 5,
+          "cr": 0
+        },
+        "findymail": {
+          "c": 61,
+          "s": 28,
+          "cr": 24
+        },
+        "apollo": {
+          "c": 105,
+          "s": 95,
+          "cr": 30
+        },
+        "gemini": {
+          "c": 18,
+          "s": 17,
+          "cr": 0
+        },
+        "fullenrich": {
+          "c": 31,
+          "s": 6,
+          "cr": 4
+        },
+        "cnpja": {
+          "c": 2,
+          "s": 0,
+          "cr": 2
+        }
+      }
     },
     "2026-07-18": {
       "created": 137,
@@ -385,7 +494,55 @@
       "cVerified": 5,
       "opecCalls": 312,
       "opecCredits": 61,
-      "opecCost": 3.05
+      "opecCost": 3.05,
+      "csB": [
+        116,
+        4,
+        1,
+        1,
+        0
+      ],
+      "csBA": [
+        0,
+        0,
+        1,
+        1,
+        0
+      ],
+      "csSR": 6.5,
+      "csNR": 120,
+      "csSA": 5.5,
+      "csNA": 2,
+      "loss": {
+        "lost_low_volume": 29,
+        "lost_ps_low": 9,
+        "lost_weak_pure_brand": 130,
+        "lost_duplicate": 3,
+        "lost_cs_low": 12,
+        "cs_missing_dimensions": 2,
+        "enrique_only_no_contact": 5,
+        "lost_nonbr_junk": 1,
+        "garimpo_no_channel": 3,
+        "bb4d_throw": 2,
+        "no_keywords_after_cs": 1
+      },
+      "prov": {
+        "apollo": {
+          "c": 117,
+          "s": 112,
+          "cr": 74
+        },
+        "findymail": {
+          "c": 35,
+          "s": 14,
+          "cr": 14
+        },
+        "fullenrich": {
+          "c": 21,
+          "s": 7,
+          "cr": 7
+        }
+      }
     },
     "2026-07-16": {
       "created": 230,
@@ -406,7 +563,71 @@
       "cVerified": 0,
       "opecCalls": 725,
       "opecCredits": 37,
-      "opecCost": 1.85
+      "opecCost": 1.85,
+      "csB": [
+        279,
+        42,
+        34,
+        15,
+        4
+      ],
+      "csBA": [
+        0,
+        0,
+        34,
+        15,
+        4
+      ],
+      "csSR": 72.25,
+      "csNR": 321,
+      "csSA": 140.5,
+      "csNA": 53,
+      "loss": {
+        "enrique_only_no_contact": 13,
+        "garimpo_no_channel": 2,
+        "invalid_produto_principal": 89,
+        "bbp_neon_query_error": 17,
+        "lost_weak_pure_brand": 245,
+        "lost_cs_low": 7,
+        "lost_duplicate": 5,
+        "lost_ps_low": 4,
+        "lost_low_volume": 3,
+        "gd_no_opportunity": 3,
+        "lost_nonbr_junk": 1,
+        "cs_missing_dimensions": 1
+      },
+      "prov": {
+        "cnpja": {
+          "c": 2,
+          "s": 0,
+          "cr": 2
+        },
+        "brasilapi": {
+          "c": 11,
+          "s": 10,
+          "cr": 0
+        },
+        "findymail": {
+          "c": 54,
+          "s": 40,
+          "cr": 40
+        },
+        "gemini": {
+          "c": 16,
+          "s": 15,
+          "cr": 0
+        },
+        "apollo": {
+          "c": 92,
+          "s": 88,
+          "cr": 66
+        },
+        "fullenrich": {
+          "c": 14,
+          "s": 3,
+          "cr": 2
+        }
+      }
     },
     "2026-07-15": {
       "created": 136,
@@ -427,7 +648,72 @@
       "cVerified": 0,
       "opecCalls": 479,
       "opecCredits": 30,
-      "opecCost": 1.5
+      "opecCost": 1.5,
+      "csB": [
+        126,
+        9,
+        5,
+        4,
+        0
+      ],
+      "csBA": [
+        0,
+        0,
+        5,
+        4,
+        0
+      ],
+      "csSA": 23,
+      "csNA": 9,
+      "csSR": 21,
+      "csNR": 135,
+      "loss": {
+        "invalid_produto_principal": 21,
+        "lost_ps_low": 2,
+        "lost_weak_pure_brand": 173,
+        "lost_cs_low": 11,
+        "enrique_only_no_contact": 68,
+        "garimpo_no_channel": 25,
+        "garimpo_no_contacts": 7,
+        "lost_low_volume": 5,
+        "bbp_neon_query_error": 2,
+        "gd_no_opportunity": 1,
+        "lost_duplicate": 3,
+        "cs_missing_dimensions": 1,
+        "lost_invalid_data": 1
+      },
+      "prov": {
+        "brasilapi": {
+          "c": 7,
+          "s": 7,
+          "cr": 0
+        },
+        "apollo": {
+          "c": 223,
+          "s": 213,
+          "cr": 135
+        },
+        "findymail": {
+          "c": 122,
+          "s": 44,
+          "cr": 41
+        },
+        "fullenrich": {
+          "c": 72,
+          "s": 14,
+          "cr": 11
+        },
+        "gemini": {
+          "c": 39,
+          "s": 39,
+          "cr": 0
+        },
+        "debounce": {
+          "c": 1,
+          "s": 1,
+          "cr": 1
+        }
+      }
     },
     "2026-07-14": {
       "created": 587,
@@ -448,7 +734,82 @@
       "cVerified": 84,
       "opecCalls": 1689,
       "opecCredits": 50,
-      "opecCost": 2.9
+      "opecCost": 2.9,
+      "csB": [
+        237,
+        20,
+        29,
+        32,
+        26
+      ],
+      "csBA": [
+        0,
+        0,
+        26,
+        32,
+        26
+      ],
+      "csSR": 44.75,
+      "csNR": 260,
+      "csSA": 272.5,
+      "csNA": 84,
+      "loss": {
+        "lost_weak_pure_brand": 324,
+        "enrique_only_no_contact": 22,
+        "lost_low_volume": 35,
+        "lost_invalid_data": 5,
+        "lost_cs_low": 23,
+        "garimpo_no_contacts": 4,
+        "garimpo_no_channel": 24,
+        "bbp_neon_query_error": 9,
+        "lost_ps_low": 9,
+        "lost_duplicate": 16,
+        "cs_missing_dimensions": 2,
+        "outside_brazil": 2,
+        "lost_outside_brazil": 2,
+        "is_branddi_client": 2,
+        "lost_branddi_client": 2,
+        "lost_nonbr_junk": 2,
+        "no_keywords_after_cs": 1,
+        "cs_endpoint_failed": 28
+      },
+      "prov": {
+        "apollo": {
+          "c": 466,
+          "s": 464,
+          "cr": 501
+        },
+        "findymail": {
+          "c": 129,
+          "s": 15,
+          "cr": 15
+        },
+        "debounce": {
+          "c": 58,
+          "s": 48,
+          "cr": 53
+        },
+        "fullenrich": {
+          "c": 111,
+          "s": 2,
+          "cr": 2
+        },
+        "gemini": {
+          "c": 5,
+          "s": 5,
+          "cr": 0
+        },
+        "brasilapi": {
+          "c": 2,
+          "s": 1,
+          "cr": 0
+        },
+        "cnpja": {
+          "c": 1,
+          "s": 1,
+          "cr": 1
+        }
+      }
     },
     "2026-07-13": {
       "created": 138,
@@ -469,7 +830,68 @@
       "cVerified": 9,
       "opecCalls": 50,
       "opecCredits": 0,
-      "opecCost": 0
+      "opecCost": 0,
+      "csB": [
+        93,
+        13,
+        4,
+        2,
+        2
+      ],
+      "csBA": [
+        0,
+        0,
+        4,
+        2,
+        2
+      ],
+      "csSR": 17.75,
+      "csNR": 106,
+      "csSA": 23.25,
+      "csNA": 8,
+      "loss": {
+        "lost_weak_pure_brand": 124,
+        "lost_cs_low": 10,
+        "garimpo_no_channel": 2,
+        "lost_low_volume": 7,
+        "lost_duplicate": 2,
+        "lost_ps_low": 1,
+        "lost_person_cpf": 1,
+        "gd_no_opportunity": 1,
+        "lost_invalid_data": 1
+      },
+      "prov": {
+        "brasilapi": {
+          "c": 3,
+          "s": 3,
+          "cr": 0
+        },
+        "gemini": {
+          "c": 16,
+          "s": 15,
+          "cr": 0
+        },
+        "apollo": {
+          "c": 125,
+          "s": 125,
+          "cr": 117
+        },
+        "findymail": {
+          "c": 21,
+          "s": 1,
+          "cr": 1
+        },
+        "fullenrich": {
+          "c": 22,
+          "s": 1,
+          "cr": 1
+        },
+        "debounce": {
+          "c": 33,
+          "s": 25,
+          "cr": 25
+        }
+      }
     },
     "2026-07-12": {
       "created": 149,
@@ -490,7 +912,57 @@
       "cVerified": 4,
       "opecCalls": 160,
       "opecCredits": 0,
-      "opecCost": 0
+      "opecCost": 0,
+      "csB": [
+        110,
+        17,
+        6,
+        3,
+        0
+      ],
+      "csBA": [
+        0,
+        0,
+        6,
+        3,
+        0
+      ],
+      "csSA": 23.25,
+      "csNA": 9,
+      "csSR": 30.75,
+      "csNR": 127,
+      "loss": {
+        "lost_cs_low": 11,
+        "lost_weak_pure_brand": 144,
+        "lost_low_volume": 4,
+        "lost_invalid_data": 2,
+        "lost_ps_low": 2,
+        "cs_missing_dimensions": 1,
+        "lost_duplicate": 2,
+        "garimpo_no_channel": 3
+      },
+      "prov": {
+        "apollo": {
+          "c": 287,
+          "s": 287,
+          "cr": 207
+        },
+        "findymail": {
+          "c": 148,
+          "s": 11,
+          "cr": 10
+        },
+        "fullenrich": {
+          "c": 133,
+          "s": 26,
+          "cr": 0
+        },
+        "debounce": {
+          "c": 61,
+          "s": 53,
+          "cr": 47
+        }
+      }
     },
     "2026-07-09": {
       "created": 106,
@@ -511,7 +983,55 @@
       "cVerified": 0,
       "opecCalls": 4,
       "opecCredits": 0,
-      "opecCost": 0
+      "opecCost": 0,
+      "csB": [
+        83,
+        8,
+        2,
+        2,
+        2
+      ],
+      "csBA": [
+        0,
+        0,
+        2,
+        2,
+        2
+      ],
+      "csSR": 11.25,
+      "csNR": 91,
+      "csSA": 18.75,
+      "csNA": 6,
+      "loss": {
+        "lost_weak_pure_brand": 106,
+        "lost_low_volume": 3,
+        "lost_nonbr_junk": 3,
+        "lost_cs_low": 5,
+        "gd_no_opportunity": 2,
+        "lost_duplicate": 2
+      },
+      "prov": {
+        "apollo": {
+          "c": 133,
+          "s": 36,
+          "cr": 0
+        },
+        "gemini": {
+          "c": 16,
+          "s": 15,
+          "cr": 0
+        },
+        "debounce": {
+          "c": 55,
+          "s": 45,
+          "cr": 45
+        },
+        "brasilapi": {
+          "c": 4,
+          "s": 4,
+          "cr": 0
+        }
+      }
     },
     "2026-07-08": {
       "created": 169,
@@ -532,7 +1052,60 @@
       "cVerified": 0,
       "opecCalls": 15,
       "opecCredits": 0,
-      "opecCost": 0
+      "opecCost": 0,
+      "csB": [
+        138,
+        13,
+        4,
+        2,
+        1
+      ],
+      "csBA": [
+        0,
+        0,
+        4,
+        2,
+        1
+      ],
+      "csSA": 18.25,
+      "csNA": 7,
+      "csSR": 20.75,
+      "csNR": 151,
+      "loss": {
+        "garimpo_no_channel": 2,
+        "lost_ps_low": 1,
+        "lost_weak_pure_brand": 163,
+        "lost_duplicate": 2,
+        "lost_cs_low": 8,
+        "lost_low_volume": 2,
+        "cs_missing_dimensions": 4,
+        "lost_invalid_data": 2,
+        "lost_person_cpf": 1,
+        "gd_no_opportunity": 1,
+        "bb4d_failed": 1
+      },
+      "prov": {
+        "brasilapi": {
+          "c": 22,
+          "s": 22,
+          "cr": 0
+        },
+        "apollo": {
+          "c": 182,
+          "s": 92,
+          "cr": 0
+        },
+        "gemini": {
+          "c": 40,
+          "s": 38,
+          "cr": 0
+        },
+        "debounce": {
+          "c": 64,
+          "s": 59,
+          "cr": 59
+        }
+      }
     },
     "2026-07-06": {
       "created": 164,
@@ -553,7 +1126,62 @@
       "cVerified": 0,
       "opecCalls": 8,
       "opecCredits": 0,
-      "opecCost": 0
+      "opecCost": 0,
+      "csB": [
+        143,
+        11,
+        1,
+        1,
+        2
+      ],
+      "csBA": [
+        0,
+        0,
+        1,
+        1,
+        2
+      ],
+      "csSR": 20,
+      "csNR": 154,
+      "csSA": 13.5,
+      "csNA": 4,
+      "loss": {
+        "lost_weak_pure_brand": 171,
+        "lost_ps_low": 1,
+        "lost_low_volume": 5,
+        "lost_invalid_data": 2,
+        "lost_cs_low": 9,
+        "lost_duplicate": 5,
+        "garimpo_no_channel": 1,
+        "lost_person_cpf": 1
+      },
+      "prov": {
+        "debounce": {
+          "c": 44,
+          "s": 30,
+          "cr": 30
+        },
+        "brasilapi": {
+          "c": 8,
+          "s": 8,
+          "cr": 0
+        },
+        "apollo": {
+          "c": 101,
+          "s": 25,
+          "cr": 0
+        },
+        "findymail": {
+          "c": 1,
+          "s": 1,
+          "cr": 1
+        },
+        "gemini": {
+          "c": 8,
+          "s": 8,
+          "cr": 0
+        }
+      }
     },
     "2026-07-05": {
       "created": 209,
@@ -574,7 +1202,47 @@
       "cVerified": 0,
       "opecCalls": 28,
       "opecCredits": 0,
-      "opecCost": 0
+      "opecCost": 0,
+      "csB": [
+        164,
+        15,
+        5,
+        2,
+        0
+      ],
+      "csBA": [
+        0,
+        0,
+        5,
+        2,
+        0
+      ],
+      "csSA": 18,
+      "csNA": 7,
+      "csSR": 26,
+      "csNR": 179,
+      "loss": {
+        "lost_low_volume": 9,
+        "lost_ps_low": 2,
+        "lost_weak_pure_brand": 186,
+        "cs_missing_dimensions": 3,
+        "lost_cs_low": 18,
+        "lost_person_cpf": 4,
+        "lost_duplicate": 1,
+        "lost_invalid_data": 1
+      },
+      "prov": {
+        "apollo": {
+          "c": 54,
+          "s": 14,
+          "cr": 0
+        },
+        "debounce": {
+          "c": 40,
+          "s": 13,
+          "cr": 11
+        }
+      }
     },
     "2026-07-04": {
       "created": 178,
@@ -595,7 +1263,36 @@
       "cVerified": 0,
       "opecCalls": 8,
       "opecCredits": 0,
-      "opecCost": 0
+      "opecCost": 0,
+      "csB": [
+        160,
+        9,
+        3,
+        0,
+        0
+      ],
+      "csBA": [
+        0,
+        0,
+        3,
+        0,
+        0
+      ],
+      "csSR": 14.75,
+      "csNR": 169,
+      "csSA": 6.75,
+      "csNA": 3,
+      "loss": {
+        "lost_weak_pure_brand": 184,
+        "lost_cs_low": 4,
+        "lost_low_volume": 2,
+        "lost_invalid_data": 1,
+        "lost_duplicate": 1,
+        "lost_person_cpf": 2,
+        "garimpo_no_channel": 1,
+        "lost_ps_low": 1,
+        "lost_nonbr_junk": 1
+      }
     },
     "2026-07-02": {
       "created": 154,
@@ -616,7 +1313,73 @@
       "cVerified": 0,
       "opecCalls": 0,
       "opecCredits": 0,
-      "opecCost": 0
+      "opecCost": 0,
+      "csB": [
+        134,
+        21,
+        2,
+        3,
+        1
+      ],
+      "csBA": [
+        0,
+        0,
+        2,
+        3,
+        1
+      ],
+      "csSR": 32.25,
+      "csNR": 155,
+      "csSA": 18,
+      "csNA": 6,
+      "loss": {
+        "lost_weak_pure_brand": 154,
+        "lost_cs_low": 16,
+        "cs_missing_dimensions": 1,
+        "lost_nonbr_junk": 2,
+        "lost_person_cpf": 1,
+        "lost_low_volume": 3,
+        "lost_duplicate": 2,
+        "garimpo_no_channel": 1,
+        "lost_ps_low": 1
+      },
+      "prov": {
+        "debounce": {
+          "c": 63,
+          "s": 44,
+          "cr": 45
+        },
+        "brasilapi": {
+          "c": 13,
+          "s": 11,
+          "cr": 0
+        },
+        "cnpja": {
+          "c": 2,
+          "s": 0,
+          "cr": 2
+        },
+        "gemini": {
+          "c": 52,
+          "s": 51,
+          "cr": 0
+        },
+        "apollo": {
+          "c": 296,
+          "s": 143,
+          "cr": 11
+        },
+        "fullenrich": {
+          "c": 12,
+          "s": 0,
+          "cr": 0
+        },
+        "findymail": {
+          "c": 12,
+          "s": 0,
+          "cr": 0
+        }
+      }
     },
     "2026-07-01": {
       "created": 148,
@@ -637,7 +1400,66 @@
       "cVerified": 0,
       "opecCalls": 8,
       "opecCredits": 0,
-      "opecCost": 0
+      "opecCost": 0,
+      "csB": [
+        127,
+        22,
+        5,
+        0,
+        1
+      ],
+      "csBA": [
+        0,
+        0,
+        4,
+        0,
+        1
+      ],
+      "csSR": 36.75,
+      "csNR": 150,
+      "csSA": 12.75,
+      "csNA": 5,
+      "loss": {
+        "lost_weak_pure_brand": 156,
+        "cs_missing_dimensions": 2,
+        "lost_cs_low": 22,
+        "lost_person_cpf": 5,
+        "lost_low_volume": 2,
+        "lost_ps_low": 1,
+        "lost_duplicate": 2
+      },
+      "prov": {
+        "gemini": {
+          "c": 7,
+          "s": 6,
+          "cr": 0
+        },
+        "apollo": {
+          "c": 114,
+          "s": 114,
+          "cr": 106
+        },
+        "findymail": {
+          "c": 93,
+          "s": 9,
+          "cr": 9
+        },
+        "fullenrich": {
+          "c": 76,
+          "s": 1,
+          "cr": 1
+        },
+        "debounce": {
+          "c": 33,
+          "s": 32,
+          "cr": 33
+        },
+        "brasilapi": {
+          "c": 1,
+          "s": 1,
+          "cr": 0
+        }
+      }
     },
     "2026-06-30": {
       "created": 211,
@@ -658,7 +1480,74 @@
       "cVerified": 3,
       "opecCalls": 12,
       "opecCredits": 0,
-      "opecCost": 0
+      "opecCost": 0,
+      "csB": [
+        164,
+        27,
+        8,
+        4,
+        3
+      ],
+      "csBA": [
+        0,
+        0,
+        8,
+        4,
+        3
+      ],
+      "csSR": 40.75,
+      "csNR": 191,
+      "csSA": 43.25,
+      "csNA": 15,
+      "loss": {
+        "lost_cs_low": 17,
+        "lost_weak_pure_brand": 198,
+        "cs_missing_dimensions": 3,
+        "lost_duplicate": 3,
+        "lost_low_volume": 7,
+        "lost_ps_low": 4,
+        "lost_invalid_data": 3,
+        "lost_nonbr_junk": 1,
+        "garimpo_no_channel": 1,
+        "lost_person_cpf": 1
+      },
+      "prov": {
+        "fullenrich": {
+          "c": 101,
+          "s": 1,
+          "cr": 1
+        },
+        "findymail": {
+          "c": 108,
+          "s": 8,
+          "cr": 8
+        },
+        "apollo": {
+          "c": 218,
+          "s": 218,
+          "cr": 161
+        },
+        "brasilapi": {
+          "c": 12,
+          "s": 11,
+          "cr": 0
+        },
+        "gemini": {
+          "c": 34,
+          "s": 33,
+          "cr": 0
+        },
+        "debounce": {
+          "c": 24,
+          "s": 20,
+          "cr": 21
+        },
+        "cnpja": {
+          "c": 1,
+          "s": 0,
+          "cr": 1
+        }
+      }
     },
     "2026-06-29": {
       "created": 187,
@@ -679,7 +1568,64 @@
       "cVerified": 0,
       "opecCalls": 56,
       "opecCredits": 0,
-      "opecCost": 0
+      "opecCost": 0,
+      "csB": [
+        157,
+        16,
+        2,
+        4,
+        0
+      ],
+      "csBA": [
+        0,
+        0,
+        0,
+        4,
+        0
+      ],
+      "csSR": 27.5,
+      "csNR": 175,
+      "csSA": 13,
+      "csNA": 4,
+      "loss": {
+        "lost_low_volume": 6,
+        "lost_cs_low": 34,
+        "lost_duplicate": 4,
+        "lost_weak_pure_brand": 178,
+        "lost_invalid_data": 4,
+        "outside_brazil": 1,
+        "lost_outside_brazil": 1,
+        "lost_ps_low": 3,
+        "lost_person_cpf": 2,
+        "gd_no_opportunity": 28
+      },
+      "prov": {
+        "apollo": {
+          "c": 145,
+          "s": 84,
+          "cr": 96
+        },
+        "debounce": {
+          "c": 22,
+          "s": 21,
+          "cr": 16
+        },
+        "findymail": {
+          "c": 18,
+          "s": 1,
+          "cr": 1
+        },
+        "fullenrich": {
+          "c": 16,
+          "s": 0,
+          "cr": 0
+        },
+        "gemini": {
+          "c": 2,
+          "s": 2,
+          "cr": 0
+        }
+      }
     },
     "2026-06-28": {
       "created": 237,
@@ -700,7 +1646,48 @@
       "cVerified": 0,
       "opecCalls": 36,
       "opecCredits": 0,
-      "opecCost": 0
+      "opecCost": 0,
+      "csB": [
+        201,
+        10,
+        4,
+        2,
+        1
+      ],
+      "csBA": [
+        0,
+        0,
+        4,
+        2,
+        1
+      ],
+      "csSR": 20.75,
+      "csNR": 211,
+      "csSA": 19,
+      "csNA": 7,
+      "loss": {
+        "gd_no_opportunity": 9,
+        "garimpo_no_channel": 2,
+        "lost_weak_pure_brand": 212,
+        "lost_cs_low": 26,
+        "pescaria_is_branddi_client": 1,
+        "lost_branddi_client": 1,
+        "lost_ps_low": 4,
+        "lost_low_volume": 2,
+        "lost_duplicate": 2,
+        "no_keywords_after_cs": 2,
+        "lost_nonbr_junk": 1,
+        "lost_invalid_data": 2,
+        "cs_missing_dimensions": 2,
+        "lost_person_cpf": 2
+      },
+      "prov": {
+        "apollo": {
+          "c": 59,
+          "s": 16,
+          "cr": 0
+        }
+      }
     },
     "2026-06-27": {
       "created": 186,
@@ -721,7 +1708,35 @@
       "cVerified": 0,
       "opecCalls": 4,
       "opecCredits": 0,
-      "opecCost": 0
+      "opecCost": 0,
+      "csB": [
+        87,
+        4,
+        0,
+        3,
+        0
+      ],
+      "csBA": [
+        0,
+        0,
+        0,
+        3,
+        0
+      ],
+      "csSR": 7.75,
+      "csNR": 91,
+      "csSA": 9,
+      "csNA": 3,
+      "loss": {
+        "lost_cs_low": 6,
+        "lost_weak_pure_brand": 95,
+        "lost_duplicate": 8,
+        "cs_missing_dimensions": 2,
+        "lost_nonbr_junk": 1,
+        "lost_low_volume": 2,
+        "lost_ps_low": 2,
+        "lost_person_cpf": 2
+      }
     },
     "2026-06-26": {
       "created": 203,
@@ -1028,15 +2043,49 @@
       "semrushUnits": 972,
       "semrushCalls": 189,
       "semrushHits": 0,
-      "contactsNew": 0,
-      "cEmail": 0,
-      "cLinkedin": 0,
+      "contactsNew": 22,
+      "cEmail": 1,
+      "cLinkedin": 22,
       "cPhone": 0,
-      "cApollo": 0,
+      "cApollo": 22,
       "cVerified": 0,
-      "opecCalls": 73,
-      "opecCredits": 12,
-      "opecCost": 3.75
+      "opecCalls": 96,
+      "opecCredits": 18,
+      "opecCost": 5.65,
+      "csB": [
+        64,
+        1,
+        1,
+        1,
+        0
+      ],
+      "csBA": [
+        0,
+        0,
+        1,
+        1,
+        0
+      ],
+      "csSA": 5.5,
+      "csNA": 2,
+      "csSR": 3,
+      "csNR": 65,
+      "loss": {
+        "cs_endpoint_failed": 1,
+        "lost_weak_pure_brand": 90,
+        "lost_cs_low": 5,
+        "lost_invalid_data": 1,
+        "garimpo_no_channel": 2,
+        "bbp_vc_monitoria_ausente": 3,
+        "lost_low_volume": 2
+      },
+      "prov": {
+        "brasilapi": {
+          "c": 1,
+          "s": 1,
+          "cr": 0
+        }
+      }
     },
     "2026-07-17": {
       "created": 876,
@@ -1057,7 +2106,80 @@
       "cVerified": 14,
       "opecCalls": 2550,
       "opecCredits": 197,
-      "opecCost": 10.65
+      "opecCost": 10.65,
+      "csB": [
+        232,
+        28,
+        41,
+        22,
+        4
+      ],
+      "csBA": [
+        0,
+        0,
+        41,
+        22,
+        4
+      ],
+      "csSA": 186,
+      "csNA": 67,
+      "csSR": 47.75,
+      "csNR": 260,
+      "loss": {
+        "enrique_only_no_contact": 72,
+        "garimpo_no_channel": 19,
+        "lost_low_volume": 49,
+        "no_keywords_after_cs": 19,
+        "bb4d_failed": 8,
+        "lost_ps_low": 9,
+        "lost_weak_pure_brand": 246,
+        "lost_cs_low": 34,
+        "lost_duplicate": 17,
+        "cs_endpoint_failed": 9,
+        "pescaria_is_branddi_client": 2,
+        "lost_branddi_client": 2,
+        "garimpo_no_contacts": 18,
+        "cs_throw": 18,
+        "lost_nonbr_junk": 3,
+        "outside_brazil": 2,
+        "lost_outside_brazil": 2,
+        "bbp_neon_query_error": 1,
+        "cs_missing_dimensions": 2,
+        "orphan_pescaria_closed": 14,
+        "lost_invalid_data": 2
+      },
+      "prov": {
+        "apollo": {
+          "c": 882,
+          "s": 848,
+          "cr": 363
+        },
+        "findymail": {
+          "c": 333,
+          "s": 123,
+          "cr": 119
+        },
+        "gemini": {
+          "c": 50,
+          "s": 47,
+          "cr": 0
+        },
+        "fullenrich": {
+          "c": 245,
+          "s": 22,
+          "cr": 22
+        },
+        "brasilapi": {
+          "c": 12,
+          "s": 11,
+          "cr": 0
+        },
+        "cnpja": {
+          "c": 1,
+          "s": 0,
+          "cr": 1
+        }
+      }
     },
     "2026-07-26": {
       "created": 243,
@@ -1078,7 +2200,67 @@
       "cVerified": 0,
       "opecCalls": 588,
       "opecCredits": 187,
-      "opecCost": 34.85
+      "opecCost": 34.85,
+      "csB": [
+        266,
+        4,
+        7,
+        2,
+        0
+      ],
+      "csBA": [
+        0,
+        0,
+        7,
+        2,
+        0
+      ],
+      "csSR": 8.5,
+      "csNR": 270,
+      "csSA": 22.75,
+      "csNA": 9,
+      "loss": {
+        "lost_cs_low": 19,
+        "lost_weak_pure_brand": 356,
+        "garimpo_no_channel": 10,
+        "enrique_only_no_contact": 3,
+        "lost_low_volume": 7,
+        "bbp_vc_monitoria_ausente": 13,
+        "garimpo_no_contacts": 8,
+        "lost_other": 11,
+        "bbp_neon_query_error": 32,
+        "lost_ps_low": 2,
+        "lost_invalid_data": 3,
+        "invalid_domain_domain_empty": 1,
+        "lost_duplicate": 1
+      },
+      "prov": {
+        "apollo": {
+          "c": 264,
+          "s": 250,
+          "cr": 86
+        },
+        "findymail": {
+          "c": 139,
+          "s": 92,
+          "cr": 62
+        },
+        "fullenrich": {
+          "c": 46,
+          "s": 2,
+          "cr": 2
+        },
+        "gemini": {
+          "c": 18,
+          "s": 0,
+          "cr": 0
+        },
+        "brasilapi": {
+          "c": 8,
+          "s": 8,
+          "cr": 0
+        }
+      }
     },
     "2026-07-25": {
       "created": 123,
@@ -1099,7 +2281,31 @@
       "cVerified": 0,
       "opecCalls": 0,
       "opecCredits": 0,
-      "opecCost": 0
+      "opecCost": 0,
+      "csB": [
+        127,
+        0,
+        1,
+        0,
+        0
+      ],
+      "csBA": [
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "csSR": 0,
+      "csNR": 127,
+      "csSA": 2,
+      "csNA": 1,
+      "loss": {
+        "garimpo_no_channel": 1,
+        "lost_weak_pure_brand": 139,
+        "lost_cs_low": 1,
+        "lost_nonbr_junk": 1
+      }
     },
     "2026-07-24": {
       "created": 94,
@@ -1120,7 +2326,61 @@
       "cVerified": 0,
       "opecCalls": 346,
       "opecCredits": 97,
-      "opecCost": 14.95
+      "opecCost": 14.95,
+      "csB": [
+        101,
+        1,
+        2,
+        1,
+        0
+      ],
+      "csBA": [
+        0,
+        0,
+        2,
+        1,
+        0
+      ],
+      "csSR": 1.25,
+      "csNR": 102,
+      "csSA": 8.25,
+      "csNA": 3,
+      "loss": {
+        "pescaria_travada": 6,
+        "garimpo_no_channel": 1,
+        "gd_no_opportunity": 27,
+        "lost_weak_pure_brand": 103,
+        "cs_missing_dimensions": 1,
+        "lost_low_volume": 1,
+        "lost_nonbr_junk": 1
+      },
+      "prov": {
+        "findymail": {
+          "c": 96,
+          "s": 42,
+          "cr": 41
+        },
+        "apollo": {
+          "c": 265,
+          "s": 254,
+          "cr": 122
+        },
+        "fullenrich": {
+          "c": 55,
+          "s": 7,
+          "cr": 4
+        },
+        "gemini": {
+          "c": 22,
+          "s": 0,
+          "cr": 0
+        },
+        "brasilapi": {
+          "c": 15,
+          "s": 14,
+          "cr": 0
+        }
+      }
     },
     "2026-07-23": {
       "created": 86,
@@ -1141,7 +2401,67 @@
       "cVerified": 0,
       "opecCalls": 568,
       "opecCredits": 223,
-      "opecCost": 20
+      "opecCost": 20,
+      "csB": [
+        90,
+        0,
+        3,
+        2,
+        0
+      ],
+      "csBA": [
+        0,
+        0,
+        3,
+        2,
+        0
+      ],
+      "csSR": 0.25,
+      "csNR": 90,
+      "csSA": 13.5,
+      "csNA": 5,
+      "loss": {
+        "lost_duplicate": 2,
+        "lost_weak_pure_brand": 101,
+        "enrique_only_no_contact": 1,
+        "pescaria_travada": 1,
+        "lost_cs_low": 3,
+        "lost_invalid_data": 1,
+        "lost_low_volume": 1,
+        "lost_ps_low": 1
+      },
+      "prov": {
+        "apollo": {
+          "c": 361,
+          "s": 347,
+          "cr": 157
+        },
+        "findymail": {
+          "c": 118,
+          "s": 61,
+          "cr": 58
+        },
+        "fullenrich": {
+          "c": 54,
+          "s": 6,
+          "cr": 6
+        },
+        "gemini": {
+          "c": 34,
+          "s": 0,
+          "cr": 0
+        },
+        "brasilapi": {
+          "c": 10,
+          "s": 9,
+          "cr": 0
+        },
+        "cnpja": {
+          "c": 1,
+          "s": 0,
+          "cr": 1
+        }
+      }
     },
     "2026-07-22": {
       "created": 120,
@@ -1162,7 +2482,68 @@
       "cVerified": 0,
       "opecCalls": 1237,
       "opecCredits": 94,
-      "opecCost": 8.4
+      "opecCost": 8.4,
+      "csB": [
+        198,
+        11,
+        12,
+        1,
+        4
+      ],
+      "csBA": [
+        0,
+        0,
+        12,
+        1,
+        4
+      ],
+      "csSR": 16.25,
+      "csNR": 209,
+      "csSA": 46.5,
+      "csNA": 17,
+      "loss": {
+        "cs_missing_dimensions": 1,
+        "lost_weak_pure_brand": 136,
+        "garimpo_no_channel": 11,
+        "gd_no_opportunity": 1,
+        "enrique_only_no_contact": 79,
+        "garimpo_no_contacts": 7,
+        "lost_cs_low": 2,
+        "lost_duplicate": 2,
+        "lost_low_volume": 1
+      },
+      "prov": {
+        "apollo": {
+          "c": 248,
+          "s": 242,
+          "cr": 77
+        },
+        "findymail": {
+          "c": 43,
+          "s": 26,
+          "cr": 26
+        },
+        "fullenrich": {
+          "c": 17,
+          "s": 2,
+          "cr": 2
+        },
+        "gemini": {
+          "c": 18,
+          "s": 10,
+          "cr": 0
+        },
+        "brasilapi": {
+          "c": 7,
+          "s": 6,
+          "cr": 0
+        },
+        "cnpja": {
+          "c": 1,
+          "s": 0,
+          "cr": 1
+        }
+      }
     },
     "2026-07-21": {
       "created": 140,
@@ -1183,7 +2564,64 @@
       "cVerified": 0,
       "opecCalls": 920,
       "opecCredits": 132,
-      "opecCost": 21
+      "opecCost": 21,
+      "csB": [
+        157,
+        8,
+        5,
+        10,
+        1
+      ],
+      "csBA": [
+        0,
+        0,
+        5,
+        10,
+        1
+      ],
+      "csSR": 15.5,
+      "csNR": 165,
+      "csSA": 50.5,
+      "csNA": 16,
+      "loss": {
+        "lost_weak_pure_brand": 134,
+        "lost_duplicate": 1,
+        "lost_low_volume": 3,
+        "enrique_only_no_contact": 38,
+        "lost_cs_low": 2,
+        "is_branddi_client": 1,
+        "lost_branddi_client": 1,
+        "gd_no_opportunity": 1,
+        "bbp_neon_query_error": 5,
+        "garimpo_no_channel": 1
+      },
+      "prov": {
+        "gemini": {
+          "c": 22,
+          "s": 21,
+          "cr": 0
+        },
+        "apollo": {
+          "c": 717,
+          "s": 620,
+          "cr": 141
+        },
+        "fullenrich": {
+          "c": 52,
+          "s": 10,
+          "cr": 9
+        },
+        "findymail": {
+          "c": 103,
+          "s": 36,
+          "cr": 36
+        },
+        "brasilapi": {
+          "c": 6,
+          "s": 6,
+          "cr": 0
+        }
+      }
     },
     "2026-07-19": {
       "created": 170,
@@ -1204,7 +2642,65 @@
       "cVerified": 2,
       "opecCalls": 510,
       "opecCredits": 29,
-      "opecCost": 1.85
+      "opecCost": 1.85,
+      "csB": [
+        163,
+        5,
+        7,
+        1,
+        1
+      ],
+      "csBA": [
+        0,
+        0,
+        7,
+        1,
+        1
+      ],
+      "csSR": 8.5,
+      "csNR": 168,
+      "csSA": 21.5,
+      "csNA": 9,
+      "loss": {
+        "cs_missing_dimensions": 2,
+        "lost_cs_low": 19,
+        "lost_weak_pure_brand": 211,
+        "lost_ps_low": 1,
+        "lost_nonbr_junk": 3,
+        "garimpo_no_channel": 7,
+        "no_keywords_after_cs": 2,
+        "garimpo_no_contacts": 1,
+        "lost_invalid_data": 1,
+        "enrique_only_no_contact": 2,
+        "bbp_scores_upsert_failed": 4
+      },
+      "prov": {
+        "apollo": {
+          "c": 232,
+          "s": 213,
+          "cr": 68
+        },
+        "brasilapi": {
+          "c": 9,
+          "s": 9,
+          "cr": 0
+        },
+        "findymail": {
+          "c": 120,
+          "s": 45,
+          "cr": 35
+        },
+        "gemini": {
+          "c": 48,
+          "s": 46,
+          "cr": 0
+        },
+        "fullenrich": {
+          "c": 77,
+          "s": 10,
+          "cr": 10
+        }
+      }
     },
     "2026-07-11": {
       "created": 107,
@@ -1225,7 +2721,32 @@
       "cVerified": 0,
       "opecCalls": 0,
       "opecCredits": 0,
-      "opecCost": 0
+      "opecCost": 0,
+      "csB": [
+        100,
+        7,
+        0,
+        0,
+        0
+      ],
+      "csBA": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "csSR": 13.25,
+      "csNR": 107,
+      "loss": {
+        "lost_weak_pure_brand": 121,
+        "lost_invalid_data": 1,
+        "lost_low_volume": 4,
+        "lost_cs_low": 8,
+        "lost_duplicate": 1,
+        "lost_nonbr_junk": 1,
+        "lost_person_cpf": 1
+      }
     },
     "2026-07-10": {
       "created": 72,
@@ -1246,7 +2767,73 @@
       "cVerified": 0,
       "opecCalls": 8,
       "opecCredits": 0,
-      "opecCost": 0
+      "opecCost": 0,
+      "csB": [
+        54,
+        7,
+        2,
+        0,
+        1
+      ],
+      "csBA": [
+        0,
+        0,
+        2,
+        0,
+        1
+      ],
+      "csSR": 12.5,
+      "csNR": 61,
+      "csSA": 8.5,
+      "csNA": 3,
+      "loss": {
+        "gd_no_opportunity": 3,
+        "lost_weak_pure_brand": 78,
+        "lost_nonbr_junk": 4,
+        "lost_cs_low": 6,
+        "lost_low_volume": 1,
+        "lost_invalid_data": 2,
+        "lost_duplicate": 1,
+        "outside_brazil": 1,
+        "lost_outside_brazil": 1
+      },
+      "prov": {
+        "apollo": {
+          "c": 117,
+          "s": 41,
+          "cr": 0
+        },
+        "fullenrich": {
+          "c": 4,
+          "s": 1,
+          "cr": 1
+        },
+        "findymail": {
+          "c": 4,
+          "s": 1,
+          "cr": 1
+        },
+        "debounce": {
+          "c": 4,
+          "s": 2,
+          "cr": 4
+        },
+        "brasilapi": {
+          "c": 3,
+          "s": 2,
+          "cr": 0
+        },
+        "gemini": {
+          "c": 10,
+          "s": 10,
+          "cr": 0
+        },
+        "cnpja": {
+          "c": 1,
+          "s": 0,
+          "cr": 1
+        }
+      }
     },
     "2026-07-07": {
       "created": 147,
@@ -1267,7 +2854,71 @@
       "cVerified": 0,
       "opecCalls": 16,
       "opecCredits": 0,
-      "opecCost": 0
+      "opecCost": 0,
+      "csB": [
+        116,
+        11,
+        4,
+        4,
+        1
+      ],
+      "csBA": [
+        0,
+        0,
+        4,
+        4,
+        1
+      ],
+      "csSR": 18.5,
+      "csNR": 127,
+      "csSA": 26,
+      "csNA": 9,
+      "loss": {
+        "lost_low_volume": 7,
+        "lost_weak_pure_brand": 132,
+        "lost_cs_low": 7,
+        "lost_person_cpf": 1,
+        "lost_ps_low": 1,
+        "cs_missing_dimensions": 2,
+        "garimpo_no_channel": 1
+      },
+      "prov": {
+        "debounce": {
+          "c": 27,
+          "s": 23,
+          "cr": 23
+        },
+        "brasilapi": {
+          "c": 4,
+          "s": 3,
+          "cr": 0
+        },
+        "cnpja": {
+          "c": 1,
+          "s": 0,
+          "cr": 1
+        },
+        "apollo": {
+          "c": 148,
+          "s": 62,
+          "cr": 0
+        },
+        "gemini": {
+          "c": 14,
+          "s": 12,
+          "cr": 0
+        },
+        "findymail": {
+          "c": 1,
+          "s": 0,
+          "cr": 0
+        },
+        "fullenrich": {
+          "c": 1,
+          "s": 0,
+          "cr": 0
+        }
+      }
     },
     "2026-07-03": {
       "created": 62,
@@ -1288,7 +2939,62 @@
       "cVerified": 0,
       "opecCalls": 8,
       "opecCredits": 0,
-      "opecCost": 0
+      "opecCost": 0,
+      "csB": [
+        51,
+        5,
+        2,
+        3,
+        4
+      ],
+      "csBA": [
+        0,
+        0,
+        2,
+        3,
+        4
+      ],
+      "csSR": 10,
+      "csNR": 56,
+      "csSA": 29.5,
+      "csNA": 9,
+      "loss": {
+        "lost_weak_pure_brand": 69,
+        "cs_missing_dimensions": 1,
+        "lost_cs_low": 9,
+        "lost_nonbr_junk": 3,
+        "lost_low_volume": 2,
+        "garimpo_no_channel": 2,
+        "lost_ps_low": 1,
+        "lost_invalid_data": 1
+      },
+      "prov": {
+        "apollo": {
+          "c": 283,
+          "s": 92,
+          "cr": 0
+        },
+        "brasilapi": {
+          "c": 22,
+          "s": 21,
+          "cr": 0
+        },
+        "gemini": {
+          "c": 36,
+          "s": 34,
+          "cr": 0
+        },
+        "cnpja": {
+          "c": 1,
+          "s": 0,
+          "cr": 1
+        },
+        "debounce": {
+          "c": 61,
+          "s": 35,
+          "cr": 35
+        }
+      }
     },
     "2026-06-11": {
       "created": 10,
