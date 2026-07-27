@@ -165,25 +165,38 @@
   .spark div{flex:1;background:var(--hold);border-radius:2px 2px 0 0;min-height:2px;opacity:.85;}
   .rb{font:700 9.5px var(--mono);text-transform:uppercase;padding:2px 6px;border-radius:5px;background:var(--hold-soft);color:var(--hold);}
 
-  /* ---- painel de operação (incidentes) ---- */
+  /* ---- painel de operação por sistema ---- */
+  .opsum{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px;}
+  .opsum .s{flex:1;min-width:118px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 15px;}
+  .opsum .s .n{font-family:var(--mono);font-size:25px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;}
+  .opsum .s .l{font-size:11.5px;color:var(--ink-dim);margin-top:6px;}
+  .opsum .s.alta .n{color:var(--leak);} .opsum .s.media .n{color:var(--hold);}
+  .agrp{margin-top:24px;}
+  .agrp-h{display:flex;align-items:center;gap:10px;padding:0 2px 10px;border-bottom:1px solid var(--line-2);margin-bottom:12px;}
+  .agrp-dot{width:11px;height:11px;border-radius:3px;flex:none;}
+  .agrp-name{font-family:var(--display);font-weight:600;font-size:17px;letter-spacing:-.01em;} .agrp-name small{color:var(--ink-dim);font-weight:400;font-size:12.5px;margin-left:6px;}
+  .agrp-sum{margin-left:auto;font:11px var(--mono);color:var(--ink-faint);} .agrp-sum b{color:var(--ink);} .agrp-sum b.hi{color:var(--leak);}
+  .agrp-ok{font-size:12.5px;color:var(--ink-dim);padding:2px 2px 4px;}
   .ops{display:flex;flex-direction:column;gap:10px;}
-  .inc{display:grid;grid-template-columns:5px 1fr;gap:0;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+  .inc{display:grid;grid-template-columns:4px 1fr;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:border-color .15s;}
+  .inc:hover{border-color:var(--brand);}
   .inc .ibar{background:var(--ink-faint);}
   .inc.alta .ibar{background:var(--leak);} .inc.media .ibar{background:var(--hold);} .inc.baixa .ibar{background:var(--teal);}
-  .inc .ibody{padding:13px 16px;min-width:0;}
-  .ihead{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-  .ihead .it{font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:-.01em;}
-  .prio{font:700 9.5px var(--mono);text-transform:uppercase;letter-spacing:.05em;padding:2px 7px;border-radius:999px;}
+  .inc .ibody{padding:14px 16px;min-width:0;}
+  .ihead{display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+  .ihead .it{font-family:var(--display);font-weight:600;font-size:15.5px;letter-spacing:-.01em;flex:1;min-width:180px;}
+  .istage{font:9.5px var(--mono);color:var(--ink-faint);border:1px solid var(--line);border-radius:5px;padding:1px 5px;}
+  .prio{font:700 9px var(--mono);text-transform:uppercase;letter-spacing:.06em;padding:3px 9px;border-radius:999px;}
   .prio.alta{background:var(--leak-soft);color:var(--leak);} .prio.media{background:var(--hold-soft);color:var(--hold);} .prio.baixa{background:var(--panel-2);color:var(--ink-dim);}
-  .imx{display:flex;gap:16px;flex-wrap:wrap;margin:9px 0 2px;}
-  .imx .im{font-size:12px;color:var(--ink-faint);} .imx .im b{font-family:var(--mono);font-size:16px;color:var(--ink);font-variant-numeric:tabular-nums;display:block;line-height:1.1;}
-  .imx .im.warn b{color:var(--leak);} .imx .im .up{color:var(--leak);font-size:11px;}
-  .iln{font-size:13px;margin-top:7px;color:var(--ink-dim);} .iln b{color:var(--ink);font-weight:600;}
-  .iln.cause{color:var(--ink-dim);} .iln.cause .det{font-family:var(--mono);font-size:12px;color:var(--ink);background:var(--panel-2);padding:1px 6px;border-radius:5px;}
-  .iln.act{color:var(--ink);} .iln.act::before{content:"→ ";color:var(--brand);font-weight:700;}
-  .ifoot{display:flex;gap:12px;flex-wrap:wrap;margin-top:9px;font:10.5px var(--mono);color:var(--ink-faint);}
-  .ifoot .own{color:var(--brand);}
-  .istage{font:10px var(--mono);color:var(--ink-faint);border:1px solid var(--line);border-radius:5px;padding:1px 5px;}
+  .imx{display:flex;gap:22px;flex-wrap:wrap;margin:12px 0 2px;}
+  .imx .im{font-size:10.5px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.04em;} .imx .im b{font-family:var(--mono);font-size:18px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;display:block;line-height:1.05;margin-bottom:3px;letter-spacing:0;}
+  .imx .im.warn b{color:var(--leak);} .imx .im .up{color:var(--leak);font-size:10px;font-weight:700;}
+  .icause,.iact{font-size:13px;margin-top:10px;display:flex;gap:9px;align-items:baseline;}
+  .icause .lbl,.iact .lbl{font:700 8.5px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--ink-faint);flex:none;width:42px;padding-top:3px;}
+  .icause code{font-family:var(--mono);font-size:11.5px;color:var(--ink);background:var(--panel-2);padding:3px 8px;border-radius:6px;word-break:break-word;line-height:1.5;}
+  .iact{background:var(--brand-soft);border-radius:8px;padding:10px 12px;margin-top:11px;} .iact .lbl{color:var(--brand);padding-top:2px;} .iact .tx{color:var(--ink);}
+  .ifoot{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:11px;font:10.5px var(--mono);color:var(--ink-faint);}
+  .ifoot .own{color:var(--brand);margin-left:auto;}
 
   /* ---- conversão por etapa (gates) ---- */
   .gates{display:flex;flex-direction:column;gap:14px;}
@@ -277,9 +290,23 @@ const INCIDENT_META={
   pescaria_travada:{acao:'Pescaria (Product BB) em loop re-checando monitoria. Ativar o fix do loop (MONITORIA_LOOP_FIX) + idempotência no activity-added.',dono:'Lia / serp-monitor'},
   bbp_vc_monitoria_ausente:{acao:'Card BBP sem monitoria da VC associada. Garantir a criação da monitoria antes de entrar no BBP.',dono:'BBP'},
   gd_no_opportunity:{acao:'Descarte legítimo (sem takedown/oportunidade). Revisar critério só se o volume subir.',dono:'Golpes'},
-  lost_low_volume:{acao:'Mercado sem agressores (histórico). Descarte majoritariamente legítimo — monitorar.',dono:'Lia'},
+  lost_low_volume:{acao:'Mercado sem agressores no SERP (histórico). Descarte majoritariamente legítimo — monitorar.',dono:'Serp Monitor'},
   lost_duplicate:{acao:'Card duplicado por domínio — dedup funcionando. Nenhuma ação.',dono:'—'},
 };
+// qual sistema é dono de cada tipo de erro (pra agrupar o painel de operação)
+const AGENT_OF={
+  lost_weak_pure_brand:'lia',lost_cs_low:'lia',cs_missing_dimensions:'lia',cs_endpoint_failed:'lia',lost_ps_low:'lia',
+  invalid_produto_principal:'lia',gd_no_opportunity:'lia',lost_duplicate:'lia',bbp_neon_query_error:'lia',bbp_vc_monitoria_ausente:'lia',represado:'lia',
+  lost_low_volume:'serp',pescaria_travada:'serp',all_campaigns_failed:'serp',monitoring_state_error:'serp',semrush_cache:'serp',
+  enrique_only_no_contact:'enrique',garimpo_no_channel:'enrique',garimpo_no_contacts:'enrique',
+};
+const agentOf=t=>t&&t.indexOf('provider_')===0?'enrique':(AGENT_OF[t]||'lia');
+const AGENTS=[
+  {key:'lia',name:'Lia',sub:'qualificação · Company Score · produto',color:'#8b7ff0'},
+  {key:'enrique',name:'Enrique',sub:'enriquecimento · contato',color:'#2f9fb1'},
+  {key:'serp',name:'Serp Monitor',sub:'monitoria · pescaria · SERP',color:'#e0a83b'},
+  {key:'leadgen',name:'Lead Generator',sub:'captação · dedup na entrada',color:'#0acfde',blind:'Sem telemetria de descarte — vive em qualification_leads_run (Supabase do Lead Gen). Adicionar LEADGEN_SUPABASE_URL/SERVICE_ROLE_KEY popula este bloco.'},
+];
 function priorityOf(i){
   const accel=i.count7/7 > (i.count/30)*1.3 && i.count7>=10;
   if(i.tecnico && (i.maxRetries>=500 || i.unresolved>=50 || accel)) return 'alta';
@@ -294,43 +321,59 @@ function impactOf(i){
   return `${nf.format(i.deals)} descartes (negócio)`;
 }
 function buildIncidents(){
-  const raw=(DATA.incidents||[]).map(i=>({...i,prio:priorityOf(i)}));
+  const raw=(DATA.incidents||[]).map(i=>({...i,prio:priorityOf(i)})).filter(i=>i.deals>=2||i.count>=3);
   const [a,b]=range(), P=aggProviders(a,b);
-  for(const p of P.filter(p=>p.errorRate>=60&&p.calls>50))raw.push({synthetic:1,type:'provider_'+p.name,label:`Enriquecimento com baixo acerto: ${p.name}`,prio:p.brl>=100?'alta':'media',tecnico:false,recoverable:false,deals:p.calls,count:p.calls,count7:0,unresolved:0,maxRetries:0,stage:'contatos',topOrgs:[],detail:`${p.errorRate}% de erro em ${nf.format(p.calls)} chamadas`,_impact:`${money(p.brl)} gastos com ${p.errorRate}% de falha`,_acao:`Reordenar/cortar ${p.name} no waterfall — está queimando crédito sem retorno proporcional.`,_dono:'Enrique'});
+  for(const p of P.filter(p=>p.errorRate>=60&&p.calls>50))raw.push({synthetic:1,type:'provider_'+p.name,label:`Waterfall com baixo acerto: ${p.name}`,prio:p.brl>=100?'alta':'media',tecnico:false,recoverable:false,deals:p.calls,_unit:'chamadas',count:p.calls,count7:0,unresolved:0,maxRetries:0,stage:'contatos',topOrgs:[],detail:`${p.errorRate}% de erro em ${nf.format(p.calls)} chamadas · ${money(p.brl)} no período`,_impact:`${money(p.brl)} gastos com ${p.errorRate}% de falha`,_acao:`Reordenar/cortar ${p.name} no waterfall — está queimando crédito sem retorno proporcional.`,_dono:'Enrique'});
   const O=DATA.openByStage||{},st=(O.golpes465||0)+(O.vm466||0);
-  if(st>100)raw.push({synthetic:1,type:'represado',label:'Golpes + VM represados sem gatilho de avanço',prio:'alta',tecnico:true,recoverable:false,deals:st,count:st,count7:0,unresolved:st,maxRetries:0,stage:'product',topOrgs:[],detail:`${nf.format(st)} cards abertos parados — só BB e fraude têm score de produto`,_impact:`${nf.format(st)} cards de capital parado`,_acao:'Implementar score/gatilho de produto p/ Golpes e VM; enquanto isso, mutirão manual de avanço.',_dono:'Lia / Produto'});
-  const cache=(function(){const w=sumRange(a,b);return w.semrushCalls?w.semrushHits/w.semrushCalls*100:100;})();
-  const wS=sumRange(a,b);
-  if(wS.semrushCalls>50&&cache<5)raw.push({synthetic:1,type:'semrush_cache',label:'Cache do Semrush praticamente zerado',prio:'media',tecnico:true,recoverable:false,deals:wS.semrushCalls,count:wS.semrushCalls,count7:0,unresolved:0,maxRetries:0,stage:'monitoria',topOrgs:[],detail:`cache em ${pct(cache)} · ${nf.format(wS.semrushUnits)} units no período`,_impact:`${nf.format(wS.semrushUnits)} units quase todas cobradas (re-consulta)`,_acao:'Consertar a camada de cache do Semrush pra parar de re-consultar o mesmo termo e queimar crédito.',_dono:'Enrique / RevOps'});
+  if(st>100)raw.push({synthetic:1,type:'represado',label:'Golpes + VM represados sem gatilho de avanço',prio:'alta',tecnico:true,recoverable:false,deals:st,_unit:'cards',count:st,count7:0,unresolved:st,maxRetries:0,stage:'product',topOrgs:[],detail:`${nf.format(st)} cards abertos parados — só BB e fraude têm score de produto`,_impact:`${nf.format(st)} cards de capital parado`,_acao:'Implementar score/gatilho de produto p/ Golpes e VM; enquanto isso, mutirão manual de avanço.',_dono:'Lia / Produto'});
+  const wS=sumRange(a,b), cache=wS.semrushCalls?wS.semrushHits/wS.semrushCalls*100:100;
+  if(wS.semrushCalls>50&&cache<5)raw.push({synthetic:1,type:'semrush_cache',label:'Cache do Semrush praticamente zerado',prio:'media',tecnico:true,recoverable:false,deals:wS.semrushCalls,_unit:'chamadas',count:wS.semrushCalls,count7:0,unresolved:0,maxRetries:0,stage:'monitoria',topOrgs:[],detail:`cache em ${pct(cache)} · ${nf.format(wS.semrushUnits)} units no período`,_impact:`${nf.format(wS.semrushUnits)} units quase todas cobradas (re-consulta)`,_acao:'Consertar a camada de cache do Semrush pra parar de re-consultar o mesmo termo e queimar crédito.',_dono:'Serp Monitor / RevOps'});
   const order={alta:0,media:1,baixa:2};
+  raw.forEach(i=>{if(!i.agent)i.agent=agentOf(i.type);});
   return raw.sort((x,y)=>order[x.prio]-order[y.prio] || (y.deals||0)-(x.deals||0));
 }
+function incCard(i){
+  const meta=INCIDENT_META[i.type]||{};
+  const acao=i._acao||meta.acao||(i.tecnico?'Investigar o detalhe do erro e reprocessar os cards afetados.':i.recoverable?'Auditar amostra e reprocessar os recuperáveis.':'Revisar critério de descarte.');
+  const dono=i._dono||meta.dono||'RevOps';
+  const impact=i._impact||impactOf(i);
+  const accel=i.count7/7 > (i.count/30)*1.3 && i.count7>=10;
+  const selo=i.tecnico?'<span class="selo tec">TÉC</span>':(i.recoverable?'<span class="selo rec">RECUP</span>':'');
+  return `<div class="inc ${i.prio}"><div class="ibar"></div><div class="ibody">
+    <div class="ihead"><span class="it">${esc(i.label)}</span>${i.stage?`<span class="istage">@${esc(i.stage)}</span>`:''}${selo}<span class="prio ${i.prio}">${i.prio}</span></div>
+    <div class="imx">
+      <span class="im"><b>${nf.format(i.deals)}</b>${i._unit||'cards afetados'}</span>
+      <span class="im"><b>${nf.format(i.count)}</b>ocorrências${i.count7?` <span class="up">${accel?'▲ ':''}${nf.format(i.count7)}/7d</span>`:''}</span>
+      ${i.unresolved?`<span class="im warn"><b>${nf.format(i.unresolved)}</b>não resolvidos</span>`:''}
+      ${i.maxRetries>=100?`<span class="im warn"><b>${nf.format(i.maxRetries)}</b>retries (loop)</span>`:''}
+    </div>
+    <div class="icause"><span class="lbl">Impacto</span><span class="tx">${impact}</span></div>
+    ${i.detail?`<div class="icause"><span class="lbl">Causa</span><code>${esc(i.detail)}</code></div>`:''}
+    <div class="iact"><span class="lbl">Ação</span><span class="tx">${esc(acao)}</span></div>
+    <div class="ifoot">${i.topOrgs&&i.topOrgs.length?`ex.: ${i.topOrgs.map(o=>esc(o.n)).join(' · ')}`:''}<span class="own">dono: ${esc(dono)}</span></div>
+  </div></div>`;
+}
 function opsHtml(){
-  const I=buildIncidents(); if(!I.length)return `<div class="note">Sem incidentes no período. 🎉</div>`;
-  const n={alta:0,media:0,baixa:0}; I.forEach(x=>n[x.prio]++);
-  let h=`<div class="note" style="margin-bottom:12px"><b style="color:var(--leak)">${n.alta} alta</b> · <b style="color:var(--hold)">${n.media} média</b> · <b>${n.baixa} baixa</b> — ordenados por prioridade. Reflete a operação dos últimos 30 dias.</div><div class="ops">`;
-  for(const i of I.slice(0,16)){
-    const meta=INCIDENT_META[i.type]||{};
-    const acao=i._acao||meta.acao||(i.tecnico?'Investigar o detalhe do erro e reprocessar os cards afetados.':i.recoverable?'Auditar amostra e reprocessar os recuperáveis.':'Revisar critério de descarte.');
-    const dono=i._dono||meta.dono||'RevOps';
-    const impact=i._impact||impactOf(i);
-    const accel=i.count7/7 > (i.count/30)*1.3 && i.count7>=10;
-    const selo=i.tecnico?'<span class="selo tec">TÉC</span>':(i.recoverable?'<span class="selo rec">RECUP</span>':'');
-    h+=`<div class="inc ${i.prio}"><div class="ibar"></div><div class="ibody">
-      <div class="ihead"><span class="it">${esc(i.label)}</span><span class="prio ${i.prio}">${i.prio}</span>${selo}${i.stage?`<span class="istage">@${esc(i.stage)}</span>`:''}</div>
-      <div class="imx">
-        <span class="im"><b>${nf.format(i.deals)}</b>cards afetados</span>
-        <span class="im"><b>${nf.format(i.count)}</b>ocorrências${i.count7?` <span class="up">${accel?'▲ ':''}${nf.format(i.count7)}/7d</span>`:''}</span>
-        ${i.unresolved?`<span class="im warn"><b>${nf.format(i.unresolved)}</b>não resolvidos</span>`:''}
-        ${i.maxRetries>=100?`<span class="im warn"><b>${nf.format(i.maxRetries)}</b>retries (loop)</span>`:''}
-      </div>
-      <div class="iln">Impacto: ${impact}</div>
-      ${i.detail?`<div class="iln cause">Causa: <span class="det">${esc(i.detail)}</span></div>`:''}
-      <div class="iln act">${esc(acao)}</div>
-      <div class="ifoot">${i.topOrgs&&i.topOrgs.length?`ex.: ${i.topOrgs.map(o=>esc(o.n)).join(' · ')}`:''}<span class="own">dono: ${esc(dono)}</span></div>
-    </div></div>`;
+  const I=buildIncidents();
+  const n={alta:0,media:0,baixa:0}; let cards=0;
+  I.forEach(x=>{n[x.prio]++; if(!x.synthetic)cards+=x.deals||0;});
+  let h=`<div class="opsum">
+    <div class="s alta"><div class="n">${n.alta}</div><div class="l">prioridade alta</div></div>
+    <div class="s media"><div class="n">${n.media}</div><div class="l">prioridade média</div></div>
+    <div class="s"><div class="n">${nf.format(I.length)}</div><div class="l">incidentes ativos</div></div>
+    <div class="s"><div class="n">${nf.format(cards)}</div><div class="l">cards impactados (30d)</div></div>
+  </div>`;
+  for(const ag of AGENTS){
+    const list=I.filter(x=>x.agent===ag.key);
+    const na=list.filter(x=>x.prio==='alta').length, nd=list.reduce((s,x)=>s+(x.synthetic?0:(x.deals||0)),0);
+    h+=`<div class="agrp"><div class="agrp-h"><span class="agrp-dot" style="background:${ag.color}"></span>
+      <span class="agrp-name">${ag.name} <small>${ag.sub}</small></span>
+      <span class="agrp-sum">${list.length?`<b>${list.length}</b> incidente${list.length>1?'s':''}${na?` · <b class="hi">${na} alta</b>`:''}${nd?` · <b>${nf.format(nd)}</b> cards`:''}`:'sem incidentes'}</span></div>`;
+    if(!list.length) h+=`<div class="agrp-ok">${ag.blind?ag.blind:'Nenhum erro ou anomalia registrado no período. ✓'}</div>`;
+    else h+=`<div class="ops">`+list.slice(0,6).map(incCard).join('')+(list.length>6?`<div class="agrp-ok">+ ${list.length-6} incidentes menores neste sistema</div>`:'')+`</div>`;
+    h+=`</div>`;
   }
-  return h+`</div>`;
+  return h;
 }
 // ---- Conversão por etapa (gates entra/avança/perde + motivos) ----
 const STAGE_OF={lost_weak_pure_brand:'cs',lost_cs_low:'cs',lost_low_volume:'cs',lost_duplicate:'cs',cs_missing_dimensions:'cs',cs_endpoint_failed:'cs',
@@ -386,9 +429,6 @@ function render(){
       <div class="eff"><div class="v leak">${nf.format(represado)}</div><div class="k"><b>Capital represado</b> (Golpes+VM)</div><div class="d">parados sem gatilho de avanço</div></div>
     </div></div>`;
   h+=alertsHtml(w,cache,LS);
-
-  // ===== PAINEL DE OPERAÇÃO (o que está quebrado e o que fazer) =====
-  h+=`<div class="eyebrow">Operação do dia</div><h2>Erros &amp; anomalias — o que corrigir agora <span class="tag">· últimos 30d</span></h2>`+opsHtml();
 
   // ===== CONVERSÃO por etapa =====
   h+=`<div class="eyebrow">Entra · avança · perde</div><h2>Conversão por etapa <span class="tag">· ${wlabel()}</span></h2>`+conversaoHtml(w);
@@ -467,6 +507,9 @@ function render(){
 
   // ===== Tendência =====
   h+=`<div class="eyebrow">Tendência</div><h2>Comparativo por janela <span class="tag">· ritmo/dia</span></h2>`+cmpHtml();
+
+  // ===== PAINEL DE OPERAÇÃO — por último, agrupado por sistema =====
+  h+=`<div class="eyebrow">Operação — o que corrigir</div><h2>Erros &amp; anomalias por sistema <span class="tag">· últimos 30d</span></h2>`+opsHtml();
   document.getElementById('app').innerHTML=h;
 }
 
