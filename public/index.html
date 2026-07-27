@@ -4,292 +4,369 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Observabilidade RevOps — Branddi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#002b36;--surface:#003847;--surface-2:#004c54;--border:#0c5560;--border-soft:#0a4a53;--text:#fff;--text-dim:#94a3b8;--text-faint:#6f8790;--accent:#0acfde;--accent-contrast:#002b36;--accent-soft:rgba(10,207,222,.12);--good:#34d399;--good-soft:rgba(52,211,153,.14);--warn:#fbbf24;--warn-soft:rgba(251,191,36,.14);--crit:#f87171;--crit-soft:rgba(248,113,113,.16);--turq:#299fb1;--radius:12px;--display:'Archivo','Inter',system-ui,sans-serif;--sans:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;--mono:ui-monospace,'SF Mono','Cascadia Code',Consolas,monospace;--shadow:0 1px 2px rgba(0,0,0,.25),0 8px 24px rgba(0,0,0,.18);}
-  @media(prefers-color-scheme:light){:root{--bg:#eef4f5;--surface:#fff;--surface-2:#e3edef;--border:#cbdcdf;--border-soft:#dbe8ea;--text:#002b36;--text-dim:#4a6570;--text-faint:#7c949b;--accent:#087f8c;--accent-contrast:#002b36;--accent-soft:rgba(8,127,140,.10);--good:#059669;--good-soft:rgba(5,150,105,.12);--warn:#b45309;--warn-soft:rgba(180,83,9,.12);--crit:#dc2626;--crit-soft:rgba(220,38,38,.10);--turq:#0f6f7c;--shadow:0 1px 2px rgba(0,43,54,.05),0 6px 20px rgba(0,43,54,.06);}}
-  *{box-sizing:border-box;}body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;margin:0;-webkit-font-smoothing:antialiased;}
-  .wrap{max-width:1200px;margin:0 auto;padding:0 24px 90px;}
-  header.mast{padding:44px 0 16px;}
-  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:600;display:flex;align-items:center;gap:9px;}.kicker::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);}
-  h1{font-family:var(--display);font-size:clamp(28px,4.4vw,42px);line-height:1.06;letter-spacing:-.02em;margin:14px 0 0;font-weight:300;}h1 b{font-weight:600;color:var(--accent);}
-  .sub{font-size:16px;color:var(--text-dim);max-width:72ch;margin:14px 0 0;}
-  .toolbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-soft);padding:12px 0;margin-top:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
-  .seg{display:inline-flex;background:var(--surface-2);border-radius:999px;padding:4px;gap:2px;border:1px solid var(--border);}
-  .seg button{font-family:var(--sans);font-size:13px;font-weight:600;padding:8px 15px;border-radius:999px;border:none;background:transparent;color:var(--text-dim);cursor:pointer;}
-  .seg button.on{background:var(--accent);color:var(--accent-contrast);}.seg button:hover:not(.on){color:var(--text);}
-  .custom{display:none;align-items:center;gap:7px;font-size:12.5px;color:var(--text-faint);}
-  .custom.show{display:flex;}
-  .custom input{font-family:var(--mono);font-size:12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 8px;color:var(--text);}
-  .custom button{font-family:var(--sans);font-size:12px;font-weight:600;border:1px solid var(--accent);background:var(--accent);color:var(--accent-contrast);border-radius:8px;padding:7px 12px;cursor:pointer;}
-  .hint{font-size:12.5px;color:var(--text-faint);}.hint b{color:var(--accent);font-family:var(--mono);}
-  .zone{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:38px 0 4px;}
-  h2{font-family:var(--display);font-size:21px;margin:24px 0 0;font-weight:600;}
-  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(176px,1fr));gap:13px;margin-top:15px;}
-  .kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:17px 19px;box-shadow:var(--shadow);}
-  .kpi .v{font-family:var(--display);font-size:27px;font-weight:600;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums;}
-  .kpi .v.accent{color:var(--accent);}.kpi .v.crit{color:var(--crit);}.kpi .v.good{color:var(--good);}.kpi .v.warn{color:var(--warn);}
-  .kpi .l{font-size:12.5px;color:var(--text-dim);margin-top:7px;}.kpi .pd{font-family:var(--mono);font-size:11px;color:var(--text-faint);margin-top:2px;}
-  .funnel{margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);}
-  .fstage{display:flex;align-items:center;gap:12px;padding:5px 0;}.fstage .fl{width:180px;flex:none;font-size:13px;}.fstage .fl small{display:block;color:var(--text-faint);font-family:var(--mono);font-size:10.5px;}
-  .fbarwrap{flex:1;}.fbar{height:38px;border-radius:8px;background:linear-gradient(90deg,var(--accent),var(--turq));display:flex;align-items:center;padding-left:12px;color:var(--accent-contrast);font-family:var(--mono);font-weight:700;font-size:13px;min-width:64px;transition:width .3s;}
-  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);}
-  .loss{margin-top:14px;display:flex;flex-direction:column;gap:8px;}
-  .lrow{display:grid;grid-template-columns:170px 1fr 100px;align-items:center;gap:12px;font-size:13px;}
-  .lrow .ll{color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .lrow .lt{height:18px;background:var(--surface-2);border-radius:5px;overflow:hidden;}.lrow .lf{height:100%;border-radius:5px;background:var(--crit);}
-  .lrow .lv{font-family:var(--mono);text-align:right;font-weight:600;font-size:12px;}.lrow .lv small{color:var(--text-faint);font-weight:400;}.lrow .lv .up{color:var(--crit);}.lrow .lv .dn{color:var(--good);}
-  .projgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;margin-top:14px;}
-  .proj .pn{font-family:var(--display);font-weight:600;font-size:15px;margin-bottom:8px;}.proj .pn small{color:var(--text-faint);font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.05em;display:block;}
-  .pmet{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-top:1px dashed var(--border-soft);}.pmet:first-of-type{border-top:none;}.pmet .pv{font-family:var(--mono);font-weight:700;}
-  .cmp{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:13px;margin-top:14px;}
-  .cmpc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:15px;box-shadow:var(--shadow);}
-  .cmpc .ct{font-size:12px;color:var(--text-dim);margin-bottom:10px;}
-  .cmpbars{display:flex;gap:8px;align-items:flex-end;height:64px;}.cmpbars .cb{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;height:100%;}
-  .cmpbars .cbar{width:100%;border-radius:3px 3px 0 0;min-height:3px;}.cmpbars .cbl{font-family:var(--mono);font-size:9px;color:var(--text-faint);}.cmpbars .cbv{font-family:var(--mono);font-size:10px;font-weight:700;}
-  .alerts{margin-top:14px;display:flex;flex-direction:column;gap:9px;}
-  .alert{display:grid;grid-template-columns:12px 1fr auto;gap:13px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px 15px;box-shadow:var(--shadow);}
-  .alert .dot{width:10px;height:10px;border-radius:50%;}.alert.red{border-left:3px solid var(--crit);}.alert.red .dot{background:var(--crit);}.alert.amber{border-left:3px solid var(--warn);}.alert.amber .dot{background:var(--warn);}.alert.green{border-left:3px solid var(--good);}.alert.green .dot{background:var(--good);}
-  .alert .txt{font-size:13px;}.alert .st{font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;}.alert.red .st{color:var(--crit);}.alert.amber .st{color:var(--warn);}.alert.green .st{color:var(--good);}
-  .note{border:1px solid var(--border);border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:var(--radius);padding:13px 16px;margin-top:16px;font-size:13.5px;}.note .tag{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--accent);display:block;margin-bottom:4px;}.note b{font-weight:700;}
-  .footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--border-soft);font-size:12px;color:var(--text-faint);}
-  .rb{font-family:var(--mono);font-size:9.5px;font-weight:700;text-transform:uppercase;padding:2px 6px;border-radius:5px;background:var(--warn-soft);color:var(--warn);}
-  #err{display:none;background:var(--crit-soft);border:1px solid var(--crit);color:var(--crit);border-radius:10px;padding:14px;margin-top:20px;font-size:14px;}
+  :root{
+    --bg:#00212b; --panel:#00303d; --panel-2:#00404e; --line:#0c5560; --line-2:#0a4954;
+    --ink:#eef7f8; --ink-dim:#8fa6ad; --ink-faint:#5f7981;
+    --brand:#0acfde; --brand-ink:#00212b; --brand-soft:rgba(10,207,222,.10);
+    --pass:#3ddc97; --pass-soft:rgba(61,220,151,.12);
+    --leak:#ff6b6b; --leak-soft:rgba(255,107,107,.13);
+    --hold:#ffc24b; --hold-soft:rgba(255,194,75,.13);
+    --teal:#2f9fb1;
+    --r:14px; --shadow:0 1px 0 rgba(255,255,255,.02),0 10px 30px rgba(0,10,14,.35);
+    --display:'Archivo','Inter',system-ui,sans-serif; --sans:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    --mono:ui-monospace,'SF Mono','Cascadia Code',Consolas,monospace;
+  }
+  @media(prefers-color-scheme:light){:root{
+    --bg:#f2f6f7; --panel:#ffffff; --panel-2:#eaf1f2; --line:#d3e0e2; --line-2:#e2ebec;
+    --ink:#032630; --ink-dim:#4a6570; --ink-faint:#88a0a7;
+    --brand:#078590; --brand-ink:#ffffff; --brand-soft:rgba(7,133,144,.09);
+    --pass:#0e9f6e; --pass-soft:rgba(14,159,110,.11); --leak:#e5484d; --leak-soft:rgba(229,72,77,.10);
+    --hold:#b8770a; --hold-soft:rgba(184,119,10,.12); --teal:#0e7c8c;
+    --shadow:0 1px 0 rgba(0,0,0,.02),0 8px 22px rgba(3,38,48,.07);
+  }}
+  :root[data-theme="dark"]{color-scheme:dark;}
+  :root[data-theme="light"]{--bg:#f2f6f7;--panel:#ffffff;--panel-2:#eaf1f2;--line:#d3e0e2;--line-2:#e2ebec;--ink:#032630;--ink-dim:#4a6570;--ink-faint:#88a0a7;--brand:#078590;--brand-ink:#fff;--brand-soft:rgba(7,133,144,.09);--pass:#0e9f6e;--pass-soft:rgba(14,159,110,.11);--leak:#e5484d;--leak-soft:rgba(229,72,77,.10);--hold:#b8770a;--hold-soft:rgba(184,119,10,.12);--teal:#0e7c8c;--shadow:0 1px 0 rgba(0,0,0,.02),0 8px 22px rgba(3,38,48,.07);color-scheme:light;}
+
+  *{box-sizing:border-box;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55;margin:0;-webkit-font-smoothing:antialiased;font-size:15px;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px 100px;}
+  .mono{font-family:var(--mono);}
+  .num{font-variant-numeric:tabular-nums;font-family:var(--mono);}
+
+  /* ---- masthead ---- */
+  header.mast{padding:40px 0 14px;}
+  .kick{font-family:var(--mono);font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--brand);font-weight:600;display:flex;align-items:center;gap:9px;}
+  .kick::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--brand);box-shadow:0 0 12px var(--brand);}
+  h1{font-family:var(--display);font-size:clamp(27px,4.2vw,40px);line-height:1.04;letter-spacing:-.02em;margin:12px 0 0;font-weight:320;text-wrap:balance;}
+  h1 b{font-weight:640;color:var(--brand);}
+  .lede{font-size:16px;color:var(--ink-dim);max-width:70ch;margin:12px 0 0;}
+
+  /* ---- toolbar ---- */
+  .bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-2);padding:11px 0;margin-top:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+  .seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px;}
+  .seg button{font:600 13px var(--sans);padding:7px 15px;border-radius:999px;border:none;background:transparent;color:var(--ink-dim);cursor:pointer;transition:.15s;}
+  .seg button.on{background:var(--brand);color:var(--brand-ink);}
+  .seg button:hover:not(.on){color:var(--ink);}
+  .seg button:focus-visible{outline:2px solid var(--brand);outline-offset:2px;}
+  .cbox{display:none;align-items:center;gap:7px;font-size:12px;color:var(--ink-faint);}
+  .cbox.show{display:flex;}
+  .cbox input{font:12px var(--mono);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 8px;color:var(--ink);}
+  .cbox button{font:600 12px var(--sans);border:1px solid var(--brand);background:var(--brand);color:var(--brand-ink);border-radius:8px;padding:7px 12px;cursor:pointer;}
+  .hint{font-size:12px;color:var(--ink-faint);}.hint b{color:var(--brand);font-family:var(--mono);}
+
+  /* ---- section eyebrow ---- */
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;margin:44px 0 2px;}
+  h2{font-family:var(--display);font-size:20px;letter-spacing:-.01em;margin:2px 0 0;font-weight:600;}
+  h2 .tag{font:400 11px var(--mono);color:var(--ink-faint);letter-spacing:0;text-transform:none;margin-left:8px;}
+  .sub{color:var(--ink-dim);font-size:13.5px;margin:8px 0 0;max-width:80ch;}
+
+  /* ---- HERO efficiency band ---- */
+  .hero{margin-top:22px;background:radial-gradient(120% 140% at 88% -10%,var(--brand-soft),transparent 55%),var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:26px 28px;box-shadow:var(--shadow);}
+  .hero .thesis{font-family:var(--display);font-weight:320;font-size:clamp(18px,2.4vw,25px);line-height:1.3;letter-spacing:-.01em;max-width:34ch;}
+  .hero .thesis b{font-weight:640;color:var(--brand);}
+  .effgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:2px;margin-top:24px;background:var(--line-2);border:1px solid var(--line-2);border-radius:12px;overflow:hidden;}
+  .eff{background:var(--panel);padding:16px 18px;}
+  .eff .v{font-family:var(--display);font-weight:600;font-size:30px;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums;}
+  .eff .v.pass{color:var(--pass);} .eff .v.leak{color:var(--leak);} .eff .v.hold{color:var(--hold);} .eff .v.brand{color:var(--brand);}
+  .eff .k{font-size:12px;color:var(--ink-dim);margin-top:8px;line-height:1.35;}
+  .eff .k b{color:var(--ink);}
+  .eff .d{font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);margin-top:3px;}
+
+  /* ---- funnel (survival) ---- */
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;box-shadow:var(--shadow);margin-top:16px;}
+  .fn{display:flex;flex-direction:column;gap:0;}
+  .fn-stage{display:grid;grid-template-columns:180px 1fr 128px;align-items:center;gap:14px;}
+  .fn-lab{font-size:14px;font-weight:600;} .fn-lab small{display:block;font:400 10.5px var(--mono);color:var(--ink-faint);text-transform:uppercase;letter-spacing:.05em;margin-top:2px;}
+  .fn-track{height:38px;background:var(--panel-2);border-radius:8px;overflow:hidden;display:flex;}
+  .fn-fill{height:100%;background:linear-gradient(90deg,var(--brand),var(--teal));display:flex;align-items:center;padding-left:13px;color:var(--brand-ink);font:700 13px var(--mono);min-width:52px;transition:width .4s cubic-bezier(.2,.8,.2,1);}
+  .fn-fill.pass{background:linear-gradient(90deg,var(--pass),color-mix(in srgb,var(--pass) 60%,var(--panel-2)));}
+  .fn-n{text-align:right;font:700 15px var(--mono);font-variant-numeric:tabular-nums;}
+  .fn-n small{display:block;font-weight:400;font-size:11px;color:var(--ink-faint);}
+  .fn-gap{display:grid;grid-template-columns:180px 1fr 128px;gap:14px;padding:5px 0;}
+  .fn-conv{grid-column:2;font:600 11.5px var(--mono);color:var(--ink-dim);display:flex;align-items:center;gap:12px;padding-left:2px;}
+  .fn-conv .drop{color:var(--leak);} .fn-conv .keep{color:var(--pass);}
+
+  /* ---- KPI mini ---- */
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:16px;}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 17px;box-shadow:var(--shadow);}
+  .kpi .v{font-family:var(--display);font-weight:600;font-size:24px;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums;}
+  .kpi .v.pass{color:var(--pass);}.kpi .v.leak{color:var(--leak);}.kpi .v.hold{color:var(--hold);}.kpi .v.brand{color:var(--brand);}
+  .kpi .k{font-size:12px;color:var(--ink-dim);margin-top:7px;}
+  .kpi .d{font:11px var(--mono);color:var(--ink-faint);margin-top:2px;}
+
+  /* ---- histogram ---- */
+  .histo{display:flex;gap:14px;align-items:flex-end;height:158px;padding-top:6px;}
+  .histo .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:7px;height:100%;}
+  .histo .cn{font:700 12px var(--mono);}
+  .histo .stk{width:100%;display:flex;flex-direction:column;justify-content:flex-end;border-radius:6px 6px 0 0;overflow:hidden;min-height:3px;}
+  .histo .stk .a{background:var(--pass);} .histo .stk .r{background:var(--leak);}
+  .histo .cl{font:11px var(--mono);color:var(--ink-dim);}
+  .cutline{position:relative;border-left:2px dashed var(--hold);}
+
+  /* ---- bars (loss list) ---- */
+  .bars{display:flex;flex-direction:column;gap:9px;}
+  .row{display:grid;grid-template-columns:176px 1fr 104px;align-items:center;gap:13px;font-size:13px;}
+  .row .l{color:var(--ink-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .row .t{height:16px;background:var(--panel-2);border-radius:5px;overflow:hidden;}
+  .row .f{height:100%;border-radius:5px;background:var(--brand);}
+  .row .n{text-align:right;font:600 12px var(--mono);font-variant-numeric:tabular-nums;}
+  .row .n small{color:var(--ink-faint);font-weight:400;} .row .n .up{color:var(--leak);}.row .n .dn{color:var(--pass);}
+  .selo{font:700 9px var(--mono);padding:1px 5px;border-radius:4px;letter-spacing:.03em;}
+  .selo.rec{background:var(--hold-soft);color:var(--hold);} .selo.tec{background:var(--leak-soft);color:var(--leak);}
+
+  /* composition bar */
+  .comp{display:flex;height:32px;border-radius:9px;overflow:hidden;border:1px solid var(--line);margin-top:14px;font:700 11px var(--mono);}
+  .comp div{display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden;}
+
+  /* project cards */
+  .proj3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:16px;}
+  .pc .ph{font-family:var(--display);font-weight:600;font-size:15px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:baseline;}
+  .pc .ph small{font:400 10px var(--mono);color:var(--ink-faint);text-transform:uppercase;letter-spacing:.05em;}
+  .pm{display:flex;justify-content:space-between;font-size:13px;padding:6.5px 0;border-top:1px solid var(--line-2);}
+  .pm:first-of-type{border-top:none;} .pm .pv{font:700 13px var(--mono);}
+
+  /* table */
+  .tw{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);margin-top:16px;background:var(--panel);box-shadow:var(--shadow);}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:520px;}
+  th{background:var(--panel-2);text-align:left;font:600 10.5px var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--ink-dim);padding:10px 13px;border-bottom:1px solid var(--line);white-space:nowrap;}
+  th.r,td.r{text-align:right;} td{padding:10px 13px;border-bottom:1px solid var(--line-2);} tr:last-child td{border-bottom:none;}
+
+  /* comparativo */
+  .cmp{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:16px;}
+  .cmpc{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px;box-shadow:var(--shadow);}
+  .cmpc .ct{font-size:12px;color:var(--ink-dim);margin-bottom:11px;}
+  .cbars{display:flex;gap:9px;align-items:flex-end;height:60px;}
+  .cbars .cb{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;height:100%;}
+  .cbars .cbar{width:100%;border-radius:3px 3px 0 0;min-height:3px;}
+  .cbars .cl{font:9px var(--mono);color:var(--ink-faint);}.cbars .cvv{font:700 10px var(--mono);}
+
+  /* alerts + gargalos */
+  .alerts{display:flex;flex-direction:column;gap:8px;margin-top:16px;}
+  .al{display:grid;grid-template-columns:8px 1fr auto;gap:13px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 15px;box-shadow:var(--shadow);}
+  .al .dot{width:8px;height:8px;border-radius:50%;}
+  .al.red{border-left:2px solid var(--leak);}.al.red .dot{background:var(--leak);}
+  .al.amber{border-left:2px solid var(--hold);}.al.amber .dot{background:var(--hold);}
+  .al.green{border-left:2px solid var(--pass);}.al.green .dot{background:var(--pass);}
+  .al .tx{font-size:13px;} .al .st{font:700 10px var(--mono);text-transform:uppercase;}
+  .al.red .st{color:var(--leak);}.al.amber .st{color:var(--hold);}.al.green .st{color:var(--pass);}
+  .gk{display:grid;grid-template-columns:9px 1fr auto;gap:12px;align-items:start;padding:12px 0;border-top:1px solid var(--line-2);}
+  .gk:first-child{border-top:none;} .gk .gd{width:9px;height:9px;border-radius:50%;margin-top:4px;}
+  .gk .gt{font-weight:600;font-size:13.5px;} .gk .gt .sv{font:700 9px var(--mono);text-transform:uppercase;}
+  .gk .gw{font-size:12.5px;color:var(--ink-dim);margin-top:3px;} .gk .go{font:10px var(--mono);color:var(--ink-faint);white-space:nowrap;}
+
+  .note{border:1px solid var(--line);background:var(--panel-2);border-radius:12px;padding:13px 16px;margin-top:14px;font-size:13.5px;color:var(--ink-dim);}
+  .note b{color:var(--ink);font-weight:640;} .note .tag{font:700 10px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--brand);display:block;margin-bottom:4px;}
+  .note.leak{border-color:color-mix(in srgb,var(--leak) 35%,var(--line));background:var(--leak-soft);} .note.leak .tag{color:var(--leak);}
+  .spark{display:flex;gap:3px;align-items:flex-end;height:52px;margin-top:14px;}
+  .spark div{flex:1;background:var(--hold);border-radius:2px 2px 0 0;min-height:2px;opacity:.85;}
+  .rb{font:700 9.5px var(--mono);text-transform:uppercase;padding:2px 6px;border-radius:5px;background:var(--hold-soft);color:var(--hold);}
+  .foot{margin-top:46px;padding-top:18px;border-top:1px solid var(--line-2);font-size:12px;color:var(--ink-faint);}
+  #err{display:none;background:var(--leak-soft);border:1px solid var(--leak);color:var(--leak);border-radius:10px;padding:14px;margin-top:20px;}
+  @media(max-width:640px){.fn-stage,.fn-gap{grid-template-columns:110px 1fr 84px;}.row{grid-template-columns:120px 1fr 78px;}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="mast">
-    <div class="kicker">Branddi · RevOps · Observabilidade</div>
-    <h1>Saúde do <b>Processo de Enriquecimento</b></h1>
-    <p class="sub">Lead Generator → Lia → Enrique. Atualizado todo dia. Escolha o período (presets ou datas) e todos os indicadores recalculam a partir da série diária real.</p>
+    <div class="kick">Branddi · RevOps · Observabilidade</div>
+    <h1>Eficiência do <b>funil de qualificação</b></h1>
+    <p class="lede">Lead Generator → Lia → Enrique → Prospecção. Quanto entra, quanto passa, e onde vaza — com o dado real de produção, atualizado todo dia.</p>
   </header>
-  <div class="toolbar">
-    <div class="seg" id="seg">
-      <button data-w="hoje">Hoje</button><button data-w="7">7 dias</button><button data-w="15">15 dias</button><button data-w="30" class="on">30 dias</button><button data-w="custom">Personalizado</button>
-    </div>
-    <div class="custom" id="customBox">
-      <input type="date" id="fromD"> <span>→</span> <input type="date" id="toD"> <button id="applyC">Aplicar</button>
-    </div>
-    <span class="hint">Período: <b id="winlbl">30 dias</b></span>
-    <span class="hint" id="updated"></span>
+  <div class="bar">
+    <div class="seg" id="seg"><button data-w="hoje">Hoje</button><button data-w="7">7d</button><button data-w="15">15d</button><button data-w="30" class="on">30d</button><button data-w="custom">Período</button></div>
+    <div class="cbox" id="cbox"><input type="date" id="fromD"> <span>→</span> <input type="date" id="toD"> <button id="applyC">Aplicar</button></div>
+    <span class="hint">Janela: <b id="winlbl">30 dias</b></span><span class="hint" id="upd"></span>
   </div>
   <div id="err"></div>
   <main id="app"></main>
-  <div class="footer" id="footer"></div>
+  <div class="foot" id="foot"></div>
 </div>
 
 <!--INLINE_DATA-->
 <script>
-const nf = new Intl.NumberFormat('pt-BR');
-const money = v => 'R$ ' + (+v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
-const pct = v => (+v||0).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1}) + '%';
-let DATA=null, mode='30', cFrom=null, cTo=null;
+const nf=new Intl.NumberFormat('pt-BR');
+const money=v=>'R$ '+(+v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const pct=(v,d=1)=>(+v||0).toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d})+'%';
+const p0=v=>Math.round(+v||0)+'%';
+let DATA=null,mode='30',cFrom=null,cTo=null;
 
-function dayMinus(anchor,n){ const d=new Date(anchor+'T12:00:00Z'); d.setUTCDate(d.getUTCDate()-n); return d.toISOString().slice(0,10); }
-function range(){ const t=DATA.todayBRT||Object.keys(DATA.daily||{}).sort().pop(); if(mode==='hoje')return[t,t]; if(mode==='7')return[dayMinus(t,6),t]; if(mode==='15')return[dayMinus(t,14),t]; if(mode==='30')return[dayMinus(t,29),t]; return[cFrom||dayMinus(t,29), cTo||t]; }
-function nDays(a,b){ return Math.max(1, Math.round((new Date(b+'T12Z')-new Date(a+'T12Z'))/864e5)+1); }
-function sumRange(a,b){ const acc={created:0,lost:0,lost462:0,csScored:0,csApproved:0,autoTotal:0,infra:0,semrushUnits:0,semrushCalls:0,semrushHits:0,contactsNew:0,cEmail:0,cLinkedin:0,cPhone:0,cApollo:0,cVerified:0,opecCalls:0,opecCredits:0,opecCost:0}; const dd=DATA.daily||{}; for(const k in dd){ if(k>=a&&k<=b){ for(const f in acc) acc[f]+=(dd[k][f]||0); } } return acc; }
-function label(){ const [a,b]=range(); if(mode==='hoje')return 'hoje ('+a+')'; if(mode==='custom')return a+' → '+b; return mode+' dias'; }
-
-function kpi(v,l,cls,pd){ return `<div class="kpi"><div class="v ${cls||''}">${v}</div><div class="l">${l}</div>${pd?`<div class="pd">${pd}</div>`:''}</div>`; }
+const dayMinus=(a,n)=>{const d=new Date(a+'T12:00:00Z');d.setUTCDate(d.getUTCDate()-n);return d.toISOString().slice(0,10);};
+function range(){const t=DATA.todayBRT||Object.keys(DATA.daily||{}).sort().pop();if(mode==='hoje')return[t,t];if(mode==='7')return[dayMinus(t,6),t];if(mode==='15')return[dayMinus(t,14),t];if(mode==='30')return[dayMinus(t,29),t];return[cFrom||dayMinus(t,29),cTo||t];}
+const nDays=(a,b)=>Math.max(1,Math.round((new Date(b+'T12Z')-new Date(a+'T12Z'))/864e5)+1);
+function sumRange(a,b){const acc={created:0,lost:0,lost462:0,csScored:0,csApproved:0,autoTotal:0,infra:0,semrushUnits:0,semrushCalls:0,semrushHits:0,contactsNew:0,cEmail:0,cLinkedin:0,cPhone:0,cApollo:0,cVerified:0,opecCalls:0,opecCredits:0,opecCost:0};const dd=DATA.daily||{};for(const k in dd){if(k>=a&&k<=b)for(const f in acc)acc[f]+=(dd[k][f]||0);}return acc;}
+function wlabel(){const[a,b]=range();if(mode==='hoje')return'hoje ('+a+')';if(mode==='custom')return a+' → '+b;return mode+' dias';}
 
 function render(){
-  if(!DATA) return;
-  const [a,b]=range(); const w=sumRange(a,b); const days=nDays(a,b);
+  if(!DATA)return;
+  const [a,b]=range(), w=sumRange(a,b), days=nDays(a,b);
   const perDay=v=>nf.format(Math.round((v||0)/days))+'/dia';
-  const csRate = w.csScored? w.csApproved/w.csScored*100 : 0;
-  const rel = w.autoTotal? (1-w.infra/w.autoTotal)*100 : 100;
-  const cache = w.semrushCalls? w.semrushHits/w.semrushCalls*100 : 0;
-  document.getElementById('winlbl').textContent = label();
-  document.querySelectorAll('#seg button').forEach(x=>x.classList.toggle('on', x.dataset.w===mode));
-  document.getElementById('customBox').classList.toggle('show', mode==='custom');
-
+  const yieldGate=w.csScored?w.csApproved/w.csScored*100:0, lossGate=100-yieldGate;
+  const yieldE2E=w.created?w.csApproved/w.created*100:0;
+  const rel=w.autoTotal?(1-w.infra/w.autoTotal)*100:100;
+  const cache=w.semrushCalls?w.semrushHits/w.semrushCalls*100:0;
+  const LS=DATA.lossSummary||{}, recovPct=LS.total?LS.recuperavel/LS.total*100:0;
+  const O=DATA.openByStage||{}, represado=(O.golpes465||0)+(O.vm466||0);
+  const custoQ=w.csApproved?(w.opecCost||0)/w.csApproved:0;
+  document.getElementById('winlbl').textContent=wlabel();
+  document.querySelectorAll('#seg button').forEach(x=>x.classList.toggle('on',x.dataset.w===mode));
+  document.getElementById('cbox').classList.toggle('show',mode==='custom');
   let h='';
-  h+=`<div class="zone">Topo · leitura rápida</div><h2>KPIs principais</h2><div class="kpis">`;
-  h+=kpi(nf.format(w.created),'Captados <small style="color:var(--text-faint)">(nascidos)</small>','accent',perDay(w.created));
-  h+=kpi(pct(csRate),'Taxa de aprovação (Lia)','');
-  h+=kpi(pct(rel),'Confiabilidade técnica','good');
-  h+=kpi(nf.format(w.lost),'Perdidos <small style="color:var(--text-faint)">(baixados · inc. backlog)</small>','crit',perDay(w.lost));
-  h+=kpi(nf.format(w.csScored),'Pontuados no CS','');
-  h+=kpi(nf.format(w.csApproved),'Aprovados (seguem)','good');
-  h+=`</div>`;
-  h+=`<div class="note"><span class="tag">Como ler estes números</span><b>Captados</b> = cards que <b>nasceram</b> no período (data de criação). <b>Perdidos</b> = cards <b>baixados</b> no período (data da perda), inclusive de coortes antigas — por isso "perdidos" pode passar "captados" num dia: a máquina drena backlog. E ~87% da captação morre no <b>mesmo dia</b> no Company Score. Não é o mesmo conjunto de cards.</div>`;
+
+  // ===== HERO — eficiência =====
+  h+=`<div class="hero">
+    <div class="thesis">De cada 100 leads pontuados, <b>${p0(yieldGate)}</b> passam — e <b>${p0(recovPct)}</b> do que perdemos era <b>recuperável</b>. O gargalo é critério, não volume.</div>
+    <div class="effgrid">
+      <div class="eff"><div class="v pass">${pct(yieldGate)}</div><div class="k"><b>Rendimento</b> do Company Score</div><div class="d">aprovados ÷ pontuados</div></div>
+      <div class="eff"><div class="v leak">${pct(lossGate)}</div><div class="k"><b>Perda</b> no gate de qualificação</div><div class="d">${nf.format(w.csScored-w.csApproved)} reprovados</div></div>
+      <div class="eff"><div class="v hold">${p0(recovPct)}</div><div class="k"><b>Vazamento recuperável</b> (falso negativo)</div><div class="d">${nf.format(LS.recuperavel||0)} de ${nf.format(LS.total||0)} perdas · 30d</div></div>
+      <div class="eff"><div class="v brand">${pct(yieldE2E)}</div><div class="k"><b>Rendimento ponta-a-ponta</b></div><div class="d">aprovados ÷ captados</div></div>
+      <div class="eff"><div class="v leak">${nf.format(represado)}</div><div class="k"><b>Capital represado</b> (Golpes+VM)</div><div class="d">parados sem gatilho de avanço</div></div>
+    </div></div>`;
   h+=alertsHtml(w,cache);
 
-  // funil
-  h+=`<div class="zone">Meio · diagnóstico</div><h2>Funil (throughput no período)</h2>`;
-  const mx=Math.max(w.created,w.csScored,1);
-  h+=`<div class="funnel">
-    <div class="fstage"><div class="fl">Captação<small>Lead Gen</small></div><div class="fbarwrap"><div class="fbar" style="width:100%">${nf.format(w.created)}</div></div></div>
-    <div class="fstage"><div class="fl">Company Score<small>Lia · pontuados</small></div><div class="fbarwrap"><div class="fbar" style="width:${Math.max(6,w.csScored/mx*100)}%">${nf.format(w.csScored)}</div></div></div>
-    <div class="fstage"><div class="fl">Aprovados<small>seguem no funil</small></div><div class="fbarwrap"><div class="fbar" style="width:${Math.max(6,w.csApproved/mx*100)}%;background:var(--good)">${nf.format(w.csApproved)} · ${pct(csRate)}</div></div></div>
-  </div>`;
-  h+=`<div class="note"><span class="tag">Leitura</span>Throughput por etapa no intervalo selecionado (a Lia re-pontua e drena backlog — não é coorte única). Reprovados: <b>${nf.format(w.csScored-w.csApproved)}</b>. Perdas no Company Score: <b>${nf.format(w.lost462)}</b>.</div>`;
+  // ===== FUNIL de conversão (com perda por etapa) =====
+  h+=`<div class="eyebrow">Onde converte e onde vaza</div><h2>Funil de qualificação <span class="tag">· ${wlabel()}</span></h2>`;
+  const base=Math.max(w.created,w.csScored,1);
+  const drop1=w.created-w.csScored;
+  h+=`<div class="card"><div class="fn">
+    <div class="fn-stage"><div class="fn-lab">Captados<small>Lead Generator</small></div><div class="fn-track"><div class="fn-fill" style="width:${w.created/base*100}%">${nf.format(w.created)}</div></div><div class="fn-n">${nf.format(w.created)}<small>100%</small></div></div>
+    <div class="fn-gap"><div class="fn-conv">${drop1>=0?`↓ pontuados no Company Score`:`↓ inclui backlog de coortes anteriores`}</div></div>
+    <div class="fn-stage"><div class="fn-lab">Pontuados<small>Lia · Company Score</small></div><div class="fn-track"><div class="fn-fill" style="width:${w.csScored/base*100}%">${nf.format(w.csScored)}</div></div><div class="fn-n">${nf.format(w.csScored)}</div></div>
+    <div class="fn-gap"><div class="fn-conv"><span class="keep">▲ ${pct(yieldGate)} passa</span> · <span class="drop">▼ ${pct(lossGate)} perde (${nf.format(w.csScored-w.csApproved)})</span></div></div>
+    <div class="fn-stage"><div class="fn-lab">Aprovados<small>seguem no funil</small></div><div class="fn-track"><div class="fn-fill pass" style="width:${Math.max(2,w.csApproved/base*100)}%">${nf.format(w.csApproved)}</div></div><div class="fn-n" style="color:var(--pass)">${nf.format(w.csApproved)}<small>${pct(yieldGate)}</small></div></div>
+    <div class="fn-gap"><div class="fn-conv">↓ garimpo &amp; produto → prospecção</div></div>
+    <div class="fn-stage"><div class="fn-lab">Prospecção<small>SDR · abertos agora</small></div><div class="fn-track"><div class="fn-fill" style="width:${Math.max(2,(O.prospeccao434||0)/base*100)}%;background:var(--teal)">${nf.format(O.prospeccao434||0)}</div></div><div class="fn-n">${nf.format(O.prospeccao434||0)}<small>snapshot</small></div></div>
+  </div>
+  <div class="note"><span class="tag">Como ler</span>Volume por etapa no período (a Lia re-pontua e drena backlog, então não é coorte única). A conversão exata é <b>no gate do Company Score</b>: <b>${pct(yieldGate)}</b> passa, <b>${pct(lossGate)}</b> perde. Custo por lead qualificado (Apollo ext.): <b>${money(custoQ)}</b>.</div></div>`;
 
-  // Company Score — histograma de distribuição (30d)
+  // ===== Histograma =====
   const H=DATA.csHistogram;
-  if(H && H.distinctDeals){
-    const hmax=Math.max(...H.buckets.map(b=>b.total),1);
-    const below=H.buckets.filter(b=>b.range==='0–1'||b.range==='1–2').reduce((s,b)=>s+b.total,0);
-    h+=`<h2>Company Score — distribuição <small style="font-family:var(--mono);font-size:11px;color:var(--text-faint)">· 30 dias · corte ${String(H.threshold).replace('.',',')}</small></h2><div class="card">`;
-    h+=`<div style="display:flex;gap:12px;align-items:flex-end;height:150px;padding-top:8px;">`;
-    for(const b of H.buckets){ h+=`<div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px;height:100%;">
-      <span style="font-family:var(--mono);font-size:11px;font-weight:700">${nf.format(b.total)}</span>
-      <div style="width:100%;height:${b.total/hmax*100}%;min-height:3px;display:flex;flex-direction:column;justify-content:flex-end;border-radius:5px 5px 0 0;overflow:hidden;">
-        <div style="height:${b.total?b.approved/b.total*100:0}%;background:var(--good)"></div>
-        <div style="height:${b.total?b.reproved/b.total*100:0}%;background:var(--crit)"></div>
-      </div>
-      <span style="font-family:var(--mono);font-size:11px;color:var(--text-dim)">${b.range}</span></div>`; }
-    h+=`</div><div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--text-dim)"><span><span style="display:inline-block;width:10px;height:10px;background:var(--good);border-radius:2px"></span> aprovado</span><span><span style="display:inline-block;width:10px;height:10px;background:var(--crit);border-radius:2px"></span> reprovado</span><span style="margin-left:auto">score médio — aprovado <b style="color:var(--good)">${String(H.avgApproved).replace('.',',')}</b> · reprovado <b style="color:var(--crit)">${String(H.avgReproved).replace('.',',')}</b></span></div>`;
-    h+=`<div class="note" style="margin-top:14px"><span class="tag">Leitura</span><b>${pct(below/H.distinctDeals*100)}</b> das ${nf.format(H.distinctDeals)} empresas pontuadas ficam <b>abaixo do corte ${String(H.threshold).replace('.',',')}</b> — a massa vive em 0–1. É o afunilamento central: corte apertado demais OU lead de entrada fraco?</div></div>`;
+  if(H&&H.distinctDeals){
+    const hmax=Math.max(...H.buckets.map(x=>x.total),1), below=H.buckets.filter(x=>x.range==='0–1'||x.range==='1–2').reduce((s,x)=>s+x.total,0);
+    h+=`<div class="eyebrow">Por que reprova tanto</div><h2>Distribuição do Company Score <span class="tag">· 30d · corte ${String(H.threshold).replace('.',',')}</span></h2>`;
+    h+=`<div class="card"><div class="histo">`;
+    for(const x of H.buckets){const cut=(x.range==='1–2');
+      h+=`<div class="col"><span class="cn">${nf.format(x.total)}</span><div class="stk ${cut?'cutline':''}" style="height:${x.total/hmax*100}%"><div class="a" style="height:${x.total?x.approved/x.total*100:0}%"></div><div class="r" style="height:${x.total?x.reproved/x.total*100:0}%"></div></div><span class="cl">${x.range}</span></div>`; }
+    h+=`</div><div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--ink-dim)"><span><i style="display:inline-block;width:10px;height:10px;background:var(--pass);border-radius:2px"></i> aprovado</span><span><i style="display:inline-block;width:10px;height:10px;background:var(--leak);border-radius:2px"></i> reprovado</span><span style="margin-left:auto">score médio — aprovado <b style="color:var(--pass)">${String(H.avgApproved).replace('.',',')}</b> · reprovado <b style="color:var(--leak)">${String(H.avgReproved).replace('.',',')}</b></span></div>`;
+    h+=`<div class="note"><span class="tag">Leitura</span><b>${p0(below/H.distinctDeals*100)}</b> das ${nf.format(H.distinctDeals)} empresas ficam abaixo do corte — a massa vive em 0–1. Corte apertado demais ou lead de entrada fraco?</div></div>`;
   }
 
-  // Funil ao vivo — cards abertos agora por etapa (fan-out por produto)
-  const O=DATA.openByStage||{};
+  // ===== Motivos de perda =====
+  h+=`<div class="eyebrow">Natureza da perda</div><h2>Motivos de descarte <span class="tag">· 30d</span></h2>`;
+  if(LS.total){h+=`<div class="comp">
+    <div style="width:${LS.recuperavel/LS.total*100}%;background:var(--hold);color:var(--brand-ink)">Recuperável · ${p0(LS.recuperavel/LS.total*100)}</div>
+    <div style="width:${LS.legitima/LS.total*100}%;background:var(--teal);color:var(--brand-ink)">Legítima</div>
+    <div style="width:${LS.tecnico/LS.total*100}%;background:var(--leak);color:#fff">Téc.</div></div>`;}
+  h+=`<div class="card"><div class="bars">`;
+  const R=DATA.lossReasons||[], rmax=R.length?Math.max(...R.map(r=>r.d30)):1;
+  for(const r of R){const arr=r.ratePerDay7>r.ratePerDay30*1.15?'<span class="up">▲</span>':(r.ratePerDay7<r.ratePerDay30*.85?'<span class="dn">▼</span>':'▬');const s=r.tecnico?'<span class="selo tec">TÉC</span>':(r.recoverable?'<span class="selo rec">RECUP</span>':'');
+    h+=`<div class="row"><span class="l">${r.label} ${s}</span><span class="t"><span class="f" style="width:${r.d30/rmax*100}%;background:${r.tecnico?'var(--leak)':(r.recoverable?'var(--hold)':'var(--teal)')}"></span></span><span class="n">${nf.format(r.d30)} <small>${pct(r.share)}</small><br><small>${r.ratePerDay7}/d ${arr}</small></span></div>`; }
+  h+=`</div>${LS.total?`<div class="note leak"><span class="tag">Alavanca de receita</span><b>${p0(recovPct)}</b> das perdas são <b>recuperáveis</b> (falso negativo re-drivável). Só ${p0(LS.legitima/LS.total*100)} é descarte de negócio legítimo. Auditar/reprocessar essa fatia é o maior ganho de pipeline.</div>`:''}</div>`;
+
+  // ===== Funil ao vivo por etapa =====
   const STG=[['Novo Lead','novo460'],['Requalificação','requa461'],['Company Score','cs462'],['Product BB','bb463'],['Product BBP','bbp464'],['Product Golpes','golpes465'],['Product VM','vm466'],['Garimpo','garimpo467'],['Prospecção','prospeccao434']];
   const omax=Math.max(...STG.map(([,k])=>O[k]||0),1);
-  h+=`<h2>Funil ao vivo — abertos agora por etapa <small style="font-family:var(--mono);font-size:11px;color:var(--text-faint)">· snapshot</small></h2><div class="card"><div class="loss">`;
-  for(const [lbl,k] of STG){ const v=O[k]||0; const stuck=(k==='golpes465'||k==='vm466');
-    h+=`<div class="lrow"><span class="ll">${lbl}${stuck?' <span style="color:var(--crit);font-size:10px">🔴 sem handler</span>':''}</span><span class="lt"><span class="lf" style="width:${v/omax*100}%;background:${stuck?'var(--crit)':'var(--accent)'}"></span></span><span class="lv">${nf.format(v)}</span></div>`; }
-  h+=`</div><div class="note crit" style="margin-top:12px"><span class="tag">Gargalo estrutural</span><b>${nf.format((O.golpes465||0)+(O.vm466||0))} cards represados em Golpes + VM</b> — sem score de produto implementado (só BB e fraude têm gatilho de avanço), ficam presos. Prospecção ativa: ${nf.format(O.prospeccao434||0)}.</div></div>`;
+  h+=`<div class="eyebrow">Estado agora</div><h2>Cards abertos por etapa <span class="tag">· snapshot</span></h2><div class="card"><div class="bars">`;
+  for(const [lbl,k] of STG){const v=O[k]||0, stuck=(k==='golpes465'||k==='vm466');
+    h+=`<div class="row"><span class="l">${lbl}${stuck?' <span class="selo tec">travado</span>':''}</span><span class="t"><span class="f" style="width:${v/omax*100}%;background:${stuck?'var(--leak)':'var(--brand)'}"></span></span><span class="n">${nf.format(v)}</span></div>`; }
+  h+=`</div><div class="note leak"><span class="tag">Gargalo estrutural</span><b>${nf.format(represado)} cards represados em Golpes + VM</b> — sem score de produto (só BB e fraude têm gatilho). Capital parado.</div></div>`;
 
-  // motivos (janela fixa 30d)
-  h+=`<h2>Motivos de perda <small style="font-family:var(--mono);font-size:11px;color:var(--text-faint)">· 30 dias</small></h2>`;
-  const LS=DATA.lossSummary;
-  if(LS && LS.total){ const tt=LS.total;
-    h+=`<div style="display:flex;height:30px;border-radius:8px;overflow:hidden;border:1px solid var(--border);margin-top:12px;font-family:var(--mono);font-size:11px;font-weight:700;box-shadow:var(--shadow)">
-      <div style="width:${LS.recuperavel/tt*100}%;background:var(--warn);color:#00232c;display:flex;align-items:center;justify-content:center" title="Recuperável (falso negativo re-drivável)">Recuperável · ${pct(LS.recuperavel/tt*100)}</div>
-      <div style="width:${LS.legitima/tt*100}%;background:var(--turq);color:#00232c;display:flex;align-items:center;justify-content:center" title="Perda de negócio legítima">Legítima</div>
-      <div style="width:${LS.tecnico/tt*100}%;background:var(--crit);color:#fff;display:flex;align-items:center;justify-content:center" title="Erro técnico/infra">Téc.</div>
-    </div>`;
-  }
-  h+=`<div class="card"><div class="loss">`;
-  const R=DATA.lossReasons||[]; const rmax=R.length?Math.max(...R.map(r=>r.d30)):1;
-  const selo=r=> r.tecnico?'<span style="font-family:var(--mono);font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;background:var(--crit-soft);color:var(--crit)">TÉC</span>':(r.recoverable?'<span style="font-family:var(--mono);font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;background:var(--warn-soft);color:var(--warn)">RECUP</span>':'');
-  for(const r of R){ const arr=r.ratePerDay7>r.ratePerDay30*1.15?'<span class="up">▲</span>':(r.ratePerDay7<r.ratePerDay30*0.85?'<span class="dn">▼</span>':'▬');
-    h+=`<div class="lrow"><span class="ll">${r.label} ${selo(r)}</span><span class="lt"><span class="lf" style="width:${r.d30/rmax*100}%;background:${r.tecnico?'var(--crit)':(r.recoverable?'var(--warn)':'var(--turq)')}"></span></span><span class="lv">${nf.format(r.d30)} <small>${pct(r.share)}</small><br><small>${r.ratePerDay7}/d ${arr}</small></span></div>`; }
-  h+=`</div>`;
-  if(LS && LS.total) h+=`<div class="note" style="margin-top:12px"><span class="tag">Leitura</span><b>${pct(LS.recuperavel/LS.total*100)}</b> das perdas são <b>recuperáveis</b> (falso negativo re-drivável — ex. marca fraca), não descarte legítimo. Só ${pct(LS.legitima/LS.total*100)} é perda de negócio real; ${pct(LS.tecnico/LS.total*100)} é erro técnico. Prioridade de recuperação de pipeline.</div>`;
-  h+=`</div>`;
-
-  // projetos
-  h+=`<h2>Visão por projeto</h2><div class="projgrid">`;
-  h+=`<div class="card proj"><div class="pn">Lead Generator<small>captação</small></div>
-    <div class="pmet"><span>Leads gerados</span><span class="pv">${nf.format(w.created)}</span></div>
-    <div class="pmet"><span>Qualificados (Lia)</span><span class="pv" style="color:var(--good)">${nf.format(w.csApproved)}</span></div>
-    <div class="pmet"><span>Taxa de qualificação</span><span class="pv">${pct(csRate)}</span></div>
-    <div class="pmet"><span>Triagem interna</span><span class="pv"><span class="rb">1 query</span></span></div></div>`;
-  h+=`<div class="card proj"><div class="pn">Lia<small>qualificação</small></div>
-    <div class="pmet"><span>Cards pontuados</span><span class="pv">${nf.format(w.csScored)}</span></div>
-    <div class="pmet"><span>Aprovados</span><span class="pv" style="color:var(--good)">${nf.format(w.csApproved)}</span></div>
-    <div class="pmet"><span>Reprovados</span><span class="pv" style="color:var(--crit)">${nf.format(w.csScored-w.csApproved)}</span></div>
-    <div class="pmet"><span>Confiabilidade</span><span class="pv" style="color:var(--good)">${pct(rel)}</span></div></div>`;
-  const c=DATA.contacts||{};
-  const cn=w.contactsNew||0, covE=cn?Math.round(w.cEmail/cn*100):0, covL=cn?Math.round(w.cLinkedin/cn*100):0, covA=cn?Math.round(w.cApollo/cn*100):0;
-  h+=`<div class="card proj"><div class="pn">Enrique<small>garimpo · no período</small></div>
-    <div class="pmet"><span>Contatos encontrados</span><span class="pv">${nf.format(cn)}</span></div>
-    <div class="pmet"><span>E-mails válidos</span><span class="pv" style="color:var(--good)">${nf.format(w.cVerified||0)}</span></div>
-    <div class="pmet"><span>Cobertura e-mail / LinkedIn</span><span class="pv">${covE}% / ${covL}%</span></div>
-    <div class="pmet"><span>Créditos Apollo (ext.)</span><span class="pv">${nf.format(w.opecCredits||0)} · ${money(w.opecCost||0)}</span></div>
-    <div class="pmet"><span>Base acumulada</span><span class="pv" style="color:var(--text-faint)">${nf.format(c.total||0)} contatos · ${nf.format(c.empresas||0)} emp.</span></div></div>`;
+  // ===== Por projeto =====
+  h+=`<div class="eyebrow">Por projeto</div><h2>Lead Generator · Lia · Enrique</h2><div class="proj3">`;
+  h+=`<div class="card pc"><div class="ph">Lead Generator <small>captação</small></div>
+    <div class="pm"><span>Leads captados</span><span class="pv">${nf.format(w.created)}</span></div>
+    <div class="pm"><span>Qualificados (Lia)</span><span class="pv" style="color:var(--pass)">${nf.format(w.csApproved)}</span></div>
+    <div class="pm"><span>Taxa de qualificação</span><span class="pv">${pct(yieldE2E)}</span></div>
+    <div class="pm"><span>Ritmo</span><span class="pv">${perDay(w.created)}</span></div></div>`;
+  h+=`<div class="card pc"><div class="ph">Lia <small>qualificação</small></div>
+    <div class="pm"><span>Pontuados</span><span class="pv">${nf.format(w.csScored)}</span></div>
+    <div class="pm"><span>Aprovados</span><span class="pv" style="color:var(--pass)">${nf.format(w.csApproved)}</span></div>
+    <div class="pm"><span>Reprovados</span><span class="pv" style="color:var(--leak)">${nf.format(w.csScored-w.csApproved)}</span></div>
+    <div class="pm"><span>Confiabilidade</span><span class="pv" style="color:var(--pass)">${pct(rel)}</span></div></div>`;
+  const c=DATA.contacts||{}, cn=w.contactsNew||0;
+  h+=`<div class="card pc"><div class="ph">Enrique <small>garimpo · período</small></div>
+    <div class="pm"><span>Contatos encontrados</span><span class="pv">${nf.format(cn)}</span></div>
+    <div class="pm"><span>E-mails válidos</span><span class="pv" style="color:var(--pass)">${nf.format(w.cVerified||0)}</span></div>
+    <div class="pm"><span>Cobertura e-mail/LinkedIn</span><span class="pv">${cn?Math.round(w.cEmail/cn*100):0}% / ${cn?Math.round(w.cLinkedin/cn*100):0}%</span></div>
+    <div class="pm"><span>Créditos Apollo (ext.)</span><span class="pv">${nf.format(w.opecCredits||0)} · ${money(w.opecCost||0)}</span></div></div>`;
   h+=`</div>`;
 
-  // zona Fim · observabilidade
-  h+=`<div class="zone">Fim · observabilidade & custo</div>`;
-  h+=semrushHtml(w);
-  h+=`<h2>Consumo por API — Enrique <small style="font-family:var(--mono);font-size:11px;color:var(--text-faint)">· 30 dias</small></h2>`+providersHtml();
-  h+=`<h2>Lead Generator — por que descarta <small style="font-family:var(--mono);font-size:11px;color:var(--text-faint)">· 30 dias</small></h2>`+leadgenHtml();
-  h+=`<h2>Comparativo por janela (ritmo/dia)</h2>`+cmpHtml();
-  h+=`<h2>Gargalos & Decisões</h2>`+gargalosHtml(w,cache);
-  h+=`<div class="footer" style="margin-top:16px;border:none;padding:0">Motivos de perda, histograma, funil ao vivo, consumo por API e comparativo usam janelas fixas (30d/7-15-30); KPIs, funil de throughput e Enrique/no período seguem o filtro.</div>`;
+  // ===== Custo / API =====
+  h+=`<div class="eyebrow">Custo & integrações</div><h2>Semrush — custo &amp; cache <span class="tag">· período</span></h2>`+semrushHtml(w,cache);
+  h+=`<h2>Consumo por API — Enrique <span class="tag">· 30d</span></h2>`+providersHtml();
+  h+=`<h2>Lead Generator — por que descarta <span class="tag">· 30d</span></h2>`+leadgenHtml();
+
+  // ===== Tendência + gargalos =====
+  h+=`<div class="eyebrow">Tendência & decisão</div><h2>Comparativo por janela <span class="tag">· ritmo/dia</span></h2>`+cmpHtml();
+  h+=`<h2>Gargalos &amp; Decisões</h2>`+gargalosHtml(w,cache);
   document.getElementById('app').innerHTML=h;
 }
 
-function cmpHtml(){
-  const t=DATA.todayBRT||Object.keys(DATA.daily||{}).sort().pop();
-  const wins=[['7',6],['15',14],['30',29]];
-  const data=wins.map(([lbl,n])=>({lbl,d:sumRange(dayMinus(t,n),t),days:+lbl}));
-  const metric=(key,title,color,isRate)=>{
-    const vals=data.map(x=> isRate? (x.d.csScored? x.d.csApproved/x.d.csScored*100:0) : x.d[key]/x.days);
-    const mx=Math.max(...vals,0.001);
-    let b=`<div class="cmpc"><div class="ct">${title}</div><div class="cmpbars">`;
-    data.forEach((x,i)=>{ b+=`<div class="cb"><span class="cbv">${isRate?vals[i].toFixed(1):nf.format(Math.round(vals[i]))}</span><div class="cbar" style="height:${Math.max(6,vals[i]/mx*100)}%;background:${color}"></div><span class="cbl">${x.lbl}d</span></div>`; });
-    return b+`</div></div>`;
-  };
-  return `<div class="cmp">`+metric('created','Captados / dia','var(--accent)')+metric('lost','Perdidos / dia','var(--crit)')+metric('csRate','Aprovação Lia (%)','var(--good)',true)+metric('semrushUnits','Semrush units / dia','var(--warn)')+`</div>`;
-}
-
-function semrushHtml(w){
-  const cache=w.semrushCalls?w.semrushHits/w.semrushCalls*100:0, crit=cache<5;
-  const t=DATA.todayBRT||Object.keys(DATA.daily||{}).sort().pop();
-  const days=[]; for(let i=13;i>=0;i--){ const k=dayMinus(t,i); days.push((DATA.daily&&DATA.daily[k])?DATA.daily[k].semrushUnits:0); }
-  const smax=Math.max(...days,1);
-  const spark=days.map(v=>`<div style="flex:1;height:${v/smax*100}%;min-height:2px;background:var(--warn);border-radius:2px 2px 0 0;opacity:.85"></div>`).join('');
-  return `<h2>Semrush — custo & cache <small style="font-family:var(--mono);font-size:11px;color:var(--text-faint)">· período</small></h2>
-    <div class="card">
-      <div class="kpis" style="margin-top:0">${kpi(nf.format(w.semrushUnits||0),'Units consumidas','warn')}${kpi(nf.format(w.semrushCalls||0),'Chamadas','')}${kpi(pct(cache),'Cache hit',crit?'crit':'good')}</div>
-      <div style="display:flex;gap:3px;align-items:flex-end;height:56px;margin-top:16px">${spark}</div>
-      <div style="font-size:11px;color:var(--text-faint);margin-top:6px;font-family:var(--mono)">units/dia · últimos 14 dias</div>
-      ${crit?`<div class="note crit" style="margin-top:12px"><span class="tag">Dreno de crédito</span>Cache hit de <b>${pct(cache)}</b> (ideal ≥ 30%) — quase toda consulta é cobrada. Consertar o cache é economia direta, sem perder cobertura.</div>`:''}
-    </div>`;
-}
-
-function providersHtml(){
-  const P=DATA.providers||[];
-  if(!P.length) return `<div class="note"><span class="tag">Aguardando fonte</span>Consumo por API (Apollo · Findymail · FullEnrich · Debounce · CNPJá) com <b>chamadas, taxa de erro, créditos e R$</b> vive no schema <code>garimpo</code> do Enrique. Assim que o secret <b>ENRIQUE_SERVICE_ROLE_KEY</b> entrar, este painel popula sozinho — inclusive somando os runs internos que o OPEC não enxerga.</div>`;
-  const cmax=Math.max(...P.map(p=>p.credits),1);
-  const rows=P.map(p=>{ const col=p.successRate>=70?'var(--good)':(p.successRate>=40?'var(--warn)':'var(--crit)');
-    return `<div class="lrow"><span class="ll">${p.name}</span><span class="lt"><span class="lf" style="width:${p.credits/cmax*100}%;background:var(--accent)"></span></span><span class="lv">${nf.format(p.credits)} cr${p.brl?' · '+money(p.brl):''}<br><small style="color:${col}">${p.successRate}% ok · ${p.errorRate}% erro · ${nf.format(p.calls)} cham.</small></span></div>`; }).join('');
-  return `<div class="card"><div class="loss">${rows}</div></div>`;
-}
-
-function leadgenHtml(){
-  const L=DATA.leadgen;
-  if(!L || !L.skipped) return `<div class="note"><span class="tag">Aguardando fonte</span>Os motivos de descarte do Lead Generator (dedup, marca de cliente, domínio inválido/sem site, falha técnica de dedup) vivem em <code>qualification_leads_run</code> — no Supabase do Lead Generator, que não é a mesma instância da Lia (retornou 404 aqui). Adicionar <b>LEADGEN_SUPABASE_URL / LEADGEN_SERVICE_ROLE_KEY</b> popula este painel.</div>`;
-  const mmax=Math.max(...L.reasons.map(r=>r.count),1);
-  const rows=L.reasons.map(r=>`<div class="lrow"><span class="ll">${r.label} ${r.tecnico?'<span style="font-family:var(--mono);font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;background:var(--crit-soft);color:var(--crit)">TÉC</span>':''}</span><span class="lt"><span class="lf" style="width:${r.count/mmax*100}%;background:${r.tecnico?'var(--crit)':'var(--text-faint)'}"></span></span><span class="lv">${nf.format(r.count)}</span></div>`).join('');
-  return `<div class="card"><div class="kpis" style="margin-top:0">${kpi(nf.format(L.created),'Criados','good')}${kpi(nf.format(L.reopened),'Reabertos','accent')}${kpi(nf.format(L.skipped),'Descartados','crit')}</div><div class="loss" style="margin-top:14px">${rows}</div></div>`;
-}
-
-function gargalosHtml(w,cache){
-  const O=DATA.openByStage||{}, LS=DATA.lossSummary||{}, P=DATA.providers||[], rows=[];
-  const stuck=(O.golpes465||0)+(O.vm466||0);
-  if(stuck>100) rows.push(['crit','Crítico','Lia',`Golpes + VM represados (${nf.format(stuck)} cards)`,'Implementar score de produto/gatilho de avanço p/ GD e VM (hoje só BB e fraude); enquanto isso, decidir mutirão manual.']);
-  if((LS.recuperavel||0)>500) rows.push(['crit','Falso negativo','Lia',`${nf.format(LS.recuperavel)} perdas recuperáveis (${pct(LS.recuperavel/(LS.total||1)*100)})`,'Auditar amostra de weak_pure_brand e criar trilha de reprocessamento antes de descartar.']);
-  if(cache<5 && w.semrushCalls>50) rows.push(['amber','Atenção','Enrique/RevOps',`Cache Semrush em ${pct(cache)}`,'Consertar o cache pra parar de re-consultar e queimar crédito.']);
-  const bad=P.filter(p=>p.errorRate>=60 && p.calls>50); if(bad.length) rows.push(['amber','Atenção','Enrique',`Waterfall com baixo acerto: ${bad.map(p=>p.name).join(', ')}`,'Reordenar/cortar providers de baixo yield na cascata.']);
-  rows.push(['accent','Oportunidade','RevOps','Conversão por etapa invisível','Ligar coletor do /deals/flow do Pipedrive pra reconstruir transições, mortalidade por etapa e falso positivo.']);
-  if(!P.length) rows.push(['amber','Pendência','RevOps','Consumo por API do garimpo cego','Adicionar ENRIQUE_SERVICE_ROLE_KEY pra medir erro/crédito por provider.']);
-  if(!DATA.leadgen||!DATA.leadgen.skipped) rows.push(['amber','Pendência','RevOps','Descartes do Lead Generator cegos','Adicionar creds do Supabase do Lead Generator (qualification_leads_run).']);
-  const sc={crit:'var(--crit)',amber:'var(--warn)',accent:'var(--accent)'};
-  return `<div class="card">`+rows.map((r,i)=>`<div style="display:grid;grid-template-columns:10px 1fr auto;gap:12px;align-items:start;padding:11px 0;${i?'border-top:1px solid var(--border-soft)':''}"><span style="width:9px;height:9px;border-radius:50%;background:${sc[r[0]]};margin-top:5px"></span><div><div style="font-weight:600;font-size:13.5px">${r[3]} <span style="font-family:var(--mono);font-size:9px;color:${sc[r[0]]}">· ${r[1]}</span></div><div style="font-size:12.5px;color:var(--text-dim);margin-top:3px">${r[4]}</div></div><span style="font-family:var(--mono);font-size:10px;color:var(--text-faint);white-space:nowrap">dono: ${r[2]}</span></div>`).join('')+`</div>`;
-}
-
 function alertsHtml(w,cache){
-  const A=[];
-  if(w.semrushCalls>50 && cache<5) A.push(['red','Crítico',`Cache Semrush ineficiente — hit ${pct(cache)} (limiar ≥ 30%).`]);
+  const A=[], LS=DATA.lossSummary||{}, O=DATA.openByStage||{};
+  if(w.semrushCalls>50&&cache<5)A.push(['red','Crítico',`Cache Semrush em ${pct(cache)} (ideal ≥ 30%) — crédito queimado re-consultando.`]);
   const nc=(DATA.lossReasons||[]).find(r=>r.key==='enrique_only_no_contact');
-  if(nc && nc.ratePerDay7>nc.ratePerDay30*1.3) A.push(['red','Crítico',`"Sem contato" acelerando — ${nc.ratePerDay7}/dia (7d) vs ${nc.ratePerDay30}/dia (30d).`]);
-  const g=DATA.openByStage||{}; if((g.garimpo467||0)>40) A.push(['amber','Atenção',`${g.garimpo467} cards aguardando no Garimpo · ${(g.golpes465||0)+(g.vm466||0)} travados em Golpes/VM.`]);
+  if(nc&&nc.ratePerDay7>nc.ratePerDay30*1.3)A.push(['red','Crítico',`"Sem contato" acelerando — ${nc.ratePerDay7}/dia (7d) vs ${nc.ratePerDay30}/dia (30d).`]);
+  if(((O.golpes465||0)+(O.vm466||0))>100)A.push(['red','Crítico',`${nf.format((O.golpes465||0)+(O.vm466||0))} cards represados em Golpes+VM sem gatilho de avanço.`]);
+  if(LS.total&&LS.recuperavel/LS.total>0.5)A.push(['amber','Atenção',`${p0(LS.recuperavel/LS.total*100)} das perdas são recuperáveis — pipeline jogado fora.`]);
   const rel=w.autoTotal?(1-w.infra/w.autoTotal)*100:100;
   A.push([rel>=99?'green':'amber',rel>=99?'OK':'Atenção',`Confiabilidade ${pct(rel)} (${nf.format(w.infra)} erros de infra no período).`]);
-  return `<div class="alerts">`+A.map(x=>`<div class="alert ${x[0]}"><span class="dot"></span><div class="txt">${x[2]}</div><span class="st">${x[1]}</span></div>`).join('')+`</div>`;
+  return `<div class="alerts">`+A.map(x=>`<div class="al ${x[0]}"><span class="dot"></span><div class="tx">${x[2]}</div><span class="st">${x[1]}</span></div>`).join('')+`</div>`;
 }
-
-document.getElementById('seg').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b)return; mode=b.dataset.w; if(mode==='custom' && !cFrom){ const t=DATA.todayBRT; cFrom=dayMinus(t,29); cTo=t; document.getElementById('fromD').value=cFrom; document.getElementById('toD').value=cTo; } render(); });
-document.getElementById('applyC').addEventListener('click',()=>{ const f=document.getElementById('fromD').value, t=document.getElementById('toD').value; if(f&&t){ cFrom=f<=t?f:t; cTo=f<=t?t:f; mode='custom'; render(); } });
-
+function cmpHtml(){
+  const t=DATA.todayBRT||Object.keys(DATA.daily||{}).sort().pop(), wins=[['7',6],['15',14],['30',29]];
+  const data=wins.map(([l,n])=>({l,d:sumRange(dayMinus(t,n),t),days:+l}));
+  const metric=(key,title,color,rate)=>{const vals=data.map(x=>rate?(x.d.csScored?x.d.csApproved/x.d.csScored*100:0):x.d[key]/x.days),mx=Math.max(...vals,.001);
+    return `<div class="cmpc"><div class="ct">${title}</div><div class="cbars">`+data.map((x,i)=>`<div class="cb"><span class="cvv">${rate?vals[i].toFixed(1):nf.format(Math.round(vals[i]))}</span><div class="cbar" style="height:${Math.max(6,vals[i]/mx*100)}%;background:${color}"></div><span class="cl">${x.l}d</span></div>`).join('')+`</div></div>`;};
+  return `<div class="cmp">`+metric('created','Captados / dia','var(--brand)')+metric('lost','Perdidos / dia','var(--leak)')+metric('csRate','Aprovação Lia (%)','var(--pass)',true)+metric('semrushUnits','Semrush units / dia','var(--hold)')+`</div>`;
+}
+function semrushHtml(w,cache){
+  const crit=cache<5, t=DATA.todayBRT||Object.keys(DATA.daily||{}).sort().pop(), days=[];
+  for(let i=13;i>=0;i--){const k=dayMinus(t,i);days.push((DATA.daily&&DATA.daily[k])?DATA.daily[k].semrushUnits:0);}
+  const smax=Math.max(...days,1);
+  return `<div class="card"><div class="kpis" style="margin-top:0"><div class="kpi"><div class="v hold">${nf.format(w.semrushUnits||0)}</div><div class="k">Units consumidas</div></div><div class="kpi"><div class="v">${nf.format(w.semrushCalls||0)}</div><div class="k">Chamadas</div></div><div class="kpi"><div class="v ${crit?'leak':'pass'}">${pct(cache)}</div><div class="k">Cache hit</div></div></div><div class="spark">${days.map(v=>`<div style="height:${v/smax*100}%"></div>`).join('')}</div><div style="font:11px var(--mono);color:var(--ink-faint);margin-top:6px">units/dia · últimos 14 dias</div>${crit?`<div class="note leak"><span class="tag">Dreno de crédito</span>Cache em <b>${pct(cache)}</b> — quase toda consulta é cobrada. Consertar o cache é economia direta.</div>`:''}</div>`;
+}
+function providersHtml(){
+  const P=DATA.providers||[];
+  if(!P.length)return `<div class="note"><span class="tag">Aguardando fonte</span>Consumo por API (Apollo · Findymail · FullEnrich · Debounce · CNPJá) com chamadas, taxa de erro, créditos e R$ vive no schema <b>garimpo</b> do Enrique. Adicionar o secret <b>ENRIQUE_SERVICE_ROLE_KEY</b> popula este painel sozinho.</div>`;
+  const cmax=Math.max(...P.map(p=>p.credits),1);
+  return `<div class="tw"><table><thead><tr><th>Provider</th><th class="r">Chamadas</th><th class="r">Sucesso</th><th class="r">Erro</th><th class="r">Créditos</th><th class="r">R$</th></tr></thead><tbody>`+P.map(p=>{const col=p.successRate>=70?'var(--pass)':(p.successRate>=40?'var(--hold)':'var(--leak)');return `<tr><td><b>${p.name}</b></td><td class="r num">${nf.format(p.calls)}</td><td class="r num" style="color:${col}">${p.successRate}%</td><td class="r num" style="color:var(--leak)">${p.errorRate}%</td><td class="r num">${nf.format(p.credits)}</td><td class="r num">${p.brl?money(p.brl):'—'}</td></tr>`;}).join('')+`</tbody></table></div>`;
+}
+function leadgenHtml(){
+  const L=DATA.leadgen;
+  if(!L||!L.skipped)return `<div class="note"><span class="tag">Aguardando fonte</span>Motivos de descarte do Lead Generator (dedup, marca de cliente, domínio inválido, falha técnica) vivem em <b>qualification_leads_run</b> — no Supabase do Lead Generator (não é a mesma instância da Lia). Adicionar <b>LEADGEN_SUPABASE_URL / LEADGEN_SERVICE_ROLE_KEY</b> popula este painel.</div>`;
+  const mmax=Math.max(...L.reasons.map(r=>r.count),1);
+  return `<div class="card"><div class="kpis" style="margin-top:0"><div class="kpi"><div class="v pass">${nf.format(L.created)}</div><div class="k">Criados</div></div><div class="kpi"><div class="v brand">${nf.format(L.reopened)}</div><div class="k">Reabertos</div></div><div class="kpi"><div class="v leak">${nf.format(L.skipped)}</div><div class="k">Descartados</div></div></div><div class="bars" style="margin-top:14px">`+L.reasons.map(r=>`<div class="row"><span class="l">${r.label} ${r.tecnico?'<span class="selo tec">TÉC</span>':''}</span><span class="t"><span class="f" style="width:${r.count/mmax*100}%;background:${r.tecnico?'var(--leak)':'var(--teal)'}"></span></span><span class="n">${nf.format(r.count)}</span></div>`).join('')+`</div></div>`;
+}
+function gargalosHtml(w,cache){
+  const O=DATA.openByStage||{},LS=DATA.lossSummary||{},P=DATA.providers||[],rows=[];
+  const st=(O.golpes465||0)+(O.vm466||0);
+  if(st>100)rows.push(['leak','Crítico','Lia',`Golpes + VM represados (${nf.format(st)} cards)`,'Implementar score de produto/gatilho de avanço p/ GD e VM; enquanto isso, mutirão manual.']);
+  if((LS.recuperavel||0)>500)rows.push(['leak','Falso negativo','Lia',`${nf.format(LS.recuperavel)} perdas recuperáveis (${p0(LS.recuperavel/(LS.total||1)*100)})`,'Auditar amostra de weak_pure_brand + trilha de reprocessamento.']);
+  if(cache<5&&w.semrushCalls>50)rows.push(['amber','Atenção','Enrique/RevOps',`Cache Semrush em ${pct(cache)}`,'Consertar o cache pra parar de re-consultar e queimar crédito.']);
+  const bad=P.filter(p=>p.errorRate>=60&&p.calls>50);if(bad.length)rows.push(['amber','Atenção','Enrique',`Waterfall com baixo acerto: ${bad.map(p=>p.name).join(', ')}`,'Reordenar/cortar providers de baixo yield.']);
+  rows.push(['brand','Oportunidade','RevOps','Conversão por etapa invisível','Ligar coletor do /deals/flow do Pipedrive p/ conversão por coorte e mortalidade por etapa.']);
+  if(!P.length)rows.push(['amber','Pendência','RevOps','Custo por API do garimpo cego','Adicionar ENRIQUE_SERVICE_ROLE_KEY.']);
+  if(!DATA.leadgen||!DATA.leadgen.skipped)rows.push(['amber','Pendência','RevOps','Descartes do Lead Generator cegos','Adicionar creds do Supabase do Lead Generator.']);
+  const sc={leak:'var(--leak)',amber:'var(--hold)',brand:'var(--brand)'};
+  return `<div class="card">`+rows.map(r=>`<div class="gk"><span class="gd" style="background:${sc[r[0]]}"></span><div><div class="gt">${r[3]} <span class="sv" style="color:${sc[r[0]]}">· ${r[1]}</span></div><div class="gw">${r[4]}</div></div><span class="go">dono: ${r[2]}</span></div>`).join('')+`</div>`;
+}
+document.getElementById('seg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;mode=b.dataset.w;if(mode==='custom'&&!cFrom){const t=DATA.todayBRT;cFrom=dayMinus(t,29);cTo=t;document.getElementById('fromD').value=cFrom;document.getElementById('toD').value=cTo;}render();});
+document.getElementById('applyC').addEventListener('click',()=>{const f=document.getElementById('fromD').value,t=document.getElementById('toD').value;if(f&&t){cFrom=f<=t?f:t;cTo=f<=t?t:f;mode='custom';render();}});
 function init(){
-  document.getElementById('updated').innerHTML='atualizado: <b>'+(DATA.generatedAtBRT||'?')+'</b>';
-  let foot='Dados reais · Pipedrive brandmonitor + Supabase Lia + API OPEC Enrique · atualização diária (GitHub Action).';
-  if(DATA.warnings&&DATA.warnings.length) foot+=' Pendências: '+DATA.warnings.join(' · ');
-  document.getElementById('footer').textContent=foot;
-  render();
+  document.getElementById('upd').innerHTML='· atualizado <b>'+(DATA.generatedAtBRT||'?')+'</b>';
+  let f='Dados reais · Pipedrive brandmonitor + Supabase Lia + API OPEC Enrique · atualização diária (GitHub Action).';
+  if(DATA.warnings&&DATA.warnings.length)f+=' Pendências: '+DATA.warnings.join(' · ');
+  document.getElementById('foot').textContent=f; render();
 }
 (async function(){
-  if(window.__DATA__){ DATA=window.__DATA__; init(); return; }
-  try{ DATA=await (await fetch('data.json?t='+Date.now())).json(); init(); }
-  catch(e){ document.getElementById('err').style.display='block'; document.getElementById('err').textContent='Não carregou data.json — rode npm run collect ou aguarde a GitHub Action. '+e.message; }
+  if(window.__DATA__){DATA=window.__DATA__;init();return;}
+  try{DATA=await (await fetch('data.json?t='+Date.now())).json();init();}
+  catch(e){document.getElementById('err').style.display='block';document.getElementById('err').textContent='Não carregou data.json — rode npm run collect ou aguarde a GitHub Action. '+e.message;}
 })();
 </script>
 </body>

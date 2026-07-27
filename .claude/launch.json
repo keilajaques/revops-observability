@@ -1,0 +1,6 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "obs-dash", "runtimeExecutable": "npx", "runtimeArgs": ["-y","serve","public","-l","4599","--no-clipboard"], "port": 4599 }
+  ]
+}
