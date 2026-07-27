@@ -89,9 +89,12 @@ const LOSS_LABELS = {
   lost_weak_pure_brand: 'Marca fraca', lost_cs_low: 'Company Score baixo', enrique_only_no_contact: 'Sem contato encontrado',
   lost_low_volume: 'Volume / mercado baixo', lost_duplicate: 'Duplicidade', garimpo_no_channel: 'Sem canal (e-mail/tel)',
   invalid_produto_principal: 'Produto principal inválido', lost_ps_low: 'Product Score baixo', cs_missing_dimensions: 'Dimensões insuficientes',
-  cs_endpoint_failed: 'Erro de API (CS)', garimpo_no_contacts: 'Garimpo: 0 contatos', gd_no_opportunity: 'Golpes: sem oportunidade',
+  cs_endpoint_failed: 'Company Score: endpoint falhou', garimpo_no_contacts: 'Garimpo: 0 contatos', gd_no_opportunity: 'Golpes: sem oportunidade',
+  bbp_neon_query_error: 'BBP: query no Neon falhou', bbp_vc_monitoria_ausente: 'BBP: monitoria (VC) ausente', pescaria_travada: 'Pescaria travada (loop)',
+  lost_other: 'Outros (não classificado)', lost_invalid_data: 'Dado inválido', lost_nonbr_junk: 'Lixo / não-brasileiro',
+  invalid_domain_domain_empty: 'Domínio vazio', all_campaigns_failed: 'Todas as campanhas falharam', monitoring_state_error: 'Estado de monitoria inconsistente',
 };
-const INFRA = new Set(['cs_endpoint_failed', 'cs_throw', 'cs_timeout', 'cs_worker_error', 'cs_exception', 'bb4d_failed', 'bb4d_throw', 'bbp_neon_query_error', 'neon_error', 'monitoring_state_error', 'unknown_decision', 'unknown_classification', 'all_campaigns_failed']);
+const INFRA = new Set(['cs_endpoint_failed', 'cs_throw', 'cs_timeout', 'cs_worker_error', 'cs_exception', 'bb4d_failed', 'bb4d_throw', 'bbp_neon_query_error', 'bbp_vc_monitoria_ausente', 'pescaria_travada', 'neon_error', 'monitoring_state_error', 'unknown_decision', 'unknown_classification', 'all_campaigns_failed']);
 // Perdas marcadas como recuperáveis pela taxonomia da Lia (monitor-taxonomy.js) = falso negativo re-drivável
 const RECOVERABLE = new Set(['lost_weak_pure_brand', 'lost_cs_low', 'lost_ps_low', 'no_coverage', 'garimpo_no_channel', 'garimpo_no_contacts', 'enrique_only_no_contact', 'cs_missing_dimensions', 'no_keywords_after_cs']);
 // Tarifa R$/crédito por provider (fonte: enrique/lib/enrichment/cost-brl.ts)
@@ -184,11 +187,29 @@ async function main() {
       log('company_scores ok · unicos30d=', sc['30'], '· histograma deals=', seen.size);
     } catch (e) { out.warnings.push('company_scores falhou: ' + e.message); }
     try {
-      const ae = await sbPage(SB, KEY, `automation_errors?select=error_type,occurred_at&occurred_at=gte.${since}&order=occurred_at.desc`);
+      const ae = await sbPage(SB, KEY, `automation_errors?select=deal_id,org_name,stage,error_type,error_detail,retries,occurred_at,resolved_at&occurred_at=gte.${since}&order=occurred_at.desc`);
       const tot = W(), infra = W(), byType = {};
-      for (const r of ae) { bump(tot, r.occurred_at); if (INFRA.has(r.error_type)) bump(infra, r.occurred_at); (byType[r.error_type] ||= W()); bump(byType[r.error_type], r.occurred_at); const t = ts(r.occurred_at); if (inDailyWin(t)) { const k = brtDate(t); const dd = D(k); dd.autoTotal++; if (INFRA.has(r.error_type)) dd.infra++; (dd.loss ||= {}); dd.loss[r.error_type] = (dd.loss[r.error_type] || 0) + 1; } }
+      const inc = {};  // por error_type: casos afetados (deals), não-resolvidos, retries, orgs, detalhe, stage — pro painel de operação
+      for (const r of ae) {
+        bump(tot, r.occurred_at); if (INFRA.has(r.error_type)) bump(infra, r.occurred_at); (byType[r.error_type] ||= W()); bump(byType[r.error_type], r.occurred_at);
+        const t = ts(r.occurred_at); if (inDailyWin(t)) { const k = brtDate(t); const dd = D(k); dd.autoTotal++; if (INFRA.has(r.error_type)) dd.infra++; (dd.loss ||= {}); dd.loss[r.error_type] = (dd.loss[r.error_type] || 0) + 1; }
+        if (t >= CUT['30']) {
+          const g = (inc[r.error_type] ||= { type: r.error_type, count: 0, deals: new Set(), unresolved: 0, maxRetries: 0, orgs: {}, detail: '', stage: r.stage || '', count7: 0 });
+          g.count++; if (r.deal_id != null) g.deals.add(r.deal_id); if (!r.resolved_at) g.unresolved++;
+          const rt = +r.retries || 0; if (rt > g.maxRetries) g.maxRetries = rt;
+          if (r.org_name) g.orgs[r.org_name] = (g.orgs[r.org_name] || 0) + 1;
+          if (!g.detail && r.error_detail) g.detail = String(r.error_detail).slice(0, 160);
+          if (t >= CUT['7']) g.count7++;
+        }
+      }
       setW('autoTotal', tot); setW('infra', infra);
       const total30 = tot['30'] || 1;
+      out.incidents = Object.values(inc).map(g => ({
+        type: g.type, label: LOSS_LABELS[g.type] || g.type, count: g.count, count7: g.count7, deals: g.deals.size,
+        unresolved: g.unresolved, maxRetries: g.maxRetries, stage: g.stage, detail: g.detail,
+        topOrgs: Object.entries(g.orgs).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([n, c]) => ({ n, c })),
+        tecnico: INFRA.has(g.type), recoverable: RECOVERABLE.has(g.type),
+      })).sort((a, b) => b.count - a.count);
       out.lossReasons = Object.entries(byType).sort((a, b) => b[1]['30'] - a[1]['30']).slice(0, 10)
         .map(([k, w]) => ({ key: k, label: LOSS_LABELS[k] || k, d7: w['7'], d15: w['15'], d30: w['30'], hoje: w.hoje, share: +(w['30'] / total30 * 100).toFixed(1), ratePerDay7: +(w['7'] / 7).toFixed(1), ratePerDay30: +(w['30'] / 30).toFixed(1), recoverable: RECOVERABLE.has(k), tecnico: INFRA.has(k) }));
       // Sumário negócio × técnico × recuperável (30d) — para o selo agregado
