@@ -1,101 +1,101 @@
 {
-  "generatedAt": "2026-07-28T00:30:51.633Z",
-  "generatedAtBRT": "27/07/2026, 21:30:51",
-  "todayBRT": "2026-07-27",
+  "generatedAt": "2026-07-28T11:08:25.527Z",
+  "generatedAtBRT": "28/07/2026, 08:08:25",
+  "todayBRT": "2026-07-28",
   "windows": {
     "7": {
-      "created": 957,
+      "created": 923,
       "lost": 1361,
-      "lost462": 965,
-      "csScored": 1173,
-      "csApproved": 52,
-      "csReproved": 1121,
-      "csRate": 4.4,
-      "autoTotal": 1566,
+      "lost462": 955,
+      "csScored": 1164,
+      "csApproved": 53,
+      "csReproved": 1111,
+      "csRate": 4.6,
+      "autoTotal": 1565,
       "infra": 61,
-      "semrushCalls": 3262,
-      "semrushUnits": 16454,
+      "semrushCalls": 3204,
+      "semrushUnits": 16144,
       "semrushCache": 0.06,
-      "opecCalls": 3878,
+      "opecCalls": 3859,
       "opecCredits": 783,
-      "opecCost": 112.15
+      "opecCost": 112.85
     },
     "15": {
-      "created": 3354,
-      "lost": 3770,
-      "lost462": 2345,
-      "csScored": 2903,
-      "csApproved": 292,
-      "csReproved": 2611,
-      "csRate": 10.1,
-      "autoTotal": 4147,
+      "created": 3348,
+      "lost": 3742,
+      "lost462": 2347,
+      "csScored": 2906,
+      "csApproved": 291,
+      "csReproved": 2615,
+      "csRate": 10,
+      "autoTotal": 4143,
       "infra": 155,
-      "semrushCalls": 10061,
-      "semrushUnits": 47957,
+      "semrushCalls": 10055,
+      "semrushUnits": 47924,
       "semrushCache": 0.57,
-      "opecCalls": 10255,
-      "opecCredits": 1195,
-      "opecCost": 134.55
+      "opecCalls": 10258,
+      "opecCredits": 1198,
+      "opecCost": 135.4
     },
     "30": {
-      "created": 5659,
-      "lost": 6844,
-      "lost462": 4614,
-      "csScored": 5091,
-      "csApproved": 378,
-      "csReproved": 4713,
+      "created": 5617,
+      "lost": 6803,
+      "lost462": 4584,
+      "csScored": 5063,
+      "csApproved": 377,
+      "csReproved": 4686,
       "csRate": 7.4,
-      "autoTotal": 6855,
+      "autoTotal": 6815,
       "infra": 156,
-      "semrushCalls": 18137,
-      "semrushUnits": 89171,
-      "semrushCache": 0.31,
-      "opecCalls": 10618,
-      "opecCredits": 1195,
-      "opecCost": 134.55
+      "semrushCalls": 18032,
+      "semrushUnits": 88616,
+      "semrushCache": 0.32,
+      "opecCalls": 10613,
+      "opecCredits": 1198,
+      "opecCost": 135.4
     },
     "hoje": {
-      "created": 134,
-      "lost": 255,
-      "lost462": 166,
-      "csScored": 169,
-      "csApproved": 2,
-      "csReproved": 167,
-      "csRate": 1.2,
-      "autoTotal": 259,
-      "infra": 4,
-      "semrushCalls": 461,
-      "semrushUnits": 2396,
+      "created": 6,
+      "lost": 8,
+      "lost462": 5,
+      "csScored": 5,
+      "csApproved": 0,
+      "csReproved": 5,
+      "csRate": 0,
+      "autoTotal": 10,
+      "infra": 1,
+      "semrushCalls": 14,
+      "semrushUnits": 68,
       "semrushCache": 0,
-      "opecCalls": 219,
-      "opecCredits": 50,
-      "opecCost": 12.95
+      "opecCalls": 0,
+      "opecCredits": 0,
+      "opecCost": 0
     }
   },
   "lossReasons": [
     {
       "key": "lost_weak_pure_brand",
       "label": "Marca fraca",
-      "d7": 1228,
-      "d15": 2860,
-      "d30": 5111,
-      "hoje": 241,
-      "share": 74.6,
-      "ratePerDay7": 175.4,
-      "ratePerDay30": 170.4,
+      "d7": 1229,
+      "d15": 2866,
+      "d30": 5105,
+      "hoje": 8,
+      "share": 74.9,
+      "ratePerDay7": 175.6,
+      "ratePerDay30": 170.2,
       "recoverable": true,
       "tecnico": false
     },
     {
       "key": "lost_cs_low",
       "label": "Company Score baixo",
-      "d7": 36,
-      "d15": 176,
-      "d30": 375,
-      "hoje": 7,
-      "share": 5.5,
-      "ratePerDay7": 5.1,
-      "ratePerDay30": 12.5,
+      "d7": 33,
+      "d15": 167,
+      "d30": 353,
+      "hoje": 0,
+      "share": 5.2,
+      "ratePerDay7": 4.7,
+      "ratePerDay30": 11.8,
       "recoverable": true,
       "tecnico": false
     },
@@ -115,25 +115,25 @@
     {
       "key": "lost_low_volume",
       "label": "Volume / mercado baixo",
-      "d7": 17,
+      "d7": 18,
       "d15": 149,
-      "d30": 208,
-      "hoje": 3,
-      "share": 3,
-      "ratePerDay7": 2.4,
-      "ratePerDay30": 6.9,
+      "d30": 209,
+      "hoje": 0,
+      "share": 3.1,
+      "ratePerDay7": 2.6,
+      "ratePerDay30": 7,
       "recoverable": false,
       "tecnico": false
     },
     {
       "key": "garimpo_no_channel",
       "label": "Sem canal (e-mail/tel)",
-      "d7": 26,
+      "d7": 25,
       "d15": 109,
       "d30": 123,
-      "hoje": 2,
+      "hoje": 0,
       "share": 1.8,
-      "ratePerDay7": 3.7,
+      "ratePerDay7": 3.6,
       "ratePerDay30": 4.1,
       "recoverable": true,
       "tecnico": false
@@ -155,12 +155,12 @@
       "key": "lost_duplicate",
       "label": "Duplicidade",
       "d7": 7,
-      "d15": 55,
-      "d30": 87,
-      "hoje": 1,
-      "share": 1.3,
+      "d15": 54,
+      "d30": 82,
+      "hoje": 0,
+      "share": 1.2,
       "ratePerDay7": 1,
-      "ratePerDay30": 2.9,
+      "ratePerDay30": 2.7,
       "recoverable": false,
       "tecnico": false
     },
@@ -195,11 +195,11 @@
       "label": "Product Score baixo",
       "d7": 3,
       "d15": 38,
-      "d30": 60,
+      "d30": 57,
       "hoje": 0,
-      "share": 0.9,
+      "share": 0.8,
       "ratePerDay7": 0.4,
-      "ratePerDay30": 2,
+      "ratePerDay30": 1.9,
       "recoverable": true,
       "tecnico": false
     }
@@ -207,69 +207,69 @@
   "providers": [
     {
       "name": "apollo",
-      "calls": 7125,
-      "successRate": 88,
-      "errorRate": 12,
-      "credits": 3103,
-      "brl": 155.15
-    },
-    {
-      "name": "findymail",
-      "calls": 1632,
-      "successRate": 29,
-      "errorRate": 71,
-      "credits": 455,
-      "brl": 182
+      "calls": 5792,
+      "successRate": 82,
+      "errorRate": 18,
+      "credits": 2600,
+      "brl": 130
     },
     {
       "name": "debounce",
-      "calls": 471,
-      "successRate": 73,
-      "errorRate": 27,
-      "credits": 415,
-      "brl": 8.3
+      "calls": 610,
+      "successRate": 67,
+      "errorRate": 33,
+      "credits": 456,
+      "brl": 9.12
+    },
+    {
+      "name": "findymail",
+      "calls": 1175,
+      "successRate": 33,
+      "errorRate": 67,
+      "credits": 376,
+      "brl": 150.4
     },
     {
       "name": "fullenrich",
-      "calls": 1111,
-      "successRate": 6,
-      "errorRate": 94,
-      "credits": 59,
-      "brl": 29.5
+      "calls": 769,
+      "successRate": 9,
+      "errorRate": 91,
+      "credits": 65,
+      "brl": 32.5
     },
     {
       "name": "cnpja",
       "calls": 13,
-      "successRate": 31,
-      "errorRate": 69,
+      "successRate": 46,
+      "errorRate": 54,
       "credits": 13,
       "brl": 3.25
     },
     {
-      "name": "brasilapi",
-      "calls": 190,
-      "successRate": 92,
-      "errorRate": 8,
+      "name": "gemini",
+      "calls": 472,
+      "successRate": 91,
+      "errorRate": 9,
       "credits": 0,
       "brl": 0
     },
     {
-      "name": "gemini",
-      "calls": 537,
-      "successRate": 82,
-      "errorRate": 18,
+      "name": "brasilapi",
+      "calls": 154,
+      "successRate": 90,
+      "errorRate": 10,
       "credits": 0,
       "brl": 0
     }
   ],
   "contacts": {
-    "total": 14113,
-    "unique": 10943,
+    "total": 14119,
+    "unique": 10947,
     "empresas": 660,
     "verified": 4184,
     "withPhone": 2897,
-    "withLinkedin": 12321,
-    "viaApollo": 10858,
+    "withLinkedin": 12327,
+    "viaApollo": 10864,
     "covEmail": 78,
     "covPhone": 21,
     "covLinkedin": 87,
@@ -280,12 +280,12 @@
     "novo460": 0,
     "requa461": 0,
     "cs462": 0,
-    "bb463": 1,
+    "bb463": 0,
     "bbp464": 1,
-    "golpes465": 1060,
-    "vm466": 714,
-    "garimpo467": 15,
-    "prospeccao434": 622
+    "golpes465": 1061,
+    "vm466": 715,
+    "garimpo467": 16,
+    "prospeccao434": 621
   },
   "sources": {
     "pipedrive": "ok",
@@ -299,26 +299,26 @@
     "buckets": [
       {
         "range": "0–1",
-        "total": 4357,
+        "total": 4335,
         "approved": 0,
-        "reproved": 4357
+        "reproved": 4335
       },
       {
         "range": "1–2",
-        "total": 353,
+        "total": 347,
         "approved": 0,
-        "reproved": 353
+        "reproved": 347
       },
       {
         "range": "2–3",
-        "total": 196,
-        "approved": 190,
+        "total": 197,
+        "approved": 191,
         "reproved": 6
       },
       {
         "range": "3–4",
-        "total": 121,
-        "approved": 121,
+        "total": 120,
+        "approved": 120,
         "reproved": 0
       },
       {
@@ -330,16 +330,16 @@
     ],
     "avgApproved": 2.9,
     "avgReproved": 0.13,
-    "distinctDeals": 5091
+    "distinctDeals": 5063
   },
   "csDimensions": {
     "max": 1,
     "nApproved": 375,
-    "nReproved": 4716,
+    "nReproved": 4688,
     "approved": {
       "semrush": 0.93,
-      "investment": 0.75,
-      "employees": 0.65,
+      "investment": 0.74,
+      "employees": 0.66,
       "instagram": 0.57
     },
     "reproved": {
@@ -352,20 +352,20 @@
       "volume": 32,
       "investment": 46,
       "employees": 88,
-      "instagram": 60
+      "instagram": 61
     }
   },
   "incidents": [
     {
       "type": "lost_weak_pure_brand",
       "label": "Marca fraca",
-      "count": 5111,
-      "count7": 1228,
-      "deals": 5111,
+      "count": 5105,
+      "count7": 1229,
+      "deals": 5105,
       "unresolved": 0,
       "maxRetries": 0,
       "stage": "company_score",
-      "detail": "CS reprovado em cache: weakPureBrand: volume puro 0 < 10.000 (score só por emp+ig)",
+      "detail": "CS reprovado em cache: weakPureBrand: volume puro 20 < 10.000 (score só por emp+ig)",
       "mttrHours": 0,
       "oldestUnresolvedDays": 0,
       "topOrgs": [
@@ -388,9 +388,9 @@
     {
       "type": "lost_cs_low",
       "label": "Company Score baixo",
-      "count": 375,
-      "count7": 36,
-      "deals": 375,
+      "count": 353,
+      "count7": 33,
+      "deals": 353,
       "unresolved": 0,
       "maxRetries": 0,
       "stage": "company_score",
@@ -446,13 +446,13 @@
     {
       "type": "lost_low_volume",
       "label": "Volume / mercado baixo",
-      "count": 208,
-      "count7": 17,
-      "deals": 204,
+      "count": 209,
+      "count7": 18,
+      "deals": 205,
       "unresolved": 0,
       "maxRetries": 0,
       "stage": "monitoria",
-      "detail": "29 varreduras concluídas (última 2026-07-27T17:19:38.903Z), 0/5+ agressores únicos. Sem Potencial BB (histórico).",
+      "detail": "1 execution(s) terminais, 2/5+ agressores únicos (dado fresco). Sem Potencial BB.",
       "mttrHours": 0,
       "oldestUnresolvedDays": 0,
       "topOrgs": [
@@ -476,14 +476,14 @@
       "type": "garimpo_no_channel",
       "label": "Sem canal (e-mail/tel)",
       "count": 123,
-      "count7": 26,
+      "count7": 25,
       "deals": 122,
       "unresolved": 76,
       "maxRetries": 3,
       "stage": "contatos",
       "detail": "2 Persons atachadas, 0 com email/phone (tentativa 1). SDR: garimpar canal manual via LinkedIn. Retry: /api/garimpo/retry/60805",
       "mttrHours": 35.1,
-      "oldestUnresolvedDays": 29,
+      "oldestUnresolvedDays": 30,
       "topOrgs": [
         {
           "n": "Snowland",
@@ -512,7 +512,7 @@
       "stage": "contatos",
       "detail": "Produto Principal não definido ou inválido (raw=null) — não consigo determinar destino",
       "mttrHours": 5.2,
-      "oldestUnresolvedDays": 12,
+      "oldestUnresolvedDays": 13,
       "topOrgs": [
         {
           "n": "Gauss",
@@ -533,9 +533,9 @@
     {
       "type": "lost_duplicate",
       "label": "Duplicidade",
-      "count": 87,
+      "count": 82,
       "count7": 7,
-      "deals": 85,
+      "deals": 80,
       "unresolved": 0,
       "maxRetries": 0,
       "stage": "company_score",
@@ -548,11 +548,11 @@
           "c": 3
         },
         {
-          "n": "Rodoviária Curitiba",
-          "c": 3
+          "n": "Zero 3 Games",
+          "c": 2
         },
         {
-          "n": "Zero 3 Games",
+          "n": "Gocase",
           "c": 2
         }
       ],
@@ -607,9 +607,9 @@
     {
       "type": "lost_ps_low",
       "label": "Product Score baixo",
-      "count": 60,
+      "count": 57,
       "count7": 3,
-      "deals": 60,
+      "deals": 57,
       "unresolved": 0,
       "maxRetries": 0,
       "stage": "product_score",
@@ -636,26 +636,26 @@
     {
       "type": "garimpo_no_contacts",
       "label": "Garimpo: 0 contatos",
-      "count": 45,
-      "count7": 15,
-      "deals": 44,
-      "unresolved": 37,
+      "count": 46,
+      "count7": 16,
+      "deals": 45,
+      "unresolved": 38,
       "maxRetries": 2,
       "stage": "contatos",
-      "detail": "Apollo + Apify retornaram 0 decisores (tentativa 1). Retry manual: /api/garimpo/retry/60309",
+      "detail": "Apollo + Apify retornaram 0 decisores (tentativa 1). Retry manual: /api/garimpo/retry/60954",
       "mttrHours": 37.3,
-      "oldestUnresolvedDays": 13,
+      "oldestUnresolvedDays": 14,
       "topOrgs": [
         {
           "n": "1HORA",
           "c": 2
         },
         {
-          "n": "Ninabag",
+          "n": "Betty Loren",
           "c": 1
         },
         {
-          "n": "Energizer",
+          "n": "Ninabag",
           "c": 1
         }
       ],
@@ -669,7 +669,7 @@
       "count7": 1,
       "deals": 38,
       "unresolved": 2,
-      "maxRetries": 7177,
+      "maxRetries": 7495,
       "stage": "company_score",
       "detail": "HTTP 200",
       "mttrHours": 8.1,
@@ -694,9 +694,9 @@
     {
       "type": "lost_invalid_data",
       "label": "Dado inválido",
-      "count": 36,
+      "count": 35,
       "count7": 5,
-      "deals": 36,
+      "deals": 35,
       "unresolved": 0,
       "maxRetries": 0,
       "stage": "company_score",
@@ -709,11 +709,11 @@
           "c": 2
         },
         {
-          "n": "Desconto Válido",
+          "n": "Kids Corp",
           "c": 2
         },
         {
-          "n": "Kids Corp",
+          "n": "Por Trás da Licitação",
           "c": 2
         }
       ],
@@ -723,10 +723,10 @@
     {
       "type": "cs_missing_dimensions",
       "label": "Dimensões insuficientes",
-      "count": 34,
+      "count": 32,
       "count7": 2,
-      "deals": 34,
-      "unresolved": 28,
+      "deals": 32,
+      "unresolved": 26,
       "maxRetries": 0,
       "stage": "company_score",
       "detail": "Faltam dimensões: employees(unresolved), instagram(unresolved) (2/4, tentativa 1)",
@@ -735,7 +735,7 @@
       "topOrgs": [
         {
           "n": "J8",
-          "c": 3
+          "c": 2
         },
         {
           "n": "Albumina Naturovos Oficial",
@@ -752,9 +752,9 @@
     {
       "type": "lost_nonbr_junk",
       "label": "Lixo / não-brasileiro",
-      "count": 29,
+      "count": 28,
       "count7": 2,
-      "deals": 29,
+      "deals": 28,
       "unresolved": 0,
       "maxRetries": 0,
       "stage": "company_score",
@@ -789,7 +789,7 @@
       "stage": "monitoria",
       "detail": "BUG: ORG #20652 (Aposta Tudo) chegou em Monitoria sem topKeywords. Company Score deveria ter forçado fallback (termo puro). Investigar manualmente.",
       "mttrHours": 6,
-      "oldestUnresolvedDays": 8,
+      "oldestUnresolvedDays": 9,
       "topOrgs": [
         {
           "n": "Aposta Tudo",
@@ -810,9 +810,9 @@
     {
       "type": "lost_person_cpf",
       "label": "lost_person_cpf",
-      "count": 22,
+      "count": 20,
       "count7": 0,
-      "deals": 22,
+      "deals": 20,
       "unresolved": 0,
       "maxRetries": 0,
       "stage": "company_score",
@@ -876,7 +876,7 @@
       "stage": "monitoria",
       "detail": "A ponte VC não encontrou monitoria pra \"Indusat\" (found=false). Card aguardando vínculo — não reprovado.",
       "mttrHours": 0.2,
-      "oldestUnresolvedDays": 1,
+      "oldestUnresolvedDays": 2,
       "topOrgs": [
         {
           "n": "Indusat",
@@ -1050,7 +1050,7 @@
       "stage": "pre_monitoria",
       "detail": "Empresa fora do BR (Apollo: United States, sem CNPJ) — Branddi é BR-only",
       "mttrHours": null,
-      "oldestUnresolvedDays": 28,
+      "oldestUnresolvedDays": 29,
       "topOrgs": [
         {
           "n": "Airalo",
@@ -1137,7 +1137,7 @@
       "stage": "pre_monitoria",
       "detail": "Cacau Show é cliente Branddi — não prospectar",
       "mttrHours": null,
-      "oldestUnresolvedDays": 13,
+      "oldestUnresolvedDays": 14,
       "topOrgs": [
         {
           "n": "Cacau Show",
@@ -1232,10 +1232,10 @@
     }
   ],
   "lossSummary": {
-    "total": 6855,
+    "total": 6815,
     "tecnico": 156,
-    "recuperavel": 6076,
-    "legitima": 623
+    "recuperavel": 6044,
+    "legitima": 615
   },
   "lossMeta": {
     "labels": {
@@ -1290,62 +1290,6 @@
       "all_campaigns_failed"
     ]
   },
-  "stageAging": {
-    "434": {
-      "open": 42,
-      "avgAge": 102,
-      "maxAge": 107,
-      "over30": 42
-    },
-    "460": {
-      "open": 0,
-      "avgAge": 0,
-      "maxAge": 0,
-      "over30": 0
-    },
-    "461": {
-      "open": 0,
-      "avgAge": 0,
-      "maxAge": 0,
-      "over30": 0
-    },
-    "462": {
-      "open": 13770,
-      "avgAge": 47,
-      "maxAge": 120,
-      "over30": 10795
-    },
-    "463": {
-      "open": 6,
-      "avgAge": 58,
-      "maxAge": 106,
-      "over30": 5
-    },
-    "464": {
-      "open": 260,
-      "avgAge": 17,
-      "maxAge": 83,
-      "over30": 32
-    },
-    "465": {
-      "open": 1,
-      "avgAge": 70,
-      "maxAge": 70,
-      "over30": 1
-    },
-    "466": {
-      "open": 0,
-      "avgAge": 0,
-      "maxAge": 0,
-      "over30": 0
-    },
-    "467": {
-      "open": 20,
-      "avgAge": 6,
-      "maxAge": 55,
-      "over30": 1
-    }
-  },
   "providerRates": {
     "apollo": 0.05,
     "findymail": 0.4,
@@ -1363,76 +1307,75 @@
   },
   "daily": {
     "2026-07-27": {
-      "created": 134,
-      "lost": 255,
-      "lost462": 166,
-      "csScored": 169,
-      "csApproved": 2,
-      "autoTotal": 259,
-      "infra": 4,
-      "semrushUnits": 2396,
-      "semrushCalls": 461,
+      "created": 152,
+      "lost": 288,
+      "lost462": 185,
+      "csScored": 189,
+      "csApproved": 3,
+      "autoTotal": 290,
+      "infra": 3,
+      "semrushUnits": 2675,
+      "semrushCalls": 515,
       "semrushHits": 0,
-      "contactsNew": 166,
-      "cEmail": 95,
-      "cLinkedin": 166,
+      "contactsNew": 172,
+      "cEmail": 99,
+      "cLinkedin": 172,
       "cPhone": 0,
-      "cApollo": 166,
+      "cApollo": 172,
       "cVerified": 0,
-      "opecCalls": 219,
-      "opecCredits": 50,
-      "opecCost": 12.95,
+      "opecCalls": 226,
+      "opecCredits": 53,
+      "opecCost": 13.8,
       "csB": [
-        166,
+        185,
         1,
-        1,
+        2,
         1,
         0
       ],
       "csBA": [
         0,
         0,
-        1,
+        2,
         1,
         0
       ],
+      "csSA": 7.5,
+      "csNA": 3,
       "csSR": 3,
-      "csNR": 167,
-      "csSA": 5.5,
-      "csNA": 2,
+      "csNR": 186,
       "loss": {
-        "cs_endpoint_failed": 1,
-        "lost_weak_pure_brand": 241,
+        "lost_low_volume": 5,
+        "lost_weak_pure_brand": 271,
         "lost_duplicate": 1,
         "lost_cs_low": 7,
-        "lost_low_volume": 3,
         "lost_invalid_data": 1,
         "garimpo_no_channel": 2,
         "bbp_vc_monitoria_ausente": 3
       },
       "prov": {
         "brasilapi": {
-          "c": 3,
-          "s": 3,
+          "c": 2,
+          "s": 2,
           "cr": 0
         },
         "gemini": {
-          "c": 4,
+          "c": 6,
           "s": 0,
           "cr": 0
         },
         "apollo": {
-          "c": 43,
-          "s": 40,
-          "cr": 7
+          "c": 55,
+          "s": 52,
+          "cr": 10
         },
         "findymail": {
-          "c": 12,
-          "s": 3,
-          "cr": 2
+          "c": 13,
+          "s": 4,
+          "cr": 3
         },
         "fullenrich": {
-          "c": 8,
+          "c": 9,
           "s": 1,
           "cr": 1
         }
@@ -1486,34 +1429,29 @@
       },
       "prov": {
         "brasilapi": {
-          "c": 7,
-          "s": 6,
+          "c": 3,
+          "s": 3,
           "cr": 0
-        },
-        "findymail": {
-          "c": 33,
-          "s": 20,
-          "cr": 20
-        },
-        "apollo": {
-          "c": 65,
-          "s": 64,
-          "cr": 30
-        },
-        "gemini": {
-          "c": 12,
-          "s": 12,
-          "cr": 0
-        },
-        "cnpja": {
-          "c": 1,
-          "s": 0,
-          "cr": 1
         },
         "fullenrich": {
-          "c": 13,
-          "s": 9,
-          "cr": 9
+          "c": 2,
+          "s": 2,
+          "cr": 2
+        },
+        "findymail": {
+          "c": 2,
+          "s": 1,
+          "cr": 1
+        },
+        "gemini": {
+          "c": 4,
+          "s": 4,
+          "cr": 0
+        },
+        "apollo": {
+          "c": 18,
+          "s": 17,
+          "cr": 6
         }
       }
     },
@@ -1569,20 +1507,30 @@
         "no_keywords_after_cs": 1
       },
       "prov": {
-        "apollo": {
-          "c": 53,
-          "s": 51,
-          "cr": 31
-        },
         "findymail": {
-          "c": 22,
+          "c": 139,
+          "s": 56,
+          "cr": 56
+        },
+        "apollo": {
+          "c": 354,
+          "s": 343,
+          "cr": 179
+        },
+        "brasilapi": {
+          "c": 4,
           "s": 4,
-          "cr": 4
+          "cr": 0
+        },
+        "gemini": {
+          "c": 19,
+          "s": 16,
+          "cr": 0
         },
         "fullenrich": {
-          "c": 18,
-          "s": 2,
-          "cr": 2
+          "c": 80,
+          "s": 12,
+          "cr": 11
         }
       }
     },
@@ -1640,28 +1588,28 @@
       },
       "prov": {
         "findymail": {
-          "c": 146,
-          "s": 59,
-          "cr": 57
-        },
-        "brasilapi": {
-          "c": 16,
-          "s": 16,
-          "cr": 0
+          "c": 109,
+          "s": 66,
+          "cr": 64
         },
         "apollo": {
-          "c": 601,
-          "s": 577,
-          "cr": 414
-        },
-        "fullenrich": {
-          "c": 78,
-          "s": 7,
-          "cr": 6
+          "c": 269,
+          "s": 252,
+          "cr": 135
         },
         "gemini": {
-          "c": 53,
-          "s": 50,
+          "c": 38,
+          "s": 35,
+          "cr": 0
+        },
+        "fullenrich": {
+          "c": 43,
+          "s": 8,
+          "cr": 6
+        },
+        "brasilapi": {
+          "c": 6,
+          "s": 6,
           "cr": 0
         }
       }
@@ -1720,29 +1668,29 @@
         "lost_invalid_data": 1
       },
       "prov": {
+        "apollo": {
+          "c": 429,
+          "s": 411,
+          "cr": 140
+        },
         "brasilapi": {
-          "c": 9,
-          "s": 9,
+          "c": 7,
+          "s": 7,
           "cr": 0
         },
         "findymail": {
-          "c": 61,
+          "c": 106,
+          "s": 28,
+          "cr": 28
+        },
+        "fullenrich": {
+          "c": 78,
           "s": 10,
           "cr": 10
         },
-        "apollo": {
-          "c": 168,
-          "s": 165,
-          "cr": 45
-        },
-        "fullenrich": {
-          "c": 51,
-          "s": 2,
-          "cr": 2
-        },
         "gemini": {
-          "c": 4,
-          "s": 4,
+          "c": 14,
+          "s": 14,
           "cr": 0
         }
       }
@@ -1806,40 +1754,40 @@
         "cs_endpoint_failed": 28
       },
       "prov": {
-        "fullenrich": {
-          "c": 309,
-          "s": 7,
-          "cr": 3
-        },
-        "apollo": {
-          "c": 1360,
-          "s": 1349,
-          "cr": 979
-        },
         "findymail": {
-          "c": 404,
-          "s": 66,
-          "cr": 66
+          "c": 245,
+          "s": 47,
+          "cr": 41
         },
         "debounce": {
-          "c": 129,
-          "s": 105,
-          "cr": 118
+          "c": 153,
+          "s": 112,
+          "cr": 140
+        },
+        "apollo": {
+          "c": 1149,
+          "s": 1139,
+          "cr": 1180
+        },
+        "fullenrich": {
+          "c": 205,
+          "s": 10,
+          "cr": 9
         },
         "gemini": {
-          "c": 25,
-          "s": 24,
+          "c": 31,
+          "s": 29,
           "cr": 0
         },
         "brasilapi": {
-          "c": 7,
-          "s": 1,
+          "c": 13,
+          "s": 3,
           "cr": 0
         },
         "cnpja": {
-          "c": 5,
-          "s": 4,
-          "cr": 5
+          "c": 8,
+          "s": 6,
+          "cr": 8
         }
       }
     },
@@ -1893,35 +1841,35 @@
         "lost_invalid_data": 1
       },
       "prov": {
+        "apollo": {
+          "c": 193,
+          "s": 193,
+          "cr": 163
+        },
         "fullenrich": {
-          "c": 73,
+          "c": 37,
           "s": 1,
           "cr": 1
         },
-        "apollo": {
-          "c": 255,
-          "s": 255,
-          "cr": 165
-        },
         "findymail": {
-          "c": 65,
-          "s": 6,
-          "cr": 6
-        },
-        "brasilapi": {
-          "c": 11,
-          "s": 11,
-          "cr": 0
+          "c": 48,
+          "s": 9,
+          "cr": 9
         },
         "gemini": {
-          "c": 28,
-          "s": 27,
+          "c": 26,
+          "s": 25,
           "cr": 0
         },
         "debounce": {
-          "c": 26,
-          "s": 19,
-          "cr": 24
+          "c": 30,
+          "s": 20,
+          "cr": 28
+        },
+        "brasilapi": {
+          "c": 10,
+          "s": 10,
+          "cr": 0
         }
       }
     },
@@ -1974,23 +1922,8 @@
         "garimpo_no_channel": 3
       },
       "prov": {
-        "apollo": {
-          "c": 117,
-          "s": 117,
-          "cr": 116
-        },
         "debounce": {
-          "c": 20,
-          "s": 18,
-          "cr": 20
-        },
-        "findymail": {
-          "c": 58,
-          "s": 7,
-          "cr": 7
-        },
-        "fullenrich": {
-          "c": 50,
+          "c": 2,
           "s": 2,
           "cr": 2
         }
@@ -2043,40 +1976,30 @@
         "lost_duplicate": 2
       },
       "prov": {
+        "debounce": {
+          "c": 42,
+          "s": 30,
+          "cr": 30
+        },
         "apollo": {
-          "c": 134,
-          "s": 64,
+          "c": 234,
+          "s": 102,
           "cr": 0
         },
-        "debounce": {
-          "c": 26,
-          "s": 22,
-          "cr": 24
-        },
         "brasilapi": {
-          "c": 9,
-          "s": 8,
+          "c": 13,
+          "s": 12,
           "cr": 0
         },
         "gemini": {
-          "c": 22,
-          "s": 19,
+          "c": 39,
+          "s": 39,
           "cr": 0
         },
         "cnpja": {
           "c": 1,
           "s": 0,
           "cr": 1
-        },
-        "findymail": {
-          "c": 3,
-          "s": 2,
-          "cr": 2
-        },
-        "fullenrich": {
-          "c": 1,
-          "s": 0,
-          "cr": 0
         }
       }
     },
@@ -2133,24 +2056,29 @@
       },
       "prov": {
         "apollo": {
-          "c": 196,
-          "s": 82,
-          "cr": 0
-        },
-        "brasilapi": {
-          "c": 17,
-          "s": 17,
+          "c": 89,
+          "s": 35,
           "cr": 0
         },
         "gemini": {
-          "c": 33,
-          "s": 31,
+          "c": 14,
+          "s": 14,
           "cr": 0
         },
         "debounce": {
-          "c": 59,
-          "s": 55,
-          "cr": 55
+          "c": 40,
+          "s": 36,
+          "cr": 36
+        },
+        "brasilapi": {
+          "c": 3,
+          "s": 2,
+          "cr": 0
+        },
+        "cnpja": {
+          "c": 1,
+          "s": 0,
+          "cr": 1
         }
       }
     },
@@ -2203,29 +2131,24 @@
         "lost_person_cpf": 1
       },
       "prov": {
-        "debounce": {
-          "c": 38,
-          "s": 24,
-          "cr": 24
-        },
-        "apollo": {
-          "c": 70,
-          "s": 16,
-          "cr": 0
-        },
-        "findymail": {
-          "c": 1,
-          "s": 1,
-          "cr": 1
-        },
         "brasilapi": {
-          "c": 1,
-          "s": 1,
+          "c": 6,
+          "s": 6,
           "cr": 0
+        },
+        "debounce": {
+          "c": 25,
+          "s": 25,
+          "cr": 25
         },
         "gemini": {
           "c": 6,
           "s": 6,
+          "cr": 0
+        },
+        "apollo": {
+          "c": 55,
+          "s": 18,
           "cr": 0
         }
       }
@@ -2277,6 +2200,18 @@
         "lost_person_cpf": 4,
         "lost_duplicate": 1,
         "lost_invalid_data": 1
+      },
+      "prov": {
+        "apollo": {
+          "c": 95,
+          "s": 18,
+          "cr": 0
+        },
+        "debounce": {
+          "c": 70,
+          "s": 18,
+          "cr": 16
+        }
       }
     },
     "2026-07-04": {
@@ -2327,6 +2262,13 @@
         "garimpo_no_channel": 1,
         "lost_ps_low": 1,
         "lost_nonbr_junk": 1
+      },
+      "prov": {
+        "apollo": {
+          "c": 14,
+          "s": 2,
+          "cr": 0
+        }
       }
     },
     "2026-07-02": {
@@ -2379,19 +2321,39 @@
         "lost_ps_low": 1
       },
       "prov": {
-        "gemini": {
-          "c": 3,
-          "s": 3,
+        "brasilapi": {
+          "c": 7,
+          "s": 6,
           "cr": 0
         },
-        "debounce": {
+        "cnpja": {
           "c": 1,
-          "s": 1,
+          "s": 0,
           "cr": 1
         },
-        "brasilapi": {
-          "c": 2,
-          "s": 2,
+        "gemini": {
+          "c": 19,
+          "s": 19,
+          "cr": 0
+        },
+        "apollo": {
+          "c": 114,
+          "s": 55,
+          "cr": 7
+        },
+        "debounce": {
+          "c": 32,
+          "s": 26,
+          "cr": 26
+        },
+        "fullenrich": {
+          "c": 6,
+          "s": 0,
+          "cr": 0
+        },
+        "findymail": {
+          "c": 4,
+          "s": 0,
           "cr": 0
         }
       }
@@ -2444,40 +2406,35 @@
         "lost_duplicate": 2
       },
       "prov": {
-        "fullenrich": {
-          "c": 26,
-          "s": 0,
-          "cr": 0
+        "debounce": {
+          "c": 2,
+          "s": 1,
+          "cr": 2
         },
         "gemini": {
-          "c": 30,
-          "s": 28,
+          "c": 8,
+          "s": 8,
           "cr": 0
         },
         "apollo": {
-          "c": 185,
-          "s": 185,
-          "cr": 186
-        },
-        "brasilapi": {
-          "c": 8,
-          "s": 7,
-          "cr": 0
-        },
-        "debounce": {
-          "c": 27,
-          "s": 15,
-          "cr": 27
-        },
-        "cnpja": {
-          "c": 1,
-          "s": 0,
-          "cr": 1
+          "c": 38,
+          "s": 38,
+          "cr": 28
         },
         "findymail": {
-          "c": 29,
-          "s": 2,
-          "cr": 2
+          "c": 6,
+          "s": 0,
+          "cr": 0
+        },
+        "fullenrich": {
+          "c": 4,
+          "s": 0,
+          "cr": 0
+        },
+        "brasilapi": {
+          "c": 1,
+          "s": 1,
+          "cr": 0
         }
       }
     },
@@ -2532,35 +2489,35 @@
         "lost_person_cpf": 1
       },
       "prov": {
-        "brasilapi": {
-          "c": 5,
-          "s": 5,
-          "cr": 0
-        },
         "gemini": {
-          "c": 18,
-          "s": 18,
+          "c": 15,
+          "s": 15,
           "cr": 0
         },
         "apollo": {
-          "c": 186,
-          "s": 186,
-          "cr": 134
-        },
-        "findymail": {
-          "c": 115,
-          "s": 17,
-          "cr": 17
-        },
-        "fullenrich": {
-          "c": 97,
-          "s": 6,
-          "cr": 6
+          "c": 124,
+          "s": 124,
+          "cr": 148
         },
         "debounce": {
-          "c": 31,
-          "s": 18,
-          "cr": 30
+          "c": 8,
+          "s": 3,
+          "cr": 8
+        },
+        "findymail": {
+          "c": 15,
+          "s": 4,
+          "cr": 4
+        },
+        "fullenrich": {
+          "c": 7,
+          "s": 2,
+          "cr": 2
+        },
+        "brasilapi": {
+          "c": 2,
+          "s": 2,
+          "cr": 0
         }
       }
     },
@@ -2615,29 +2572,9 @@
         "gd_no_opportunity": 28
       },
       "prov": {
-        "gemini": {
-          "c": 16,
-          "s": 16,
-          "cr": 0
-        },
         "apollo": {
-          "c": 62,
-          "s": 62,
-          "cr": 34
-        },
-        "debounce": {
-          "c": 11,
-          "s": 8,
-          "cr": 9
-        },
-        "findymail": {
-          "c": 17,
-          "s": 2,
-          "cr": 2
-        },
-        "fullenrich": {
-          "c": 15,
-          "s": 0,
+          "c": 49,
+          "s": 12,
           "cr": 0
         }
       }
@@ -2646,12 +2583,12 @@
       "created": 237,
       "lost": 262,
       "lost462": 224,
-      "csScored": 218,
-      "csApproved": 7,
-      "autoTotal": 268,
+      "csScored": 175,
+      "csApproved": 5,
+      "autoTotal": 206,
       "infra": 0,
-      "semrushUnits": 4033,
-      "semrushCalls": 784,
+      "semrushUnits": 3344,
+      "semrushCalls": 653,
       "semrushHits": 0,
       "contactsNew": 0,
       "cEmail": 0,
@@ -2663,43 +2600,42 @@
       "opecCredits": 0,
       "opecCost": 0,
       "csB": [
-        201,
-        10,
-        4,
-        2,
+        164,
+        6,
+        3,
+        1,
         1
       ],
       "csBA": [
         0,
         0,
-        4,
-        2,
+        3,
+        1,
         1
       ],
-      "csSR": 20.75,
-      "csNR": 211,
-      "csSA": 19,
-      "csNA": 7,
+      "csSR": 13.25,
+      "csNR": 170,
+      "csSA": 13.75,
+      "csNA": 5,
       "loss": {
         "gd_no_opportunity": 9,
         "garimpo_no_channel": 2,
-        "lost_weak_pure_brand": 212,
-        "lost_cs_low": 26,
+        "lost_weak_pure_brand": 178,
+        "lost_cs_low": 7,
         "pescaria_is_branddi_client": 1,
         "lost_branddi_client": 1,
-        "lost_ps_low": 4,
-        "lost_low_volume": 2,
-        "lost_duplicate": 2,
+        "lost_ps_low": 1,
+        "lost_low_volume": 1,
+        "lost_duplicate": 1,
         "no_keywords_after_cs": 2,
         "lost_nonbr_junk": 1,
-        "lost_invalid_data": 2,
-        "cs_missing_dimensions": 2,
-        "lost_person_cpf": 2
+        "lost_invalid_data": 1,
+        "cs_missing_dimensions": 1
       },
       "prov": {
         "apollo": {
-          "c": 52,
-          "s": 12,
+          "c": 63,
+          "s": 20,
           "cr": 0
         }
       }
@@ -2708,12 +2644,12 @@
       "created": 186,
       "lost": 216,
       "lost462": 177,
-      "csScored": 11,
+      "csScored": 0,
       "csApproved": 0,
-      "autoTotal": 19,
+      "autoTotal": 0,
       "infra": 0,
-      "semrushUnits": 213,
-      "semrushCalls": 42,
+      "semrushUnits": 0,
+      "semrushCalls": 0,
       "semrushHits": 0,
       "contactsNew": 0,
       "cEmail": 0,
@@ -2723,35 +2659,12 @@
       "cVerified": 0,
       "opecCalls": 4,
       "opecCredits": 0,
-      "opecCost": 0,
-      "csB": [
-        9,
-        2,
-        0,
-        0,
-        0
-      ],
-      "csBA": [
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      "csSR": 3,
-      "csNR": 11,
-      "loss": {
-        "lost_cs_low": 3,
-        "lost_weak_pure_brand": 10,
-        "lost_duplicate": 4,
-        "cs_missing_dimensions": 1,
-        "lost_nonbr_junk": 1
-      }
+      "opecCost": 0
     },
     "2026-06-26": {
-      "created": 120,
-      "lost": 241,
-      "lost462": 195,
+      "created": 100,
+      "lost": 238,
+      "lost462": 192,
       "csScored": 0,
       "csApproved": 0,
       "autoTotal": 0,
@@ -2771,8 +2684,8 @@
     },
     "2026-06-25": {
       "created": 25,
-      "lost": 68,
-      "lost462": 21,
+      "lost": 47,
+      "lost462": 0,
       "csScored": 0,
       "csApproved": 0,
       "autoTotal": 0,
@@ -3022,9 +2935,9 @@
       "opecCost": 0
     },
     "2026-06-12": {
-      "created": 34,
-      "lost": 15,
-      "lost462": 1,
+      "created": 28,
+      "lost": 12,
+      "lost462": 0,
       "csScored": 0,
       "csApproved": 0,
       "autoTotal": 0,
@@ -3032,15 +2945,79 @@
       "semrushUnits": 0,
       "semrushCalls": 0,
       "semrushHits": 0,
-      "contactsNew": 48,
+      "contactsNew": 47,
       "cEmail": 34,
-      "cLinkedin": 36,
+      "cLinkedin": 35,
       "cPhone": 39,
-      "cApollo": 2,
+      "cApollo": 1,
       "cVerified": 34,
-      "opecCalls": 73,
+      "opecCalls": 0,
       "opecCredits": 0,
       "opecCost": 0
+    },
+    "2026-07-28": {
+      "created": 6,
+      "lost": 8,
+      "lost462": 5,
+      "csScored": 5,
+      "csApproved": 0,
+      "autoTotal": 10,
+      "infra": 1,
+      "semrushUnits": 68,
+      "semrushCalls": 14,
+      "semrushHits": 0,
+      "contactsNew": 0,
+      "cEmail": 0,
+      "cLinkedin": 0,
+      "cPhone": 0,
+      "cApollo": 0,
+      "cVerified": 0,
+      "opecCalls": 0,
+      "opecCredits": 0,
+      "opecCost": 0,
+      "csB": [
+        5,
+        0,
+        0,
+        0,
+        0
+      ],
+      "csBA": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "csSR": 0,
+      "csNR": 5,
+      "loss": {
+        "cs_endpoint_failed": 1,
+        "garimpo_no_contacts": 1,
+        "lost_weak_pure_brand": 8
+      },
+      "prov": {
+        "apollo": {
+          "c": 5,
+          "s": 5,
+          "cr": 1
+        },
+        "gemini": {
+          "c": 1,
+          "s": 0,
+          "cr": 0
+        },
+        "findymail": {
+          "c": 1,
+          "s": 0,
+          "cr": 0
+        },
+        "fullenrich": {
+          "c": 1,
+          "s": 0,
+          "cr": 0
+        }
+      }
     },
     "2026-07-17": {
       "created": 876,
@@ -3104,35 +3081,40 @@
         "lost_invalid_data": 2
       },
       "prov": {
-        "brasilapi": {
-          "c": 15,
-          "s": 13,
-          "cr": 0
-        },
         "apollo": {
-          "c": 1200,
-          "s": 1143,
-          "cr": 372
-        },
-        "fullenrich": {
-          "c": 153,
-          "s": 5,
-          "cr": 5
+          "c": 1106,
+          "s": 1057,
+          "cr": 442
         },
         "findymail": {
-          "c": 297,
-          "s": 139,
-          "cr": 134
+          "c": 359,
+          "s": 141,
+          "cr": 140
+        },
+        "debounce": {
+          "c": 2,
+          "s": 2,
+          "cr": 2
         },
         "gemini": {
-          "c": 60,
-          "s": 57,
+          "c": 68,
+          "s": 61,
           "cr": 0
         },
+        "brasilapi": {
+          "c": 19,
+          "s": 18,
+          "cr": 0
+        },
+        "fullenrich": {
+          "c": 194,
+          "s": 20,
+          "cr": 18
+        },
         "cnpja": {
-          "c": 2,
+          "c": 1,
           "s": 0,
-          "cr": 2
+          "cr": 1
         }
       }
     },
@@ -3188,6 +3170,28 @@
         "lost_invalid_data": 3,
         "invalid_domain_domain_empty": 1,
         "lost_duplicate": 1
+      },
+      "prov": {
+        "findymail": {
+          "c": 5,
+          "s": 3,
+          "cr": 2
+        },
+        "brasilapi": {
+          "c": 4,
+          "s": 4,
+          "cr": 0
+        },
+        "apollo": {
+          "c": 60,
+          "s": 58,
+          "cr": 38
+        },
+        "fullenrich": {
+          "c": 2,
+          "s": 0,
+          "cr": 0
+        }
       }
     },
     "2026-07-25": {
@@ -3281,18 +3285,6 @@
         "cs_missing_dimensions": 1,
         "lost_low_volume": 1,
         "lost_nonbr_junk": 1
-      },
-      "prov": {
-        "brasilapi": {
-          "c": 8,
-          "s": 8,
-          "cr": 0
-        },
-        "findymail": {
-          "c": 2,
-          "s": 2,
-          "cr": 2
-        }
       }
     },
     "2026-07-23": {
@@ -3345,34 +3337,9 @@
       },
       "prov": {
         "brasilapi": {
-          "c": 21,
-          "s": 20,
-          "cr": 0
-        },
-        "findymail": {
-          "c": 129,
-          "s": 62,
-          "cr": 59
-        },
-        "gemini": {
-          "c": 57,
-          "s": 0,
-          "cr": 0
-        },
-        "apollo": {
-          "c": 587,
-          "s": 565,
-          "cr": 253
-        },
-        "fullenrich": {
-          "c": 68,
-          "s": 12,
-          "cr": 12
-        },
-        "cnpja": {
           "c": 1,
-          "s": 0,
-          "cr": 1
+          "s": 1,
+          "cr": 0
         }
       }
     },
@@ -3427,34 +3394,29 @@
       },
       "prov": {
         "apollo": {
-          "c": 406,
-          "s": 396,
-          "cr": 44
-        },
-        "findymail": {
-          "c": 24,
-          "s": 14,
-          "cr": 11
-        },
-        "fullenrich": {
-          "c": 6,
-          "s": 0,
-          "cr": 0
+          "c": 315,
+          "s": 294,
+          "cr": 38
         },
         "gemini": {
-          "c": 13,
-          "s": 4,
+          "c": 21,
+          "s": 10,
           "cr": 0
         },
         "brasilapi": {
-          "c": 5,
-          "s": 4,
+          "c": 11,
+          "s": 11,
           "cr": 0
         },
-        "cnpja": {
-          "c": 1,
+        "fullenrich": {
+          "c": 10,
           "s": 0,
-          "cr": 1
+          "cr": 0
+        },
+        "findymail": {
+          "c": 22,
+          "s": 13,
+          "cr": 13
         }
       }
     },
@@ -3509,30 +3471,30 @@
         "garimpo_no_channel": 1
       },
       "prov": {
-        "gemini": {
-          "c": 4,
-          "s": 3,
-          "cr": 0
-        },
-        "apollo": {
-          "c": 481,
-          "s": 393,
-          "cr": 83
-        },
-        "fullenrich": {
-          "c": 12,
-          "s": 5,
-          "cr": 5
-        },
         "findymail": {
-          "c": 38,
-          "s": 19,
-          "cr": 19
+          "c": 18,
+          "s": 11,
+          "cr": 11
         },
         "brasilapi": {
           "c": 9,
           "s": 9,
           "cr": 0
+        },
+        "gemini": {
+          "c": 14,
+          "s": 12,
+          "cr": 0
+        },
+        "apollo": {
+          "c": 114,
+          "s": 108,
+          "cr": 42
+        },
+        "fullenrich": {
+          "c": 9,
+          "s": 3,
+          "cr": 3
         }
       }
     },
@@ -3589,28 +3551,13 @@
       },
       "prov": {
         "apollo": {
-          "c": 207,
-          "s": 190,
-          "cr": 55
-        },
-        "findymail": {
-          "c": 106,
-          "s": 40,
-          "cr": 30
-        },
-        "fullenrich": {
-          "c": 66,
-          "s": 2,
-          "cr": 2
+          "c": 1,
+          "s": 1,
+          "cr": 1
         },
         "brasilapi": {
-          "c": 10,
-          "s": 9,
-          "cr": 0
-        },
-        "gemini": {
-          "c": 48,
-          "s": 46,
+          "c": 2,
+          "s": 1,
           "cr": 0
         }
       }
@@ -3659,6 +3606,38 @@
         "lost_duplicate": 1,
         "lost_nonbr_junk": 1,
         "lost_person_cpf": 1
+      },
+      "prov": {
+        "brasilapi": {
+          "c": 4,
+          "s": 4,
+          "cr": 0
+        },
+        "gemini": {
+          "c": 16,
+          "s": 16,
+          "cr": 0
+        },
+        "apollo": {
+          "c": 59,
+          "s": 59,
+          "cr": 0
+        },
+        "findymail": {
+          "c": 19,
+          "s": 2,
+          "cr": 2
+        },
+        "debounce": {
+          "c": 11,
+          "s": 5,
+          "cr": 6
+        },
+        "fullenrich": {
+          "c": 17,
+          "s": 0,
+          "cr": 0
+        }
       }
     },
     "2026-07-10": {
@@ -3711,35 +3690,35 @@
         "lost_outside_brazil": 1
       },
       "prov": {
+        "debounce": {
+          "c": 34,
+          "s": 21,
+          "cr": 28
+        },
         "apollo": {
-          "c": 384,
-          "s": 264,
-          "cr": 155
+          "c": 144,
+          "s": 116,
+          "cr": 42
         },
         "gemini": {
-          "c": 59,
-          "s": 55,
+          "c": 28,
+          "s": 27,
           "cr": 0
         },
-        "debounce": {
-          "c": 75,
-          "s": 35,
-          "cr": 60
-        },
         "brasilapi": {
-          "c": 18,
-          "s": 17,
+          "c": 10,
+          "s": 9,
           "cr": 0
         },
         "findymail": {
-          "c": 70,
-          "s": 4,
-          "cr": 4
+          "c": 58,
+          "s": 2,
+          "cr": 2
         },
         "fullenrich": {
-          "c": 67,
-          "s": 3,
-          "cr": 3
+          "c": 59,
+          "s": 2,
+          "cr": 2
         },
         "cnpja": {
           "c": 1,
@@ -3796,24 +3775,34 @@
         "garimpo_no_channel": 1
       },
       "prov": {
+        "debounce": {
+          "c": 17,
+          "s": 14,
+          "cr": 14
+        },
         "apollo": {
-          "c": 96,
-          "s": 28,
+          "c": 196,
+          "s": 96,
           "cr": 0
         },
         "gemini": {
-          "c": 10,
-          "s": 10,
+          "c": 30,
+          "s": 29,
           "cr": 0
         },
-        "debounce": {
-          "c": 9,
-          "s": 9,
-          "cr": 9
+        "findymail": {
+          "c": 6,
+          "s": 0,
+          "cr": 0
+        },
+        "fullenrich": {
+          "c": 6,
+          "s": 0,
+          "cr": 0
         },
         "brasilapi": {
-          "c": 3,
-          "s": 3,
+          "c": 1,
+          "s": 1,
           "cr": 0
         }
       }
@@ -3867,48 +3856,27 @@
         "lost_invalid_data": 1
       },
       "prov": {
+        "gemini": {
+          "c": 55,
+          "s": 51,
+          "cr": 0
+        },
         "apollo": {
-          "c": 217,
-          "s": 70,
+          "c": 450,
+          "s": 138,
           "cr": 0
         },
         "debounce": {
-          "c": 19,
-          "s": 14,
-          "cr": 14
-        },
-        "gemini": {
-          "c": 32,
-          "s": 28,
-          "cr": 0
+          "c": 142,
+          "s": 93,
+          "cr": 93
         },
         "brasilapi": {
-          "c": 6,
-          "s": 6,
+          "c": 16,
+          "s": 16,
           "cr": 0
         }
       }
-    },
-    "2026-06-11": {
-      "created": 4,
-      "lost": 2,
-      "lost462": 0,
-      "csScored": 0,
-      "csApproved": 0,
-      "autoTotal": 0,
-      "infra": 0,
-      "semrushUnits": 0,
-      "semrushCalls": 0,
-      "semrushHits": 0,
-      "contactsNew": 0,
-      "cEmail": 0,
-      "cLinkedin": 0,
-      "cPhone": 0,
-      "cApollo": 0,
-      "cVerified": 0,
-      "opecCalls": 0,
-      "opecCredits": 0,
-      "opecCost": 0
     },
     "2026-06-20": {
       "created": 13,
