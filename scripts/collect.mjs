@@ -151,10 +151,12 @@ async function main() {
   if (SB && KEY) {
     const since = new Date(CUT['30']).toISOString();
     try {
-      const cs = await sbPage(SB, KEY, `company_scores?select=deal_id,approved,score_total,decision_reason,calculated_at&calculated_at=gte.${since}&order=calculated_at.desc`);
+      const cs = await sbPage(SB, KEY, `company_scores?select=deal_id,approved,score_total,decision_reason,calculated_at,score_semrush,score_investment,score_employees,score_instagram,semrush_volume,investment,employees,instagram_followers&calculated_at=gte.${since}&order=calculated_at.desc`);
       const scored = WSet(), approved = WSet(), scDay = {}, apDay = {};
       // Histograma da distribuição do score (último score por deal, 30d) × aprovado/reprovado
       const seen = new Set();
+      // Dimensões: por que reprova (média por dimensão aprovado vs reprovado + % sinal cru ausente)
+      const dimA = { ss: 0, si: 0, se: 0, sin: 0, n: 0 }, dimR = { ss: 0, si: 0, se: 0, sin: 0, n: 0 }, missR = { vol: 0, inv: 0, emp: 0, ins: 0 };
       const HB = [{ range: '0–1', lo: 0, hi: 1 }, { range: '1–2', lo: 1, hi: 2 }, { range: '2–3', lo: 2, hi: 3 }, { range: '3–4', lo: 3, hi: 4 }, { range: '≥4', lo: 4, hi: 1e9 }].map(b => ({ ...b, total: 0, approved: 0 }));
       let sumA = 0, nA = 0, sumR = 0, nR = 0;
       for (const r of cs) {
@@ -176,6 +178,9 @@ async function main() {
           seen.add(r.deal_id);
           const b = HB.find(x => r.score_total >= x.lo && r.score_total < x.hi) || HB[HB.length - 1];
           b.total++; if (r.approved === true) { b.approved++; sumA += r.score_total; nA++; } else { sumR += r.score_total; nR++; }
+          const g = r.approved === true ? dimA : dimR;
+          g.ss += +r.score_semrush || 0; g.si += +r.score_investment || 0; g.se += +r.score_employees || 0; g.sin += +r.score_instagram || 0; g.n++;
+          if (r.approved !== true) { if (!(+r.semrush_volume)) missR.vol++; if (!(+r.investment)) missR.inv++; if (!(+r.employees)) missR.emp++; if (!(+r.instagram_followers)) missR.ins++; }
         }
       }
       for (const k in scDay) D(k).csScored = scDay[k].size;
@@ -184,6 +189,13 @@ async function main() {
       setW('csScored', sc); setW('csApproved', ap);
       for (const k of ['hoje', '7', '15', '30']) { out.windows[k].csReproved = sc[k] - ap[k]; out.windows[k].csRate = sc[k] ? +(ap[k] / sc[k] * 100).toFixed(1) : 0; }
       out.csHistogram = { threshold: 2.0, buckets: HB.map(b => ({ range: b.range, total: b.total, approved: b.approved, reproved: b.total - b.approved })), avgApproved: nA ? +(sumA / nA).toFixed(2) : 0, avgReproved: nR ? +(sumR / nR).toFixed(2) : 0, distinctDeals: seen.size };
+      const dmean = (g, k) => g.n ? +(g[k] / g.n).toFixed(2) : 0;
+      out.csDimensions = {
+        max: 1, nApproved: dimA.n, nReproved: dimR.n,
+        approved: { semrush: dmean(dimA, 'ss'), investment: dmean(dimA, 'si'), employees: dmean(dimA, 'se'), instagram: dmean(dimA, 'sin') },
+        reproved: { semrush: dmean(dimR, 'ss'), investment: dmean(dimR, 'si'), employees: dmean(dimR, 'se'), instagram: dmean(dimR, 'sin') },
+        missingReproved: dimR.n ? { volume: Math.round(missR.vol / dimR.n * 100), investment: Math.round(missR.inv / dimR.n * 100), employees: Math.round(missR.emp / dimR.n * 100), instagram: Math.round(missR.ins / dimR.n * 100) } : null,
+      };
       log('company_scores ok · unicos30d=', sc['30'], '· histograma deals=', seen.size);
     } catch (e) { out.warnings.push('company_scores falhou: ' + e.message); }
     try {
@@ -194,8 +206,10 @@ async function main() {
         bump(tot, r.occurred_at); if (INFRA.has(r.error_type)) bump(infra, r.occurred_at); (byType[r.error_type] ||= W()); bump(byType[r.error_type], r.occurred_at);
         const t = ts(r.occurred_at); if (inDailyWin(t)) { const k = brtDate(t); const dd = D(k); dd.autoTotal++; if (INFRA.has(r.error_type)) dd.infra++; (dd.loss ||= {}); dd.loss[r.error_type] = (dd.loss[r.error_type] || 0) + 1; }
         if (t >= CUT['30']) {
-          const g = (inc[r.error_type] ||= { type: r.error_type, count: 0, deals: new Set(), unresolved: 0, maxRetries: 0, orgs: {}, detail: '', stage: r.stage || '', count7: 0 });
-          g.count++; if (r.deal_id != null) g.deals.add(r.deal_id); if (!r.resolved_at) g.unresolved++;
+          const g = (inc[r.error_type] ||= { type: r.error_type, count: 0, deals: new Set(), unresolved: 0, maxRetries: 0, orgs: {}, detail: '', stage: r.stage || '', count7: 0, resolved: 0, mttrSum: 0, oldest: 0 });
+          g.count++; if (r.deal_id != null) g.deals.add(r.deal_id);
+          if (r.resolved_at) { g.resolved++; const dh = (ts(r.resolved_at) - t) / 36e5; if (dh >= 0) g.mttrSum += dh; }
+          else { g.unresolved++; const ad = (NOW - t) / DAY; if (ad > g.oldest) g.oldest = ad; }
           const rt = +r.retries || 0; if (rt > g.maxRetries) g.maxRetries = rt;
           if (r.org_name) g.orgs[r.org_name] = (g.orgs[r.org_name] || 0) + 1;
           if (!g.detail && r.error_detail) g.detail = String(r.error_detail).slice(0, 160);
@@ -207,6 +221,7 @@ async function main() {
       out.incidents = Object.values(inc).map(g => ({
         type: g.type, label: LOSS_LABELS[g.type] || g.type, count: g.count, count7: g.count7, deals: g.deals.size,
         unresolved: g.unresolved, maxRetries: g.maxRetries, stage: g.stage, detail: g.detail,
+        mttrHours: g.resolved ? +(g.mttrSum / g.resolved).toFixed(1) : null, oldestUnresolvedDays: Math.round(g.oldest),
         topOrgs: Object.entries(g.orgs).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([n, c]) => ({ n, c })),
         tecnico: INFRA.has(g.type), recoverable: RECOVERABLE.has(g.type),
       })).sort((a, b) => b.count - a.count);

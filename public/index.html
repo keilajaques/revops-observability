@@ -198,6 +198,28 @@
   .ifoot{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:11px;font:10.5px var(--mono);color:var(--ink-faint);}
   .ifoot .own{color:var(--brand);margin-left:auto;}
 
+  /* ---- leitura estratégica ---- */
+  .strat{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:12px;}
+  .sc{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 17px;border-top:3px solid var(--ink-faint);display:flex;flex-direction:column;}
+  .sc.gargalo{border-top-color:var(--leak);} .sc.risco{border-top-color:var(--hold);} .sc.oportunidade{border-top-color:var(--pass);} .sc.ok{border-top-color:var(--brand);}
+  .sc-cat{font:700 9px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-faint);}
+  .sc.gargalo .sc-cat{color:var(--leak);} .sc.risco .sc-cat{color:var(--hold);} .sc.oportunidade .sc-cat{color:var(--pass);} .sc.ok .sc-cat{color:var(--brand);}
+  .sc-n{font-family:var(--display);font-weight:640;font-size:31px;line-height:1;margin:9px 0 5px;font-variant-numeric:tabular-nums;letter-spacing:-.01em;}
+  .sc.gargalo .sc-n{color:var(--leak);} .sc.risco .sc-n{color:var(--hold);} .sc.oportunidade .sc-n{color:var(--pass);}
+  .sc-h{font-size:13px;color:var(--ink);line-height:1.4;}
+  .sc-lev{font-size:12.5px;color:var(--ink-dim);margin-top:auto;padding-top:11px;margin-top:11px;border-top:1px solid var(--line-2);line-height:1.45;}
+  .sc-lev b{color:var(--brand);font-weight:600;}
+
+  /* ---- score por dimensão ---- */
+  .dims{display:flex;flex-direction:column;gap:12px;}
+  .dim{display:grid;grid-template-columns:150px 1fr 90px;gap:12px;align-items:center;}
+  .dim-l{font-size:13px;color:var(--ink-dim);}
+  .dim-bars{display:flex;flex-direction:column;gap:3px;}
+  .dim-bar{height:9px;border-radius:3px;background:var(--panel-2);overflow:hidden;}
+  .dim-bar i{display:block;height:100%;border-radius:3px;}
+  .dim-bar.a i{background:var(--pass);} .dim-bar.r i{background:var(--leak);}
+  .dim-miss{font:600 10.5px var(--mono);color:var(--leak);text-align:right;}
+
   /* ---- conversão por etapa (gates) ---- */
   .gates{display:flex;flex-direction:column;gap:14px;}
   .gate{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;}
@@ -345,12 +367,13 @@ function incCard(i){
       <span class="im"><b>${nf.format(i.deals)}</b>${i._unit||'cards afetados'}</span>
       <span class="im"><b>${nf.format(i.count)}</b>ocorrências${i.count7?` <span class="up">${accel?'▲ ':''}${nf.format(i.count7)}/7d</span>`:''}</span>
       ${i.unresolved?`<span class="im warn"><b>${nf.format(i.unresolved)}</b>não resolvidos</span>`:''}
+      ${i.oldestUnresolvedDays>=1?`<span class="im ${i.oldestUnresolvedDays>=7?'warn':''}"><b>${i.oldestUnresolvedDays}d</b>aberto há</span>`:''}
       ${i.maxRetries>=100?`<span class="im warn"><b>${nf.format(i.maxRetries)}</b>retries (loop)</span>`:''}
     </div>
     <div class="icause"><span class="lbl">Impacto</span><span class="tx">${impact}</span></div>
     ${i.detail?`<div class="icause"><span class="lbl">Causa</span><code>${esc(i.detail)}</code></div>`:''}
     <div class="iact"><span class="lbl">Ação</span><span class="tx">${esc(acao)}</span></div>
-    <div class="ifoot">${i.topOrgs&&i.topOrgs.length?`ex.: ${i.topOrgs.map(o=>esc(o.n)).join(' · ')}`:''}<span class="own">dono: ${esc(dono)}</span></div>
+    <div class="ifoot">${i.topOrgs&&i.topOrgs.length?`ex.: ${i.topOrgs.map(o=>esc(o.n)).join(' · ')}`:''}${i.mttrHours!=null&&i.mttrHours>0?`<span>MTTR ${i.mttrHours}h</span>`:''}<span class="own">dono: ${esc(dono)}</span></div>
   </div></div>`;
 }
 function opsHtml(){
@@ -401,6 +424,43 @@ function conversaoHtml(w){
   return h;
 }
 
+// ---- Leitura estratégica: sintetiza gargalos e alavancas a partir dos dados reais ----
+function buildStrategy(w,LS,P){
+  const out=[], D=DATA.csDimensions, O=DATA.openByStage||{};
+  if(D&&D.missingReproved){const m=D.missingReproved;
+    out.push({cat:'gargalo',n:m.employees+'%',h:`dos reprovados não têm dado de <b>funcionários</b> (${m.instagram}% sem Instagram, ${m.volume}% sem volume de busca).`,
+      lev:`Reprovamos por <b>falta de sinal</b>, não por marca fraca. Maior alavanca: subir a <b>cobertura de enriquecimento</b> antes do Company Score.`});}
+  if(LS.total){const rp=Math.round(LS.recuperavel/LS.total*100);
+    out.push({cat:'oportunidade',n:rp+'%',h:`das perdas são <b>recuperáveis</b> — ${nf.format(LS.recuperavel)} cards de falso negativo.`,
+      lev:`Reprocessar essa fatia rende mais pipeline do que <b>captar novos leads</b>.`});}
+  const st=(O.golpes465||0)+(O.vm466||0);
+  if(st>100)out.push({cat:'gargalo',n:nf.format(st),h:`cards <b>represados</b> em Golpes + VM, parados sem gatilho de avanço.`,
+    lev:`Só BB e fraude têm score de produto. Alavanca: criar <b>gatilho/score de produto</b> p/ GD e VM.`});
+  const bad=(P||[]).filter(p=>p.errorRate>=60&&p.calls>50), badR=bad.reduce((s,p)=>s+(p.brl||0),0);
+  if(bad.length)out.push({cat:'risco',n:money(badR),h:`gastos em <b>${bad.map(p=>p.name).join(' + ')}</b> com ${Math.round(bad.reduce((s,p)=>s+p.errorRate,0)/bad.length)}% de erro.`,
+    lev:`Crédito sem retorno proporcional. Alavanca: <b>reordenar/cortar</b> esses providers no waterfall.`});
+  const rel=w.autoTotal?(1-w.infra/w.autoTotal)*100:100;
+  const old=(DATA.incidents||[]).filter(i=>i.tecnico&&i.oldestUnresolvedDays>=3).sort((a,b)=>b.oldestUnresolvedDays-a.oldestUnresolvedDays)[0];
+  if(old)out.push({cat:'risco',n:old.oldestUnresolvedDays+'d',h:`há quanto tempo <b>"${esc(old.label)}"</b> está aberto sem resolver (${nf.format(old.unresolved)} cards).`,
+    lev:`Confiabilidade geral ${pct(rel)}, mas há incidente técnico <b>envelhecendo</b> — priorizar por idade, não só volume.`});
+  return out;
+}
+function strategyHtml(w,LS,P){
+  const S=buildStrategy(w,LS,P); if(!S.length)return '';
+  const lab={gargalo:'Gargalo',risco:'Risco',oportunidade:'Oportunidade',ok:'OK'};
+  return `<div class="strat">`+S.map(s=>`<div class="sc ${s.cat}"><div class="sc-cat">${lab[s.cat]}</div><div class="sc-n">${s.n}</div><div class="sc-h">${s.h}</div><div class="sc-lev">${s.lev}</div></div>`).join('')+`</div>`;
+}
+function dimensionsHtml(){
+  const D=DATA.csDimensions; if(!D||!D.reproved)return '';
+  const dims=[['Semrush (volume de busca)','semrush','volume'],['Investimento','investment','investment'],['Funcionários','employees','employees'],['Instagram','instagram','instagram']];
+  let h=`<div class="card"><div class="dims">`;
+  for(const [labi,k,mk] of dims){const a=D.approved[k]||0,r=D.reproved[k]||0,miss=D.missingReproved?D.missingReproved[mk]:null;
+    h+=`<div class="dim"><div class="dim-l">${labi}</div><div class="dim-bars"><div class="dim-bar a"><i style="width:${Math.min(100,a*100)}%"></i></div><div class="dim-bar r"><i style="width:${Math.min(100,r*100)}%"></i></div></div><div class="dim-miss">${miss!=null?`${miss}% sem dado`:''}</div></div>`;}
+  h+=`</div><div style="display:flex;gap:18px;margin-top:13px;font-size:12px;color:var(--ink-dim)"><span><i style="display:inline-block;width:10px;height:10px;background:var(--pass);border-radius:2px"></i> aprovados (${nf.format(D.nApproved)})</span><span><i style="display:inline-block;width:10px;height:10px;background:var(--leak);border-radius:2px"></i> reprovados (${nf.format(D.nReproved)})</span><span style="margin-left:auto">escala 0–1 por dimensão</span></div>`;
+  h+=`<div class="note leak"><span class="tag">A causa raiz</span>Os reprovados zeram <b>todas</b> as 4 dimensões — e o sinal cru está <b>ausente</b>: ${D.missingReproved.employees}% sem funcionários, ${D.missingReproved.instagram}% sem Instagram, ${D.missingReproved.volume}% sem volume. A reprovação é <b>falta de dado</b>, não marca fraca. Subir a cobertura de enriquecimento é a maior alavanca de aprovação do funil.</div></div>`;
+  return h;
+}
+
 function render(){
   if(!DATA)return;
   const [a,b]=range(), w=sumRange(a,b), days=nDays(a,b);
@@ -429,6 +489,10 @@ function render(){
       <div class="eff"><div class="v leak">${nf.format(represado)}</div><div class="k"><b>Capital represado</b> (Golpes+VM)</div><div class="d">parados sem gatilho de avanço</div></div>
     </div></div>`;
   h+=alertsHtml(w,cache,LS);
+
+  // ===== LEITURA ESTRATÉGICA (gargalos & alavancas) =====
+  const strat=strategyHtml(w,LS,P);
+  if(strat)h+=`<div class="eyebrow">Onde olhar primeiro</div><h2>Leitura estratégica <span class="tag">· gargalos &amp; alavancas</span></h2>`+strat;
 
   // ===== CONVERSÃO por etapa =====
   h+=`<div class="eyebrow">Entra · avança · perde</div><h2>Conversão por etapa <span class="tag">· ${wlabel()}</span></h2>`+conversaoHtml(w);
@@ -459,6 +523,10 @@ function render(){
     h+=`</div><div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--ink-dim)"><span><i style="display:inline-block;width:10px;height:10px;background:var(--pass);border-radius:2px"></i> aprovado</span><span><i style="display:inline-block;width:10px;height:10px;background:var(--leak);border-radius:2px"></i> reprovado</span><span style="margin-left:auto">score médio — aprovado <b style="color:var(--pass)">${String(H.avgApproved).replace('.',',')}</b> · reprovado <b style="color:var(--leak)">${String(H.avgReproved).replace('.',',')}</b></span></div>`;
     h+=`<div class="note"><span class="tag">Leitura</span><b>${p0(below/H.distinctDeals*100)}</b> das ${nf.format(H.distinctDeals)} pontuações do período ficam abaixo do corte — a massa vive em 0–1. Corte apertado demais ou lead de entrada fraco?</div></div>`;
   }
+
+  // ===== Score por dimensão (por que reprova) =====
+  const dimHtml=dimensionsHtml();
+  if(dimHtml)h+=`<div class="eyebrow">A causa raiz da reprovação</div><h2>Company Score por dimensão <span class="tag">· aprovado vs reprovado · 30d</span></h2>`+dimHtml;
 
   // ===== Motivos de perda =====
   h+=`<div class="eyebrow">Natureza da perda</div><h2>Motivos de descarte <span class="tag">· ${wlabel()}</span></h2>`;
