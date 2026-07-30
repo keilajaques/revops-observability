@@ -294,6 +294,22 @@
   .lcc-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px;gap:8px;}
   .lcc-t{font-size:12.5px;color:var(--ink-dim);} .lcc-v{font:700 15px var(--mono);font-variant-numeric:tabular-nums;}
   .lchart{width:100%;height:60px;display:block;overflow:visible;}
+  /* funil de coorte */
+  .cfun{display:flex;flex-direction:column;gap:0;margin-top:4px;}
+  .cfun-row{display:grid;grid-template-columns:186px 1fr 78px;align-items:center;gap:12px;}
+  .cf-lab{font-size:13px;font-weight:600;} .cf-lab small{display:block;font:400 10px var(--mono);color:var(--ink-faint);}
+  .cf-track{height:30px;background:var(--panel-2);border-radius:7px;overflow:hidden;}
+  .cf-fill{height:100%;background:linear-gradient(90deg,var(--brand),var(--teal));border-radius:7px;min-width:4px;transition:width .4s cubic-bezier(.2,.8,.2,1);}
+  .cf-fill.end{background:var(--pass);}
+  .cf-n{text-align:right;font:700 14px var(--mono);font-variant-numeric:tabular-nums;}
+  .cfun-gap{display:flex;align-items:center;gap:12px;padding:5px 8px 5px 198px;font:600 11.5px var(--mono);}
+  @media(max-width:640px){.cfun-row{grid-template-columns:120px 1fr 62px;}.cfun-gap{padding-left:132px;}}
+  .cf-conv.ok{color:var(--pass);} .cf-conv.mid{color:var(--hold);} .cf-conv.bad{color:var(--leak);}
+  .cf-drop{color:var(--ink-dim);font-weight:400;}
+  .cfun-gap.bott{background:var(--leak-soft);border-radius:6px;}
+  .cf-bott{font:700 9px var(--mono);text-transform:uppercase;letter-spacing:.04em;color:var(--leak);background:var(--panel);border:1px solid var(--leak);border-radius:4px;padding:1px 6px;margin-left:auto;}
+  .cwtabs{display:inline-flex;gap:2px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px;margin-left:8px;}
+  .cwtabs b{font:600 11px var(--mono);color:var(--ink-faint);}
   .heat{display:flex;gap:3px;flex-wrap:wrap;margin-top:10px;}
   .heat .hd{width:16px;height:16px;border-radius:3px;background:var(--panel-2);}
   .heatleg{display:flex;gap:8px;align-items:center;margin-top:11px;font:11px var(--mono);color:var(--ink-faint);}
@@ -555,6 +571,28 @@ function opsHtml(){
 const STAGE_OF={lost_weak_pure_brand:'cs',lost_cs_low:'cs',lost_low_volume:'cs',lost_duplicate:'cs',cs_missing_dimensions:'cs',cs_endpoint_failed:'cs',
   enrique_only_no_contact:'enr',garimpo_no_channel:'enr',garimpo_no_contacts:'enr',invalid_produto_principal:'enr',
   lost_ps_low:'prod',gd_no_opportunity:'prod',bbp_neon_query_error:'prod',bbp_vc_monitoria_ausente:'prod'};
+function cohortHtml(){
+  const cw=(mode==='7'||mode==='15'||mode==='30')?mode:'30';
+  const C=DATA.cohort&&DATA.cohort[cw]; if(!C||!C.steps)return '<div class="note">Funil de coorte indisponível (rode o coletor atualizado).</div>';
+  const steps=C.steps, ent=C.entered||1;
+  // gargalo = maior perda ABSOLUTA de cards (não a menor taxa — a última etapa é resposta/maturidade, não gargalo)
+  let worst=-1,wd=-1; steps.forEach((s,k)=>{if(k>0){const drop=steps[k-1].count-s.count; if(drop>wd){wd=drop;worst=k;}}});
+  const days=cw==='7'?7:cw==='15'?15:30, t=DATA.todayBRT, LS=aggLoss(dayMinus(t,days-1),t);
+  const G={cs:['lost_weak_pure_brand','lost_cs_low','lost_low_volume','lost_duplicate','cs_missing_dimensions'],prod:['lost_ps_low','gd_no_opportunity','invalid_produto_principal','bbp_neon_query_error'],enr:['enrique_only_no_contact','garimpo_no_channel','garimpo_no_contacts']};
+  const top=(keys)=>{const rs=(LS.reasons||[]).filter(r=>keys.includes(r.key)).sort((a,b)=>b.count-a.count);return rs[0]?`${rs[0].label}`:'';};
+  const gapReason=k=>k===2?top(G.cs):k===3?top(G.prod):k===4?top(G.enr):'';
+  let h=`<div class="card"><div class="cfun">`;
+  steps.forEach((s,k)=>{
+    if(k>0){const drop=steps[k-1].count-s.count, bott=(k===worst), rz=gapReason(k);
+      h+=`<div class="cfun-gap ${bott?'bott':''}"><span class="cf-conv ${s.conv>=70?'ok':s.conv>=40?'mid':'bad'}">↓ ${pct(s.conv)} avançam</span>${drop>0?`<span class="cf-drop">−${nf.format(drop)} perdidos${rz?' · '+esc(rz):''}</span>`:''}${bott?'<span class="cf-bott">maior gargalo</span>':''}</div>`;}
+    h+=`<div class="cfun-row"><div class="cf-lab">${s.label}${k===1&&C.reprovadosCS?`<small>${nf.format(C.reprovadosCS)} reprovados aqui</small>`:''}</div><div class="cf-track"><div class="cf-fill${k===steps.length-1?' end':''}" style="width:${Math.max(1.5,s.count/ent*100)}%"></div></div><div class="cf-n">${nf.format(s.count)}</div></div>`;
+  });
+  h+=`</div>`;
+  const rep=w=>{const c=DATA.cohort[w];return c&&c.steps[1]&&c.steps[1].count?Math.round(c.reprovadosCS/c.steps[1].count*100):0;};
+  h+=`<div class="note"><span class="tag">Reprovação no Company Score por coorte (sinal que amadurece rápido)</span>7d <b>${rep('7')}%</b> · 15d <b>${rep('15')}%</b> · 30d <b>${rep('30')}%</b> — a pontuação é imediata, então diferença aqui é mudança REAL na qualidade da entrada, não maturidade. ${rep('7')>rep('30')+8?`<b style="color:var(--leak)">⚠ a entrada recente está pior.</b>`:''}</div>`;
+  h+=`<div class="note"><span class="tag">Como ler</span>Coorte por <b>data de criação</b>: dos cards que entraram na janela de ${days}d, quantos alcançaram cada etapa (posição atual no Pipedrive). Etapas tardias de coortes recentes ainda estão <b>em trânsito</b> (~2 semanas de latência ponta-a-ponta) — por isso a janela de 7d mostra pouca Prospecção. O maior ponto de perda está destacado.</div></div>`;
+  return h;
+}
 function conversaoHtml(w){
   const [a,b]=range(), LS=aggLoss(a,b), byStage={cs:[],enr:[],prod:[]};
   for(const r of (LS.reasons||[])){const s=STAGE_OF[r.key];if(s)byStage[s].push(r);}
@@ -749,9 +787,10 @@ function render(){
   h+=cockpitHtml(w,pw,LS,pLS,P);
 
   // ===== ZONA 2 — FLUXO & GATE =====
-  h+=`<div class="zonebar"><span class="zn">2 · Fluxo &amp; gate de qualificação</span><span class="zl"></span></div>`;
-  h+=`<h2>Vazão diária <span class="tag">· últimos 30d · linha fina = dia · grossa = média 7d</span></h2>`+throughputHtml();
-  h+=`<div class="eyebrow" style="margin-top:26px">A única conversão de coorte exata</div><h2>Gate do Company Score <span class="tag">· ${wlabel()}</span></h2>`+conversaoHtml(w);
+  const cw=(mode==='7'||mode==='15'||mode==='30')?mode+' dias':(mode==='hoje'||mode==='custom')?'30 dias':wlabel();
+  h+=`<div class="zonebar"><span class="zn">2 · Fluxo — entra, avança e perde por etapa</span><span class="zl"></span></div>`;
+  h+=`<h2>Funil de coorte <span class="tag">· cards criados na janela · ${cw}${(mode==='hoje'||mode==='custom')?' (funil só em 7/15/30)':''}</span></h2>`+cohortHtml();
+  h+=`<div class="eyebrow" style="margin-top:26px">Volume por dia</div><h2>Vazão diária <span class="tag">· últimos 30d · linha fina = dia · grossa = média 7d</span></h2>`+throughputHtml();
   h+=`<div class="eyebrow" style="margin-top:26px">Estado agora</div><h2>Cards abertos por etapa <span class="tag">· snapshot ao vivo · custo por lead qualif. ${money(custoQ)}</span></h2>`+openStageHtml();
 
   // ===== ZONA 3 — POR QUE REPROVA =====
