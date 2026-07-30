@@ -787,9 +787,12 @@ function render(){
   h+=cockpitHtml(w,pw,LS,pLS,P);
 
   // ===== ZONA 2 — FLUXO & GATE =====
-  const cw=(mode==='7'||mode==='15'||mode==='30')?mode+' dias':(mode==='hoje'||mode==='custom')?'30 dias':wlabel();
   h+=`<div class="zonebar"><span class="zn">2 · Fluxo — entra, avança e perde por etapa</span><span class="zl"></span></div>`;
-  h+=`<h2>Funil de coorte <span class="tag">· cards criados na janela · ${cw}${(mode==='hoje'||mode==='custom')?' (funil só em 7/15/30)':''}</span></h2>`+cohortHtml();
+  if(mode==='7'||mode==='15'||mode==='30'){
+    h+=`<h2>Funil de coorte <span class="tag">· cards criados nos últimos ${mode} dias</span></h2>`+cohortHtml();
+  } else {
+    h+=`<h2>Funil de coorte <span class="tag">· 7 / 15 / 30 dias</span></h2><div class="note"><span class="tag">Selecione um período</span>O funil de coorte acompanha os cards por <b>data de criação</b> ao longo de vários dias. Uma janela de <b>${mode==='hoje'?'"hoje"':'período custom'}</b> não é uma coorte válida — um card criado hoje ainda não teve tempo de avançar pelas etapas (latência ~2 semanas). Clique em <b>7, 15 ou 30 dias</b> para ver o funil. <br>(Os números de "hoje" nos outros painéis — captados, pontuados, erros, custo — continuam corretos e específicos do dia.)</div>`;
+  }
   h+=`<div class="eyebrow" style="margin-top:26px">Volume por dia</div><h2>Vazão diária <span class="tag">· últimos 30d · linha fina = dia · grossa = média 7d</span></h2>`+throughputHtml();
   h+=`<div class="eyebrow" style="margin-top:26px">Estado agora</div><h2>Cards abertos por etapa <span class="tag">· snapshot ao vivo · custo por lead qualif. ${money(custoQ)}</span></h2>`+openStageHtml();
 
