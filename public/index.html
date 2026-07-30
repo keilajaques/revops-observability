@@ -848,11 +848,15 @@ function semrushHtml(w,cache){
   const crit=cache<5, meta=30, scale=meta*1.6;
   const days=dailySeries(d=>d.semrushUnits||0,14), smax=Math.max.apply(0,days.concat([1]));
   const cachePos=Math.min(100,cache/scale*100), metaPos=Math.min(100,meta/scale*100);
-  return `<div class="card"><div class="kpis" style="margin-top:0"><div class="kpi"><div class="v">${nf.format(w.semrushUnits||0)}</div><div class="k">Units consumidas</div></div><div class="kpi"><div class="v">${nf.format(w.semrushCalls||0)}</div><div class="k">Chamadas</div></div></div>
+  const B=DATA.semrushBalance, months=B&&B.runwayDays?Math.round(B.runwayDays/30):null, lowRunway=B&&B.runwayDays&&B.runwayDays<90;
+  const fmtU=n=>n>=1e6?(n/1e6).toFixed(2).replace('.',',')+'M':n>=1e3?Math.round(n/1e3)+'k':nf.format(n);
+  const saldoTile=B?`<div class="kpi"><div class="v ${lowRunway?'leak':'brand'}">${fmtU(B.units)}</div><div class="k">Saldo Semrush (units)</div><div class="d">${months!=null?(months+' meses no ritmo atual'):'runway n/d'}</div></div>`:'';
+  return `<div class="card"><div class="kpis" style="margin-top:0"><div class="kpi"><div class="v">${nf.format(w.semrushUnits||0)}</div><div class="k">Units consumidas <span style="color:var(--ink-faint)">· período</span></div></div><div class="kpi"><div class="v">${nf.format(w.semrushCalls||0)}</div><div class="k">Chamadas · período</div></div>${saldoTile}</div>
   <div class="spark">${days.map(v=>`<div style="height:${v/smax*100}%"></div>`).join('')}</div><div style="font:11px var(--mono);color:var(--ink-faint);margin-top:6px">units/dia · últimos 14 dias</div>
   <div style="font-size:12px;color:var(--ink-dim);margin:18px 0 0">Cache hit vs meta 30%</div>
   <div class="bul"><div class="bf" style="width:${Math.max(2,cachePos)}%;background:${crit?'var(--leak)':'var(--pass)'}"></div><div class="bt" style="left:${metaPos}%"></div><div class="btl" style="left:${metaPos}%">meta 30%</div></div>
   <div style="font:11px var(--mono);color:${crit?'var(--leak)':'var(--ink-faint)'};margin-top:9px">cache atual: <b>${pct(cache)}</b></div>
+  ${B?`<div class="note${lowRunway?' leak':''}"><span class="tag">Saldo &amp; runway</span>Restam <b>${nf.format(B.units)} units</b> na conta Semrush. No ritmo de <b>${nf.format(B.perDay)}/dia</b> (30d), isso dura <b>~${months} meses</b>${lowRunway?' — <b style="color:var(--leak)">runway baixo, atenção</b>':''}. O Semrush cobra por units (não por nº de chamadas); consertar o cache (${pct(cache)}) estende esse runway. <span style="color:var(--ink-faint)">Saldo lido direto da API (grátis).</span></div>`:''}
   ${crit?`<div class="note leak"><span class="tag">Dreno de crédito</span>Cache em <b>${pct(cache)}</b> — quase toda consulta é cobrada. Consertar o cache é economia direta.</div>`:''}</div>`;
 }
 function providersHtml(P){

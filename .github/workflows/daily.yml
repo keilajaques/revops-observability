@@ -24,6 +24,7 @@ jobs:
           ENRIQUE_OPEC_KEY: ${{ secrets.ENRIQUE_OPEC_KEY }}
           ENRIQUE_SUPABASE_URL: ${{ secrets.ENRIQUE_SUPABASE_URL }}
           ENRIQUE_SERVICE_ROLE_KEY: ${{ secrets.ENRIQUE_SERVICE_ROLE_KEY }}
+          SEMRUSH_KEY: ${{ secrets.SEMRUSH_KEY }}
         run: node scripts/collect.mjs
       - name: Commit data.json
         run: |

@@ -22,6 +22,7 @@ const OPEC_KEY = process.env.ENRIQUE_OPEC_KEY || '';
 const OPEC_URL = (process.env.ENRIQUE_OPEC_URL || 'https://enrique-sable.vercel.app/api/v1').replace(/\/+$/, '');
 const ENQ_URL = (process.env.ENRIQUE_SUPABASE_URL || '').replace(/\/+$/, '');
 const ENQ_KEY = process.env.ENRIQUE_SERVICE_ROLE_KEY || '';
+const SEMRUSH_KEY = process.env.SEMRUSH_KEY || '';
 
 const NOW = Date.now(), DAY = 864e5;
 const CUT = { '7': NOW - 7 * DAY, '15': NOW - 15 * DAY, '30': NOW - 30 * DAY };
@@ -287,6 +288,21 @@ async function main() {
       log('contacts ok · total=', c.length);
     } catch (e) { out.warnings.push('contacts falhou: ' + e.message); }
   } else out.warnings.push('SUPABASE_URL / SERVICE_ROLE_KEY ausente(s)');
+
+  // ===== Saldo Semrush (units restantes) — countapiunits é GRÁTIS (não consome unit) + runway =====
+  if (SEMRUSH_KEY) {
+    const t = timeout(15000);
+    try {
+      const r = await fetch(`https://www.semrush.com/users/countapiunits.html?key=${encodeURIComponent(SEMRUSH_KEY)}`, { signal: t.signal });
+      const txt = (await r.text()).trim(); const units = parseInt(txt, 10);
+      if (r.ok && !isNaN(units)) {
+        const u30 = (out.windows['30'] && out.windows['30'].semrushUnits) || 0;
+        const perDay = u30 / 30;
+        out.semrushBalance = { units, perDay: Math.round(perDay), runwayDays: perDay > 0 ? Math.round(units / perDay) : null };
+        log('semrush balance ok · units=', units, '· runwayDias=', out.semrushBalance.runwayDays);
+      } else out.warnings.push('Semrush balance: resposta inesperada (' + r.status + ')');
+    } catch (e) { out.warnings.push('Semrush balance falhou: ' + e.message); } finally { t.done(); }
+  } else out.warnings.push('SEMRUSH_KEY ausente — saldo de units não populado');
 
   // ===== OPEC (Enrique externo) — URL do Vercel rotaciona; testa candidatas =====
   if (OPEC_KEY) {

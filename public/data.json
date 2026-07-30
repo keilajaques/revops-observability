@@ -1,38 +1,38 @@
 {
-  "generatedAt": "2026-07-30T17:01:16.980Z",
-  "generatedAtBRT": "30/07/2026, 14:01:16",
+  "generatedAt": "2026-07-30T17:28:55.115Z",
+  "generatedAtBRT": "30/07/2026, 14:28:55",
   "todayBRT": "2026-07-30",
   "windows": {
     "7": {
       "created": 992,
-      "lost": 1525,
+      "lost": 1523,
       "lost462": 1039,
-      "csScored": 1093,
-      "csApproved": 27,
+      "csScored": 1092,
+      "csApproved": 26,
       "csReproved": 1066,
-      "csRate": 2.5,
+      "csRate": 2.4,
       "autoTotal": 1659,
       "infra": 138,
-      "semrushCalls": 3745,
-      "semrushUnits": 15398,
-      "semrushCache": 3.9,
+      "semrushCalls": 3769,
+      "semrushUnits": 15416,
+      "semrushCache": 4.03,
       "opecCalls": 1854,
       "opecCredits": 554,
       "opecCost": 83.85
     },
     "15": {
-      "created": 2854,
-      "lost": 3439,
+      "created": 2845,
+      "lost": 3436,
       "lost462": 2191,
-      "csScored": 2700,
-      "csApproved": 203,
+      "csScored": 2699,
+      "csApproved": 202,
       "csReproved": 2497,
       "csRate": 7.5,
-      "autoTotal": 3887,
+      "autoTotal": 3886,
       "infra": 200,
-      "semrushCalls": 9355,
-      "semrushUnits": 42358,
-      "semrushCache": 2.12,
+      "semrushCalls": 9367,
+      "semrushUnits": 42355,
+      "semrushCache": 2.18,
       "opecCalls": 8666,
       "opecCredits": 1162,
       "opecCost": 133.75
@@ -47,9 +47,9 @@
       "csRate": 7.4,
       "autoTotal": 6778,
       "infra": 238,
-      "semrushCalls": 18115,
-      "semrushUnits": 85575,
-      "semrushCache": 1.12,
+      "semrushCalls": 18139,
+      "semrushUnits": 85593,
+      "semrushCache": 1.15,
       "opecCalls": 10681,
       "opecCredits": 1213,
       "opecCost": 136.7
@@ -64,9 +64,9 @@
       "csRate": 0.8,
       "autoTotal": 168,
       "infra": 24,
-      "semrushCalls": 601,
-      "semrushUnits": 1756,
-      "semrushCache": 12.98,
+      "semrushCalls": 625,
+      "semrushUnits": 1774,
+      "semrushCache": 13.44,
       "opecCalls": 89,
       "opecCredits": 1,
       "opecCost": 0.25
@@ -116,7 +116,7 @@
       "key": "lost_low_volume",
       "label": "Volume / mercado baixo",
       "d7": 18,
-      "d15": 111,
+      "d15": 110,
       "d30": 202,
       "hoje": 0,
       "share": 3,
@@ -207,7 +207,7 @@
   "providers": [
     {
       "name": "apollo",
-      "calls": 32469,
+      "calls": 32456,
       "successRate": 86,
       "errorRate": 14,
       "credits": 14100,
@@ -247,7 +247,7 @@
     },
     {
       "name": "gemini",
-      "calls": 2664,
+      "calls": 2660,
       "successRate": 78,
       "errorRate": 22,
       "credits": 0,
@@ -255,7 +255,7 @@
     },
     {
       "name": "brasilapi",
-      "calls": 922,
+      "calls": 921,
       "successRate": 92,
       "errorRate": 8,
       "credits": 0,
@@ -1111,7 +1111,7 @@
       "count7": 1,
       "deals": 38,
       "unresolved": 2,
-      "maxRetries": 8736,
+      "maxRetries": 8750,
       "stage": "company_score",
       "detail": "HTTP 200",
       "mttrHours": 8.1,
@@ -1736,6 +1736,11 @@
       "all_campaigns_failed"
     ]
   },
+  "semrushBalance": {
+    "units": 1519860,
+    "perDay": 2853,
+    "runwayDays": 533
+  },
   "providerRates": {
     "apollo": 0.05,
     "findymail": 0.4,
@@ -1760,9 +1765,9 @@
       "csApproved": 1,
       "autoTotal": 168,
       "infra": 24,
-      "semrushUnits": 1756,
-      "semrushCalls": 601,
-      "semrushHits": 78,
+      "semrushUnits": 1774,
+      "semrushCalls": 625,
+      "semrushHits": 84,
       "contactsNew": 0,
       "cEmail": 0,
       "cLinkedin": 0,
@@ -3116,18 +3121,18 @@
       },
       "prov": {
         "apollo": {
-          "c": 452,
-          "s": 452,
+          "c": 439,
+          "s": 439,
           "cr": 349
         },
         "gemini": {
-          "c": 64,
-          "s": 63,
+          "c": 60,
+          "s": 59,
           "cr": 0
         },
         "brasilapi": {
-          "c": 18,
-          "s": 17,
+          "c": 17,
+          "s": 16,
           "cr": 0
         },
         "fullenrich": {
