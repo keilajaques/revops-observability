@@ -191,6 +191,16 @@
   .istatus{font:700 9px var(--mono);padding:2px 8px;border-radius:999px;white-space:nowrap;letter-spacing:.02em;}
   .istatus.novo{background:var(--brand-soft);color:var(--brand);} .istatus.cronico{background:var(--leak-soft);color:var(--leak);}
   .istatus.esfriando{background:var(--pass-soft);color:var(--pass);} .istatus.resolvendo{background:var(--pass-soft);color:var(--pass);}
+  .pbtn{margin-top:12px;font:600 11.5px var(--sans);background:var(--brand-soft);color:var(--brand);border:1px solid color-mix(in srgb,var(--brand) 32%,var(--line));border-radius:8px;padding:8px 13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.15s;}
+  .pbtn:hover{background:var(--brand);color:var(--brand-ink);}
+  .pmodal{position:fixed;inset:0;background:rgba(0,8,12,.66);display:none;z-index:200;align-items:center;justify-content:center;padding:20px;}
+  .pmodal.show{display:flex;}
+  .pmbox{background:var(--panel);border:1px solid var(--line);border-radius:14px;width:min(880px,100%);max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 70px rgba(0,0,0,.55);overflow:hidden;}
+  .pmhead{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line-2);}
+  .pmhead .pmt{font-family:var(--display);font-weight:600;font-size:14.5px;flex:1;letter-spacing:-.01em;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .pmhead button{font:600 12px var(--sans);border-radius:8px;padding:8px 14px;cursor:pointer;border:1px solid var(--line);background:var(--panel-2);color:var(--ink);white-space:nowrap;}
+  .pmhead #pmcopy{background:var(--brand);color:var(--brand-ink);border-color:var(--brand);}
+  #pmtext{flex:1;margin:0;border:none;background:var(--bg);color:var(--ink);font:12px/1.55 var(--mono);padding:16px 18px;resize:none;white-space:pre-wrap;overflow:auto;outline:none;}
   .imx{display:flex;gap:22px;flex-wrap:wrap;margin:12px 0 2px;}
   .imx .im{font-size:10.5px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.04em;} .imx .im b{font-family:var(--mono);font-size:18px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;display:block;line-height:1.05;margin-bottom:3px;letter-spacing:0;}
   .imx .im.warn b{color:var(--leak);} .imx .im .up{color:var(--leak);font-size:10px;font-weight:700;}
@@ -314,6 +324,13 @@
   <div class="foot" id="foot"></div>
 </div>
 
+<div class="pmodal" id="pmodal">
+  <div class="pmbox">
+    <div class="pmhead"><span class="pmt" id="pmtitle">Prompt de correção</span><button id="pmcopy">Copiar</button><button id="pmclose">Fechar</button></div>
+    <textarea id="pmtext" readonly spellcheck="false"></textarea>
+  </div>
+</div>
+
 <!--INLINE_DATA-->
 <script>
 const nf=new Intl.NumberFormat('pt-BR');
@@ -386,6 +403,50 @@ const AGENTS=[
   {key:'serp',name:'Serp Monitor',sub:'monitoria · pescaria · SERP',color:'#e0a83b'},
   {key:'leadgen',name:'Lead Generator',sub:'captação · dedup na entrada',color:'#0acfde',blind:'Sem telemetria de descarte — vive em qualification_leads_run (Supabase do Lead Gen). Adicionar LEADGEN_SUPABASE_URL/SERVICE_ROLE_KEY popula este bloco.'},
 ];
+// ---- gerador de prompt de correção por incidente (clicável) ----
+const AGENT_REPO={lia:'Lia (motor de qualificação)',serp:'serp-monitor',enrique:'Enrique',leadgen:'Lead Generator'};
+const PROMPT_META={
+  cs_endpoint_failed:{alvo:'A lógica de chamada + retry do endpoint de Company Score: distinguir falha TRANSIENTE (vale retry) de TERMINAL (não vale) e impor teto de tentativas.',atual:'O endpoint responde HTTP 200 mas sem o payload esperado; o caller trata como "tentar de novo" e reenfileira o card indefinidamente (milhares de retries no mesmo card), que fica preso no stage company_score sem avançar nem ser perdido.',esperado:'HTTP 200 sem payload válido = TERMINAL: não reenfileirar, marcar o card p/ revisão manual/hold e registrar UMA ocorrência (resolved_at ao encerrar). Transiente (5xx/timeout/429) = retry com backoff até um teto configurável; estourou = terminal.',logica:['Validar o payload após a resposta (schema mínimo dos campos que o score consome); 200 sem payload válido → terminal.','Contador de tentativas por card (persistido) + teto MAX_CS_RETRIES (env/flag).','Só reenfileirar em erro transiente e enquanto tentativas < teto; backoff exponencial.','Idempotência por (deal_id, tentativa) p/ evitar reprocessos concorrentes.','Gravar resolved_at ao encerrar (sucesso, terminal ou teto).'],cuidados:['NÃO eliminar o retry legítimo: cards que passam na 2ª/3ª tentativa devem continuar passando (teto >= 3).','NÃO marcar em massa os cards já enfileirados como perdidos: backfill zerando o contador dos presos.','Teto atrás de flag/env com default seguro.','Testes: (a) 200-sem-payload → 1 erro terminal, 0 reenfileiramento; (b) 5xx → retry até teto; (c) 200 válido → caminho feliz inalterado.']},
+  invalid_produto_principal:{alvo:'O tratamento do caso "Produto Principal" (raw) nulo/inválido no roteamento pós-Company Score: hoje entra em loop de retry; deve virar parada determinística.',atual:'Quando Produto Principal é null/inválido, o roteador não decide o destino e re-tenta repetidamente (milhares de vezes) sem resolver; o card fica preso e gera enxurrada de linhas idênticas.',esperado:'raw=null/inválido NÃO é transiente. Parar o reprocesso (sem retry), encaminhar a um estado explícito "aguardando Produto Principal" (ou disparar o preenchimento), e registrar 1 ocorrência com resolved_at.',logica:['Validar Produto Principal ANTES de qualquer tentativa de roteamento.','Ausente/inválido → caminho terminal "needs_product": marca o card, notifica 1×, sai (sem reenfileirar).','Se o campo for preenchido depois, um evento de update reprocessa (idempotente).'],cuidados:['Cards COM Produto Principal válido seguem o roteamento normal, inalterado.','Backfill: destravar os cards hoje presos sem marcá-los como perdidos.','Confirmar com a Keila se o campo é auto-preenchível (preferir preencher a só parar).','Teste: raw=null → 0 retries, 1 registro terminal; raw válido → fluxo normal.']},
+  bbp_neon_query_error:{alvo:'O tratamento de erro da conexão/consulta ao Neon no fluxo BBP: falha de autenticação deve falhar rápido e alto, sem retry cego. ATENÇÃO: a causa raiz é credencial inválida (senha do usuário reporter_sales_dt) — corrigir/rotacionar no Neon É AÇÃO HUMANA em paralelo; este prompt cobre o endurecimento do código.',atual:'A query ao Neon falha com "password authentication failed"; o código re-tenta centenas de vezes por card, tratando erro de credencial (não-recuperável por retry) como transiente. Acelerando.',esperado:'Erro de auth (SQLSTATE 28P01) = TERMINAL e GLOBAL: parar o processamento BBP, abrir circuit breaker e emitir 1 alerta de infra acionável ("rotacionar credencial do Neon"), não uma linha por card. Erros de rede (timeout) = retry com backoff e teto baixo.',logica:['Classificar o erro do driver: 28P01/auth → terminal-global; timeout/rede → transiente.','Circuit breaker em erro de auth: parar de processar BBP e registrar 1 incidente até a credencial ser corrigida.','Ler credencial de secret/env (confirmar que não é hardcoded) e validar a conexão no startup do worker (fail-fast).','Backoff + teto para transientes.'],cuidados:['NÃO derrubar o fluxo por um timeout isolado — breaker só para auth.','Após corrigir a credencial, o breaker reseta e os cards represados reprocessam (idempotente).','NUNCA logar a senha/credencial em texto.','Teste: 28P01 → 1 incidente, 0 loop; timeout → retry até teto; conexão OK → normal.']},
+  pescaria_travada:{alvo:'O loop da Pescaria (Product BB) que re-checa a monitoria indefinidamente. Ligado à flag MONITORIA_LOOP_FIX (serp-monitor + Lia). CONFIRMAR o estado da flag e a idempotência do handler de activity-added.',atual:'A Pescaria fica re-checando a monitoria em loop: a Lia só olha a campanha mais nova → espera eterna; o serp-monitor não tem idempotência no activity-added → duplica execuções.',esperado:'A re-checagem tem limite e olha o estado consolidado (não só a campanha mais nova); o handler de activity-added é idempotente (não reprocessa o mesmo evento).',logica:['Ativar/validar o fix atrás de MONITORIA_LOOP_FIX.','A checagem de monitoria deve considerar o histórico consolidado, não só a última campanha.','Idempotência no activity-added (dedup por event id) no serp-monitor.','Teto de re-checagens antes de decisão terminal.'],cuidados:['Não interromper monitorias legítimas em andamento.','Backfill dos cards em loop.','Testar com um card que legitimamente precisa de re-checagem (não pode ser cortado cedo demais).']},
+};
+function promptFor(i){
+  const repo=AGENT_REPO[i.agent||agentOf(i.type)]||'(confirmar repo)';
+  const meta=INCIDENT_META[i.type]||{}, pm=PROMPT_META[i.type];
+  const ex=(i.topOrgs&&i.topOrgs.length)?i.topOrgs.map(o=>o.n).join(', '):'(sem exemplos de org no período)';
+  const ev=[`error_type "${i.type}"`,i.detail?`error_detail "${i.detail}"`:'',`${nf.format(i.count)} ocorrências/30d (${nf.format(i.count7)} nos últimos 7d)`,`${nf.format(i.deals)} cards afetados`,i.unresolved?`${nf.format(i.unresolved)} não resolvidos`:'',i.maxRetries>=100?`retries até ${nf.format(i.maxRetries)} num card (LOOP)`:'',i.oldestUnresolvedDays>=1?`aberto há ${i.oldestUnresolvedDays}d`:'',`stage "${i.stage||'?'}"`].filter(Boolean).join('; ');
+  let alvo,atual,esperado,logica,cuidados;
+  if(pm){alvo=pm.alvo;atual=pm.atual;esperado=pm.esperado;logica=pm.logica;cuidados=pm.cuidados;}
+  else if(i.maxRetries>=100||i.tecnico){ // genérico técnico / loop
+    alvo=`O tratamento de erro + retry de "${i.label}" no fluxo do stage ${i.stage||'?'}: separar falha transiente de terminal e impor teto de retry.`;
+    atual=`${i.detail?'"'+i.detail+'" — ':''}o card re-tenta a operação${i.maxRetries>=100?` até ${nf.format(i.maxRetries)} vezes`:''} sem resolver, gerando ocorrências repetidas e ${i.unresolved||0} não resolvidos.`;
+    esperado='Condição não-transiente = terminal (sem retry): registrar 1 ocorrência com resolved_at e encaminhar o card a um estado explícito. Transiente = retry com backoff até teto.';
+    logica=['Classificar o erro (transiente vs terminal) a partir do detalhe real.','Teto de retry configurável + contador persistido por card.','Idempotência por (deal_id, tentativa); resolved_at ao encerrar.'];
+    cuidados=['Preservar o retry legítimo de erros transientes.','Backfill dos cards presos (zerar contador), sem marcá-los perdidos.','Flag/env com default seguro; testes cobrindo transiente, terminal e caminho feliz.'];
+  } else { // genérico de descarte de negócio / recuperável
+    alvo=`O critério/cobertura que gera "${i.label}" (${i.recoverable?'perda recuperável = falso negativo':'descarte de negócio'}).`;
+    atual=`${i.detail?'"'+i.detail+'" — ':''}${nf.format(i.deals)} cards descartados por este motivo no período${i.recoverable?' (potencialmente recuperáveis)':''}.`;
+    esperado=i.recoverable?'Reduzir o falso negativo: auditar amostra, ajustar o critério/cobertura de dado e reprocessar os cards recuperáveis.':'Confirmar que é descarte legítimo; ajustar critério só se o volume/erro subir.';
+    logica=[meta.acao||'Auditar uma amostra representativa e decidir ajuste de critério ou reprocessamento.','Medir a taxa antes/depois para comprovar o ganho.'];
+    cuidados=['Não afrouxar o critério a ponto de deixar passar lead ruim (medir precisão).','Validar em amostra antes de aplicar em lote.'];
+  }
+  const L=(arr)=>arr.map((x,n)=>`${n+1}. ${x}`).join('\n');
+  const C=(arr)=>arr.map(x=>`- ${x}`).join('\n');
+  return `Você é o Claude Code trabalhando no repositório ${repo}. Corrija o erro abaixo.\n\n`
+    +`CONTEXTO\nDono: ${i._dono||meta.dono||'RevOps'}. Localize e CONFIRME o arquivo/função responsáveis (não assuma caminhos).\nEvidência real (dashboard de observabilidade, tabela automation_errors, últimos 30d): ${ev}.\nExemplos de orgs afetadas: ${ex}.\n\n`
+    +`O QUE DEVE SER ALTERADO\n${alvo}\n\n`
+    +`COMPORTAMENTO ATUAL\n${atual}\n\n`
+    +`COMPORTAMENTO ESPERADO\n${esperado}\n\n`
+    +`LÓGICA A IMPLEMENTAR\n${L(logica)}\n\n`
+    +`CUIDADOS P/ NÃO GERAR REGRESSÕES\n${C(cuidados)}`;
+}
+function openPrompt(type){
+  const I=window.__INCIDENTS||[]; const i=I.find(x=>x.type===type); if(!i)return;
+  const ta=document.getElementById('pmtext'); ta.value=promptFor(i);
+  document.getElementById('pmtitle').textContent='Prompt de correção — '+i.label;
+  document.getElementById('pmodal').classList.add('show');
+}
 function priorityOf(i){
   const accel=i.count7/7 > (i.count/30)*1.3 && i.count7>=10;
   if(i.tecnico && (i.maxRetries>=500 || i.unresolved>=50 || accel)) return 'alta';
@@ -409,7 +470,9 @@ function buildIncidents(){
   if(wS.semrushCalls>50&&cache<5)raw.push({synthetic:1,type:'semrush_cache',label:'Cache do Semrush praticamente zerado',prio:'media',tecnico:true,recoverable:false,deals:wS.semrushCalls,_unit:'chamadas',count:wS.semrushCalls,count7:0,unresolved:0,maxRetries:0,stage:'monitoria',topOrgs:[],detail:`cache em ${pct(cache)} · ${nf.format(wS.semrushUnits)} units no período`,_impact:`${nf.format(wS.semrushUnits)} units quase todas cobradas (re-consulta)`,_acao:'Consertar a camada de cache do Semrush pra parar de re-consultar o mesmo termo e queimar crédito.',_dono:'Serp Monitor / RevOps'});
   const order={alta:0,media:1,baixa:2};
   raw.forEach(i=>{if(!i.agent)i.agent=agentOf(i.type);});
-  return raw.sort((x,y)=>order[x.prio]-order[y.prio] || (y.deals||0)-(x.deals||0));
+  const sorted=raw.sort((x,y)=>order[x.prio]-order[y.prio] || (y.deals||0)-(x.deals||0));
+  window.__INCIDENTS=sorted;  // p/ o botão "gerar prompt" localizar o incidente por tipo
+  return sorted;
 }
 function incHist(type){
   const H=DATA.incidentHistory||[]; const today=DATA.todayBRT;
@@ -463,6 +526,7 @@ function incCard(i){
     ${i.detail?`<div class="icause"><span class="lbl">Causa</span><code>${esc(i.detail)}</code></div>`:''}
     <div class="iact"><span class="lbl">Ação</span><span class="tx">${esc(acao)}</span></div>
     <div class="ifoot">${i.topOrgs&&i.topOrgs.length?`ex.: ${i.topOrgs.map(o=>esc(o.n)).join(' · ')}`:''}${i.mttrHours!=null&&i.mttrHours>0?`<span>MTTR ${i.mttrHours}h</span>`:''}<span class="own">dono: ${esc(dono)}</span></div>
+    <button class="pbtn" onclick="openPrompt('${i.type}')">⌨ Gerar prompt de correção</button>
   </div></div>`;
 }
 function opsHtml(){
@@ -774,7 +838,14 @@ function init(){
   const mx=DATA.todayBRT||Object.keys(DATA.daily||{}).sort().pop();if(mx){const mn=dayMinus(mx,29);['fromD','toD'].forEach(id=>{const el=document.getElementById(id);if(el){el.min=mn;el.max=mx;}});}
   let f='Dados reais · Pipedrive brandmonitor + Supabase Lia + API OPEC Enrique · atualização diária (GitHub Action).';
   if(DATA.warnings&&DATA.warnings.length)f+=' Pendências: '+DATA.warnings.join(' · ');
-  document.getElementById('foot').textContent=f; render();
+  document.getElementById('foot').textContent=f;
+  // modal do prompt de correção
+  const pm=document.getElementById('pmodal');
+  document.getElementById('pmclose').onclick=()=>pm.classList.remove('show');
+  pm.onclick=(e)=>{if(e.target===pm)pm.classList.remove('show');};
+  document.addEventListener('keydown',(e)=>{if(e.key==='Escape')pm.classList.remove('show');});
+  document.getElementById('pmcopy').onclick=function(){const ta=document.getElementById('pmtext');ta.focus();ta.select();let ok=false;try{ok=document.execCommand('copy');}catch(e){}if(!ok&&navigator.clipboard){navigator.clipboard.writeText(ta.value).catch(()=>{});}this.textContent='Copiado ✓';setTimeout(()=>{this.textContent='Copiar';},1600);};
+  render();
 }
 (async function(){
   if(window.__DATA__){DATA=window.__DATA__;init();return;}
