@@ -411,8 +411,28 @@ function buildIncidents(){
   raw.forEach(i=>{if(!i.agent)i.agent=agentOf(i.type);});
   return raw.sort((x,y)=>order[x.prio]-order[y.prio] || (y.deals||0)-(x.deals||0));
 }
+function incHist(type){
+  const H=DATA.incidentHistory||[]; const today=DATA.todayBRT;
+  const prior=H.filter(s=>s.date<today).sort((a,b)=>a.date<b.date?-1:1);
+  if(!prior.length)return {hasBaseline:false};
+  const yest=prior[prior.length-1];
+  let firstSeen=null; for(const s of H.slice().sort((a,b)=>a.date<b.date?-1:1)){if(s.types&&s.types[type]){firstSeen=s.date;break;}}
+  return {hasBaseline:true, yest:(yest.types&&yest.types[type])||null, firstSeen};
+}
 function incStatus(i){
   if(i.synthetic)return null;
+  const h=incHist(i.type);
+  if(h.hasBaseline){  // day-over-day autoritativo (histórico persistido)
+    if(h.firstSeen===DATA.todayBRT) return {k:'novo',t:'🆕 Inédito (surgiu hoje)'};
+    if(!h.yest) return {k:'novo',t:'🆕 Reapareceu (ausente ontem)'};
+    const du=i.unresolved-(h.yest.unresolved||0);
+    if((h.yest.unresolved||0)>0 && i.unresolved===0) return {k:'resolvendo',t:'✓ Resolvido desde ontem'};
+    if(du>=3) return {k:'cronico',t:`⚠ Piorou · +${nf.format(du)} não resolvidos desde ontem`};
+    if(du<=-3) return {k:'esfriando',t:`📉 Melhorou · ${nf.format(du)} desde ontem`};
+    if(i.unresolved>0 && i.oldestUnresolvedDays>=10) return {k:'cronico',t:`⚠ Crônico · ${i.oldestUnresolvedDays}d aberto`};
+    return null;
+  }
+  // fallback: inferência pela forma da janela (enquanto o histórico não acumulou)
   const share7=i.count?i.count7/i.count:0, rate=i.count?(i.count-i.unresolved)/i.count:1, recent=i.count7/7, base=i.count/30;
   if(i.count7>=10 && share7>=0.55) return {k:'novo',t:'🆕 Novo esta semana'};
   if(i.unresolved>0 && i.oldestUnresolvedDays>=10 && rate<0.6) return {k:'cronico',t:`⚠ Crônico · ${i.oldestUnresolvedDays}d aberto`};

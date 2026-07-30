@@ -336,6 +336,15 @@ async function main() {
   out.truncations = SBWARN.slice();
   const dest = path.join(process.cwd(), 'public', 'data.json');
   fs.mkdirSync(path.dirname(dest), { recursive: true });
+  // histórico de incidentes: snapshot diário persistido no data.json (sobrevive entre coletas) → "novo/resolvido desde ontem" de verdade
+  let hist = [];
+  try { const prev = JSON.parse(fs.readFileSync(dest, 'utf8')); if (Array.isArray(prev.incidentHistory)) hist = prev.incidentHistory; } catch {}
+  const snapTypes = {};
+  for (const i of out.incidents || []) snapTypes[i.type] = { count: i.count, unresolved: i.unresolved, deals: i.deals };
+  hist = hist.filter(h => h.date !== TODAY_BRT);            // re-run no mesmo dia substitui
+  hist.push({ date: TODAY_BRT, types: snapTypes });
+  out.incidentHistory = hist.slice(-45);                    // mantém ~45 dias
+  log('incidentHistory · dias=', out.incidentHistory.length);
   fs.writeFileSync(dest, JSON.stringify(out, null, 2));
   log('gravado', dest, '· avisos:', out.warnings.length);
 }
