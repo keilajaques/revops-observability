@@ -67,9 +67,11 @@ async function pdOpenCount(stage) {
 }
 
 // ---------- Supabase (PostgREST) ----------
+const SBWARN = [];  // guard de truncamento: consultas que estouraram o teto de paginação (número subcontado)
 async function sbPage(baseUrl, key, q, profile, maxPages) {
-  let p = 0, all = [];
-  while (p < (maxPages || 40)) {
+  const cap = maxPages || 40;
+  let p = 0, all = [], truncated = false;
+  while (p < cap) {
     const t = timeout(30000); let r;
     try {
       const h = { apikey: key, authorization: `Bearer ${key}`, accept: 'application/json', Range: `${p * 1000}-${p * 1000 + 999}` };
@@ -79,10 +81,18 @@ async function sbPage(baseUrl, key, q, profile, maxPages) {
     const j = await r.json().catch(() => []);
     if (!r.ok) { log('SB erro', r.status, String(q).slice(0, 40)); break; }
     all.push(...j);
-    if (j.length < 1000) break; p++;
+    if (j.length < 1000) break;   // página incompleta = esgotou os dados
+    p++;
+    if (p >= cap) truncated = true;  // parou no teto com a última página ainda CHEIA = há mais dados não lidos
+  }
+  // GUARD: paginação truncada = número subcontado; vira pendência no painel em vez de passar silencioso
+  if (truncated) {
+    const msg = `truncado: ${String(q).split('?')[0]} parou em ${nfmt(all.length)} linhas (teto ${nfmt(cap * 1000)}) com dados ainda por ler — SUBCONTADO; subir maxPages ou filtrar a query`;
+    SBWARN.push(msg); log('⚠️ TRUNCAMENTO —', msg);
   }
   return all;
 }
+const nfmt = (n) => n.toLocaleString('pt-BR');
 
 const PIPE33 = [460, 461, 462, 463, 464, 465, 466, 467];
 const LOSS_LABELS = {
@@ -322,6 +332,8 @@ async function main() {
   } else out.warnings.push('Lead Generator Supabase ausente — motivos de descarte não populados');
 
   out.daily = daily;
+  for (const m of SBWARN) out.warnings.push(m);  // guard: expõe consultas truncadas como pendência no painel
+  out.truncations = SBWARN.slice();
   const dest = path.join(process.cwd(), 'public', 'data.json');
   fs.mkdirSync(path.dirname(dest), { recursive: true });
   fs.writeFileSync(dest, JSON.stringify(out, null, 2));

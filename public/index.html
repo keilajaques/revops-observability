@@ -188,6 +188,9 @@
   .istage{font:9.5px var(--mono);color:var(--ink-faint);border:1px solid var(--line);border-radius:5px;padding:1px 5px;}
   .prio{font:700 9px var(--mono);text-transform:uppercase;letter-spacing:.06em;padding:3px 9px;border-radius:999px;}
   .prio.alta{background:var(--leak-soft);color:var(--leak);} .prio.media{background:var(--hold-soft);color:var(--hold);} .prio.baixa{background:var(--panel-2);color:var(--ink-dim);}
+  .istatus{font:700 9px var(--mono);padding:2px 8px;border-radius:999px;white-space:nowrap;letter-spacing:.02em;}
+  .istatus.novo{background:var(--brand-soft);color:var(--brand);} .istatus.cronico{background:var(--leak-soft);color:var(--leak);}
+  .istatus.esfriando{background:var(--pass-soft);color:var(--pass);} .istatus.resolvendo{background:var(--pass-soft);color:var(--pass);}
   .imx{display:flex;gap:22px;flex-wrap:wrap;margin:12px 0 2px;}
   .imx .im{font-size:10.5px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.04em;} .imx .im b{font-family:var(--mono);font-size:18px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;display:block;line-height:1.05;margin-bottom:3px;letter-spacing:0;}
   .imx .im.warn b{color:var(--leak);} .imx .im .up{color:var(--leak);font-size:10px;font-weight:700;}
@@ -240,6 +243,8 @@
   .zonebar{display:flex;align-items:center;gap:14px;margin:48px 0 6px;}
   .zonebar .zn{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-dim);font-weight:600;white-space:nowrap;}
   .zonebar .zl{flex:1;height:1px;background:var(--line-2);}
+  .databanner{display:flex;gap:10px;align-items:flex-start;background:var(--leak-soft);border:1px solid var(--leak);border-radius:12px;padding:12px 16px;margin-top:16px;font-size:13px;color:var(--ink);}
+  .databanner b{color:var(--leak);} .databanner .det{font-family:var(--mono);font-size:11.5px;color:var(--ink-dim);}
   .cockpit{display:grid;grid-template-columns:1.35fr 2fr;gap:12px;margin-top:20px;}
   @media(max-width:760px){.cockpit{grid-template-columns:1fr;}}
   .kxl{border:1px solid color-mix(in srgb,var(--leak) 32%,var(--line));border-radius:16px;padding:20px 22px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:9px;background:linear-gradient(160deg,var(--leak-soft),var(--panel) 62%);}
@@ -406,6 +411,15 @@ function buildIncidents(){
   raw.forEach(i=>{if(!i.agent)i.agent=agentOf(i.type);});
   return raw.sort((x,y)=>order[x.prio]-order[y.prio] || (y.deals||0)-(x.deals||0));
 }
+function incStatus(i){
+  if(i.synthetic)return null;
+  const share7=i.count?i.count7/i.count:0, rate=i.count?(i.count-i.unresolved)/i.count:1, recent=i.count7/7, base=i.count/30;
+  if(i.count7>=10 && share7>=0.55) return {k:'novo',t:'🆕 Novo esta semana'};
+  if(i.unresolved>0 && i.oldestUnresolvedDays>=10 && rate<0.6) return {k:'cronico',t:`⚠ Crônico · ${i.oldestUnresolvedDays}d aberto`};
+  if(i.count7===0 || recent<base*0.4) return {k:'esfriando',t:'📉 Esfriando'};
+  if(i.tecnico && rate>=0.8 && i.oldestUnresolvedDays<7) return {k:'resolvendo',t:'✓ Resolvendo'};
+  return null;
+}
 function incCard(i){
   const meta=INCIDENT_META[i.type]||{};
   const acao=i._acao||meta.acao||(i.tecnico?'Investigar o detalhe do erro e reprocessar os cards afetados.':i.recoverable?'Auditar amostra e reprocessar os recuperáveis.':'Revisar critério de descarte.');
@@ -413,12 +427,15 @@ function incCard(i){
   const impact=i._impact||impactOf(i);
   const accel=i.count7/7 > (i.count/30)*1.3 && i.count7>=10;
   const selo=i.tecnico?'<span class="selo tec">TÉC</span>':(i.recoverable?'<span class="selo rec">RECUP</span>':'');
+  const st=incStatus(i), stBadge=st?`<span class="istatus ${st.k}">${st.t}</span>`:'';
+  const resRate=(!i.synthetic&&i.tecnico&&i.count)?Math.round((i.count-i.unresolved)/i.count*100):null;
   return `<div class="inc ${i.prio}"><div class="ibar"></div><div class="ibody">
-    <div class="ihead"><span class="it">${esc(i.label)}</span>${i.stage?`<span class="istage">@${esc(i.stage)}</span>`:''}${selo}<span class="prio ${i.prio}">${i.prio}</span></div>
+    <div class="ihead"><span class="it">${esc(i.label)}</span>${i.stage?`<span class="istage">@${esc(i.stage)}</span>`:''}${selo}${stBadge}<span class="prio ${i.prio}">${i.prio}</span></div>
     <div class="imx">
       <span class="im"><b>${nf.format(i.deals)}</b>${i._unit||'cards afetados'}</span>
       <span class="im"><b>${nf.format(i.count)}</b>ocorrências${i.count7?` <span class="up">${accel?'▲ ':''}${nf.format(i.count7)}/7d</span>`:''}</span>
       ${i.unresolved?`<span class="im warn"><b>${nf.format(i.unresolved)}</b>não resolvidos</span>`:''}
+      ${resRate!=null?`<span class="im"><b style="color:${resRate>=80?'var(--pass)':resRate>=50?'var(--hold)':'var(--leak)'}">${resRate}%</b>resolvidos</span>`:''}
       ${i.oldestUnresolvedDays>=1?`<span class="im ${i.oldestUnresolvedDays>=7?'warn':''}"><b>${i.oldestUnresolvedDays}d</b>aberto há</span>`:''}
       ${i.maxRetries>=100?`<span class="im warn"><b>${nf.format(i.maxRetries)}</b>retries (loop)</span>`:''}
     </div>
@@ -641,6 +658,7 @@ function render(){
   document.querySelectorAll('#seg button').forEach(x=>x.classList.toggle('on',x.dataset.w===mode));
   document.getElementById('cbox').classList.toggle('show',mode==='custom');
   let h='';
+  if(DATA.truncations&&DATA.truncations.length)h+=`<div class="databanner">⚠️ <div><b>Integridade de dados:</b> ${DATA.truncations.length} consulta(s) truncada(s) na coleta — alguns números podem estar <b>subcontados</b>. <span class="det">${esc(DATA.truncations[0])}</span></div></div>`;
 
   // ===== ZONA 1 — COCKPIT =====
   h+=`<div class="zonebar"><span class="zn">1 · Cockpit — o que exige atenção agora</span><span class="zl"></span></div>`;
