@@ -571,13 +571,22 @@ function opsHtml(){
 const STAGE_OF={lost_weak_pure_brand:'cs',lost_cs_low:'cs',lost_low_volume:'cs',lost_duplicate:'cs',cs_missing_dimensions:'cs',cs_endpoint_failed:'cs',
   enrique_only_no_contact:'enr',garimpo_no_channel:'enr',garimpo_no_contacts:'enr',invalid_produto_principal:'enr',
   lost_ps_low:'prod',gd_no_opportunity:'prod',bbp_neon_query_error:'prod',bbp_vc_monitoria_ausente:'prod'};
+const CP_LABELS=['Entraram (Lead Gen)','Company Score','Product Score','Garimpo de Contatos','Prospecção','Etapas finais'];
+function aggCohort(a,b){
+  const cd=DATA.cohortDaily||{}, csd=DATA.cohortLostCSDaily||{};
+  const ex=[0,0,0,0,0,0]; let lostCS=0, any=false;
+  for(const k in cd){if(k<a||k>b)continue;any=true;const v=cd[k];for(let i=0;i<6;i++)ex[i]+=v[i]||0;lostCS+=csd[k]||0;}
+  if(!any)return null;
+  const reached=[]; let acc=0; for(let k=5;k>=0;k--){acc+=ex[k];reached[k]=acc;}
+  return {entered:reached[0],reprovadosCS:lostCS,steps:CP_LABELS.map((label,k)=>({label,count:reached[k],conv:k===0?100:(reached[k-1]?+(reached[k]/reached[k-1]*100).toFixed(1):0)}))};
+}
 function cohortHtml(){
-  const cw=(mode==='7'||mode==='15'||mode==='30')?mode:'30';
-  const C=DATA.cohort&&DATA.cohort[cw]; if(!C||!C.steps)return '<div class="note">Funil de coorte indisponível (rode o coletor atualizado).</div>';
+  const [a,b]=range(); const C=aggCohort(a,b);
+  if(!C||!C.entered)return '<div class="note">Sem cards criados nesta janela.</div>';
   const steps=C.steps, ent=C.entered||1;
   // gargalo = maior perda ABSOLUTA de cards (não a menor taxa — a última etapa é resposta/maturidade, não gargalo)
   let worst=-1,wd=-1; steps.forEach((s,k)=>{if(k>0){const drop=steps[k-1].count-s.count; if(drop>wd){wd=drop;worst=k;}}});
-  const days=cw==='7'?7:cw==='15'?15:30, t=DATA.todayBRT, LS=aggLoss(dayMinus(t,days-1),t);
+  const LS=aggLoss(a,b);
   const G={cs:['lost_weak_pure_brand','lost_cs_low','lost_low_volume','lost_duplicate','cs_missing_dimensions'],prod:['lost_ps_low','gd_no_opportunity','invalid_produto_principal','bbp_neon_query_error'],enr:['enrique_only_no_contact','garimpo_no_channel','garimpo_no_contacts']};
   const top=(keys)=>{const rs=(LS.reasons||[]).filter(r=>keys.includes(r.key)).sort((a,b)=>b.count-a.count);return rs[0]?`${rs[0].label}`:'';};
   const gapReason=k=>k===2?top(G.cs):k===3?top(G.prod):k===4?top(G.enr):'';
@@ -588,9 +597,10 @@ function cohortHtml(){
     h+=`<div class="cfun-row"><div class="cf-lab">${s.label}${k===1&&C.reprovadosCS?`<small>${nf.format(C.reprovadosCS)} reprovados aqui</small>`:''}</div><div class="cf-track"><div class="cf-fill${k===steps.length-1?' end':''}" style="width:${Math.max(1.5,s.count/ent*100)}%"></div></div><div class="cf-n">${nf.format(s.count)}</div></div>`;
   });
   h+=`</div>`;
-  const rep=w=>{const c=DATA.cohort[w];return c&&c.steps[1]&&c.steps[1].count?Math.round(c.reprovadosCS/c.steps[1].count*100):0;};
-  h+=`<div class="note"><span class="tag">Reprovação no Company Score por coorte (sinal que amadurece rápido)</span>7d <b>${rep('7')}%</b> · 15d <b>${rep('15')}%</b> · 30d <b>${rep('30')}%</b> — a pontuação é imediata, então diferença aqui é mudança REAL na qualidade da entrada, não maturidade. ${rep('7')>rep('30')+8?`<b style="color:var(--leak)">⚠ a entrada recente está pior.</b>`:''}</div>`;
-  h+=`<div class="note"><span class="tag">Como ler</span>Coorte por <b>data de criação</b>: dos cards que entraram na janela de ${days}d, quantos alcançaram cada etapa (posição atual no Pipedrive). Etapas tardias de coortes recentes ainda estão <b>em trânsito</b> (~2 semanas de latência ponta-a-ponta) — por isso a janela de 7d mostra pouca Prospecção. O maior ponto de perda está destacado.</div></div>`;
+  const t=DATA.todayBRT, days=nDays(a,b);
+  const rep=n=>{const c=aggCohort(dayMinus(t,n-1),t);return c&&c.steps[1]&&c.steps[1].count?Math.round(c.reprovadosCS/c.steps[1].count*100):0;};
+  h+=`<div class="note"><span class="tag">Reprovação no Company Score por coorte (sinal que amadurece rápido)</span>7d <b>${rep(7)}%</b> · 15d <b>${rep(15)}%</b> · 30d <b>${rep(30)}%</b> — a pontuação é imediata, então diferença aqui é mudança REAL na qualidade da entrada, não maturidade. ${rep(7)>rep(30)+8?`<b style="color:var(--leak)">⚠ a entrada recente está pior.</b>`:''}</div>`;
+  h+=`<div class="note"><span class="tag">Como ler</span>Coorte por <b>data de criação</b>: dos ${nf.format(C.entered)} cards que entraram nesta janela (${days} dia${days>1?'s':''}), quantos alcançaram cada etapa (posição atual no Pipedrive). Etapas tardias de coortes recentes ainda estão <b>em trânsito</b> (~2 semanas de latência ponta-a-ponta). O maior ponto de perda está destacado.</div></div>`;
   return h;
 }
 function conversaoHtml(w){
@@ -788,10 +798,10 @@ function render(){
 
   // ===== ZONA 2 — FLUXO & GATE =====
   h+=`<div class="zonebar"><span class="zn">2 · Fluxo — entra, avança e perde por etapa</span><span class="zl"></span></div>`;
-  if(mode==='7'||mode==='15'||mode==='30'){
-    h+=`<h2>Funil de coorte <span class="tag">· cards criados nos últimos ${mode} dias</span></h2>`+cohortHtml();
+  if(nDays(a,b)>=2){
+    h+=`<h2>Funil de coorte <span class="tag">· cards criados · ${wlabel()}</span></h2>`+cohortHtml();
   } else {
-    h+=`<h2>Funil de coorte <span class="tag">· 7 / 15 / 30 dias</span></h2><div class="note"><span class="tag">Selecione um período</span>O funil de coorte acompanha os cards por <b>data de criação</b> ao longo de vários dias. Uma janela de <b>${mode==='hoje'?'"hoje"':'período custom'}</b> não é uma coorte válida — um card criado hoje ainda não teve tempo de avançar pelas etapas (latência ~2 semanas). Clique em <b>7, 15 ou 30 dias</b> para ver o funil. <br>(Os números de "hoje" nos outros painéis — captados, pontuados, erros, custo — continuam corretos e específicos do dia.)</div>`;
+    h+=`<h2>Funil de coorte <span class="tag">· janela ≥ 2 dias</span></h2><div class="note"><span class="tag">Janela muito curta</span>O funil de coorte acompanha os cards por <b>data de criação</b> ao longo de vários dias. Um único dia ("hoje") não é coorte válida — o card recém-criado ainda não teve tempo de avançar (latência ~2 semanas). Selecione <b>7, 15, 30 dias</b> ou um <b>intervalo de datas</b>. <br>(Os números de "hoje" nos outros painéis — captados, pontuados, erros, custo — continuam corretos e específicos do dia.)</div>`;
   }
   h+=`<div class="eyebrow" style="margin-top:26px">Volume por dia</div><h2>Vazão diária <span class="tag">· últimos 30d · linha fina = dia · grossa = média 7d</span></h2>`+throughputHtml();
   h+=`<div class="eyebrow" style="margin-top:26px">Estado agora</div><h2>Cards abertos por etapa <span class="tag">· snapshot ao vivo · custo por lead qualif. ${money(custoQ)}</span></h2>`+openStageHtml();

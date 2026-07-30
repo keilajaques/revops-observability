@@ -159,24 +159,19 @@ async function main() {
         const FLOW_CP = { 460: 1, 461: 1, 462: 2, 463: 3, 464: 3, 465: 3, 466: 3, 467: 4,
           402: 5, 403: 5, 433: 5, 414: 5, 434: 5, 435: 5, 439: 5, 440: 5, 441: 5, 442: 5, 443: 5, 444: 5, 468: 5, 469: 5, 470: 5, 471: 5, 472: 5, 473: 5, 477: 5, 478: 5, 479: 5, 480: 5, 481: 5, 482: 5,
           411: 6, 412: 6, 413: 6, 445: 6, 446: 6, 447: 6, 474: 6, 475: 6, 476: 6, 483: 6, 484: 6, 485: 6 };
-        const CP_LABELS = ['Entraram (Lead Gen)', 'Company Score', 'Product Score', 'Garimpo de Contatos', 'Prospecção', 'Etapas finais'];
-        const ex = { '7': [0, 0, 0, 0, 0, 0], '15': [0, 0, 0, 0, 0, 0], '30': [0, 0, 0, 0, 0, 0] }, lostCS = { '7': 0, '15': 0, '30': 0 };
+        // POR DIA de criação (checkpoint 1-6 = até onde o card chegou) → front soma p/ QUALQUER intervalo (7/15/30 e custom)
+        const cd = {}, cdCS = {};
         for (const [sid, cp] of Object.entries(FLOW_CP)) {
           for (const d of await pdScan(+sid, 'all_not_deleted', 'add_time')) {
-            const t = ts(d.add_time); if (!t) continue;
-            for (const wk of ['30', '15', '7']) { if (t >= CUT[wk]) { ex[wk][cp - 1]++; if (+sid === 462 && d.status === 'lost') lostCS[wk]++; } }
+            const t = ts(d.add_time); if (!t || !inDailyWin(t)) continue;
+            const day = brtDate(t);
+            (cd[day] ||= [0, 0, 0, 0, 0, 0])[cp - 1]++;
+            if (+sid === 462 && d.status === 'lost') cdCS[day] = (cdCS[day] || 0) + 1;
           }
         }
-        out.cohort = {};
-        for (const wk of ['7', '15', '30']) {
-          const e = ex[wk], reached = []; let acc = 0;
-          for (let k = 5; k >= 0; k--) { acc += e[k]; reached[k] = acc; }  // cumulativo: chegou ao checkpoint k OU além
-          out.cohort[wk] = {
-            entered: reached[0], reprovadosCS: lostCS[wk],
-            steps: CP_LABELS.map((label, k) => ({ label, count: reached[k], conv: k === 0 ? 100 : (reached[k - 1] ? +(reached[k] / reached[k - 1] * 100).toFixed(1) : 0) })),
-          };
-        }
-        log('cohort funnel ok · entraram30d=', out.cohort['30'].entered);
+        out.cohortDaily = cd;            // {dia: [c1..c6]} contagem por checkpoint exato
+        out.cohortLostCSDaily = cdCS;    // {dia: reprovados no Company Score (perdidos no 462)}
+        log('cohort daily ok · dias=', Object.keys(cd).length);
       } catch (e) { out.warnings.push('cohort funnel falhou: ' + e.message); }
 
       out.sources.pipedrive = 'ok';
