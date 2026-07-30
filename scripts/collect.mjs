@@ -67,9 +67,9 @@ async function pdOpenCount(stage) {
 }
 
 // ---------- Supabase (PostgREST) ----------
-async function sbPage(baseUrl, key, q, profile) {
+async function sbPage(baseUrl, key, q, profile, maxPages) {
   let p = 0, all = [];
-  while (p < 40) {
+  while (p < (maxPages || 40)) {
     const t = timeout(30000); let r;
     try {
       const h = { apikey: key, authorization: `Bearer ${key}`, accept: 'application/json', Range: `${p * 1000}-${p * 1000 + 999}` };
@@ -286,7 +286,8 @@ async function main() {
   if (ENQ_URL && ENQ_KEY && !ENQ_KEY.startsWith('#')) {
     try {
       const since = new Date(CUT['30']).toISOString();
-      const runs = await sbPage(ENQ_URL, ENQ_KEY, `enrichment_runs?select=enrichment_id,status,cost_data_credits,started_at&started_at=gte.${since}`, 'garimpo');
+      // exclui pipedrive.webhook no servidor (é auditoria, ~85% das linhas e sem custo) + ordena por data + teto alto p/ não truncar (~53k linhas reais/30d)
+      const runs = await sbPage(ENQ_URL, ENQ_KEY, `enrichment_runs?select=enrichment_id,status,cost_data_credits,started_at&started_at=gte.${since}&enrichment_id=not.like.pipedrive*&order=started_at.desc`, 'garimpo', 80);
       const prov = {};
       for (const r of runs) {
         const p = String(r.enrichment_id || '?').split('.')[0]; if (p === 'pipedrive') continue;

@@ -325,27 +325,27 @@ function wlabel(){const[a,b]=range();if(mode==='hoje')return'hoje ('+a+')';if(mo
 
 // ---- agregadores dos buckets diários por intervalo [a,b] (fazem os painéis obedecerem o filtro) ----
 function aggProviders(a,b){
-  const dd=DATA.daily||{},rates=DATA.providerRates||{},acc={};let any=false;
-  for(const k in dd){if(k<a||k>b)continue;const pv=dd[k].prov;if(!pv)continue;any=true;for(const n in pv){const s=(acc[n]||={calls:0,success:0,credits:0});s.calls+=pv[n].c||0;s.success+=pv[n].s||0;s.credits+=pv[n].cr||0;}}
-  if(!any)return DATA.providers||[];
+  const dd=DATA.daily||{},rates=DATA.providerRates||{},acc={};let any=false,anyEver=false;
+  for(const k in dd){const pv=dd[k].prov;if(pv)anyEver=true;if(k<a||k>b||!pv)continue;any=true;for(const n in pv){const s=(acc[n]||={calls:0,success:0,credits:0});s.calls+=pv[n].c||0;s.success+=pv[n].s||0;s.credits+=pv[n].cr||0;}}
+  if(!any)return anyEver?[]:(DATA.providers||[]);  // sem bucket no intervalo mas a série TEM prov = 0 consumo no período (não cair no total 30d)
   return Object.entries(acc).map(([name,v])=>({name,calls:v.calls,successRate:v.calls?Math.round(v.success/v.calls*100):0,errorRate:v.calls?Math.round((1-v.success/v.calls)*100):0,credits:Math.round(v.credits),brl:+(v.credits*(rates[name]||0)).toFixed(2)})).sort((x,y)=>y.credits-x.credits);
 }
 function aggLoss(a,b){
   const dd=DATA.daily||{},meta=DATA.lossMeta||{labels:{},recoverable:[],infra:[]};
   const rec=new Set(meta.recoverable||[]),inf=new Set(meta.infra||[]),lab=meta.labels||{};
   const t=DATA.todayBRT||Object.keys(dd).sort().pop(),a7=dayMinus(t,6);
-  const by={},by7={};let any=false;
-  for(const k in dd){const ls=dd[k].loss;if(!ls)continue;const inR=(k>=a&&k<=b),in7=(k>=a7&&k<=t);if(!inR&&!in7)continue;for(const key in ls){if(inR){by[key]=(by[key]||0)+ls[key];any=true;}if(in7)by7[key]=(by7[key]||0)+ls[key];}}
-  if(!any){const LS=DATA.lossSummary||{};return{total:LS.total||0,tecnico:LS.tecnico||0,recuperavel:LS.recuperavel||0,legitima:LS.legitima||0,reasons:(DATA.lossReasons||[]).map(r=>({key:r.key,label:r.label,count:r.d30,share:r.share,rpd:r.ratePerDay30,rpd7:r.ratePerDay7,recoverable:r.recoverable,tecnico:r.tecnico}))};}
+  const by={},by7={};let any=false,anyEver=false;
+  for(const k in dd){const ls=dd[k].loss;if(!ls)continue;anyEver=true;const inR=(k>=a&&k<=b),in7=(k>=a7&&k<=t);if(!inR&&!in7)continue;for(const key in ls){if(inR){by[key]=(by[key]||0)+ls[key];any=true;}if(in7)by7[key]=(by7[key]||0)+ls[key];}}
+  if(!any){if(anyEver)return{total:0,tecnico:0,recuperavel:0,legitima:0,reasons:[]};const LS=DATA.lossSummary||{};return{total:LS.total||0,tecnico:LS.tecnico||0,recuperavel:LS.recuperavel||0,legitima:LS.legitima||0,reasons:(DATA.lossReasons||[]).map(r=>({key:r.key,label:r.label,count:r.d30,share:r.share,rpd:r.ratePerDay30,rpd7:r.ratePerDay7,recoverable:r.recoverable,tecnico:r.tecnico}))};}
   const days=nDays(a,b);let total=0,tec=0,recu=0,leg=0;
   for(const key in by){total+=by[key];if(inf.has(key))tec+=by[key];else if(rec.has(key))recu+=by[key];else leg+=by[key];}
   const reasons=Object.entries(by).sort((x,y)=>y[1]-x[1]).slice(0,10).map(([key,count])=>({key,label:lab[key]||key,count,share:total?+(count/total*100).toFixed(1):0,rpd:+(count/days).toFixed(1),rpd7:+((by7[key]||0)/7).toFixed(1),recoverable:rec.has(key),tecnico:inf.has(key)}));
   return{total,tecnico:tec,recuperavel:recu,legitima:leg,reasons};
 }
 function aggCs(a,b){
-  const dd=DATA.daily||{},B=[0,0,0,0,0],BA=[0,0,0,0,0],ranges=['0–1','1–2','2–3','3–4','≥4'];let sA=0,nA=0,sR=0,nR=0,any=false;
-  for(const k in dd){if(k<a||k>b)continue;const cb=dd[k].csB;if(!cb)continue;any=true;const ba=dd[k].csBA||[0,0,0,0,0];for(let i=0;i<5;i++){B[i]+=cb[i]||0;BA[i]+=ba[i]||0;}sA+=dd[k].csSA||0;nA+=dd[k].csNA||0;sR+=dd[k].csSR||0;nR+=dd[k].csNR||0;}
-  if(!any)return DATA.csHistogram||null;
+  const dd=DATA.daily||{},B=[0,0,0,0,0],BA=[0,0,0,0,0],ranges=['0–1','1–2','2–3','3–4','≥4'];let sA=0,nA=0,sR=0,nR=0,any=false,anyEver=false;
+  for(const k in dd){const cb=dd[k].csB;if(cb)anyEver=true;if(k<a||k>b||!cb)continue;any=true;const ba=dd[k].csBA||[0,0,0,0,0];for(let i=0;i<5;i++){B[i]+=cb[i]||0;BA[i]+=ba[i]||0;}sA+=dd[k].csSA||0;nA+=dd[k].csNA||0;sR+=dd[k].csSR||0;nR+=dd[k].csNR||0;}
+  if(!any)return anyEver?null:(DATA.csHistogram||null);
   return{threshold:(DATA.csHistogram&&DATA.csHistogram.threshold)||2,buckets:ranges.map((range,i)=>({range,total:B[i],approved:BA[i],reproved:B[i]-BA[i]})),avgApproved:nA?+(sA/nA).toFixed(2):0,avgReproved:nR?+(sR/nR).toFixed(2):0,distinctDeals:B.reduce((s,x)=>s+x,0)};
 }
 
@@ -702,8 +702,11 @@ function semrushHtml(w,cache){
   ${crit?`<div class="note leak"><span class="tag">Dreno de crédito</span>Cache em <b>${pct(cache)}</b> — quase toda consulta é cobrada. Consertar o cache é economia direta.</div>`:''}</div>`;
 }
 function providersHtml(P){
-  P=P||DATA.providers||[];
-  if(!P.length)return `<div class="note"><span class="tag">Aguardando fonte</span>Consumo por API (Apollo · Findymail · FullEnrich · Debounce · CNPJá) com chamadas, taxa de erro, créditos e R$ vive no schema <b>garimpo</b> do Enrique. Adicionar o secret <b>ENRIQUE_SERVICE_ROLE_KEY</b> popula este painel sozinho.</div>`;
+  if(!P)P=DATA.providers||[];
+  if(!P.length){
+    if(DATA.providerRates)return `<div class="note"><span class="tag">Sem consumo no período</span>Nenhuma chamada de API do garimpo registrada no intervalo selecionado. O consumo do dia corrente só aparece após a coleta das 6h (BRT); troque o filtro para 7/30 dias para ver o histórico.</div>`;
+    return `<div class="note"><span class="tag">Aguardando fonte</span>Consumo por API (Apollo · Findymail · FullEnrich · Debounce · CNPJá) vive no schema <b>garimpo</b> do Enrique. Adicionar o secret <b>ENRIQUE_SERVICE_ROLE_KEY</b> popula este painel sozinho.</div>`;
+  }
   const cmax=Math.max(...P.map(p=>p.credits),1);
   return `<div class="tw"><table><thead><tr><th>Provider</th><th class="r">Chamadas</th><th class="r">Sucesso</th><th class="r">Erro</th><th class="r">Créditos</th><th class="r">R$</th></tr></thead><tbody>`+P.map(p=>{const col=p.successRate>=70?'var(--pass)':(p.successRate>=40?'var(--hold)':'var(--leak)');return `<tr><td><b>${p.name}</b></td><td class="r num">${nf.format(p.calls)}</td><td class="r num" style="color:${col}">${p.successRate}%</td><td class="r num" style="color:var(--leak)">${p.errorRate}%</td><td class="r num">${nf.format(p.credits)}</td><td class="r num">${p.brl?money(p.brl):'—'}</td></tr>`;}).join('')+`</tbody></table></div>`;
 }
