@@ -1,88 +1,88 @@
 {
-  "generatedAt": "2026-10-04T14:29:41.383Z",
-  "generatedAtBRT": "04/10/2026, 11:29:41",
-  "todayBRT": "2026-10-04",
+  "generatedAt": "2026-10-05T17:32:34.639Z",
+  "generatedAtBRT": "05/10/2026, 14:32:34",
+  "todayBRT": "2026-10-05",
   "windows": {
     "7": {
-      "created": 644,
-      "lost": 823,
-      "lost462": 770,
-      "csScored": 782,
-      "csApproved": 19,
-      "csReproved": 763,
-      "csRate": 2.4,
-      "autoTotal": 992,
-      "infra": 165,
-      "semrushCalls": 2946,
-      "semrushUnits": 14844,
+      "created": 693,
+      "lost": 905,
+      "lost462": 851,
+      "csScored": 865,
+      "csApproved": 18,
+      "csReproved": 847,
+      "csRate": 2.1,
+      "autoTotal": 1105,
+      "infra": 201,
+      "semrushCalls": 3411,
+      "semrushUnits": 16515,
       "semrushCache": 0,
-      "opecCalls": 202,
-      "opecCredits": 43,
-      "opecCost": 1.92
+      "opecCalls": 424,
+      "opecCredits": 87,
+      "opecCost": 4.55
     },
     "15": {
-      "created": 1743,
-      "lost": 2346,
-      "lost462": 2070,
-      "csScored": 2099,
-      "csApproved": 54,
-      "csReproved": 2045,
-      "csRate": 2.6,
-      "autoTotal": 2617,
-      "infra": 214,
-      "semrushCalls": 7906,
-      "semrushUnits": 39505,
+      "created": 1684,
+      "lost": 2297,
+      "lost462": 2016,
+      "csScored": 2052,
+      "csApproved": 55,
+      "csReproved": 1997,
+      "csRate": 2.7,
+      "autoTotal": 2626,
+      "infra": 274,
+      "semrushCalls": 7832,
+      "semrushUnits": 38477,
       "semrushCache": 0,
-      "opecCalls": 1752,
-      "opecCredits": 167,
-      "opecCost": 25.42
+      "opecCalls": 1964,
+      "opecCredits": 216,
+      "opecCost": 27.82
     },
     "30": {
-      "created": 3397,
-      "lost": 5188,
-      "lost462": 3994,
-      "csScored": 4171,
-      "csApproved": 159,
-      "csReproved": 4012,
+      "created": 3366,
+      "lost": 5095,
+      "lost462": 3973,
+      "csScored": 4151,
+      "csApproved": 156,
+      "csReproved": 3995,
       "csRate": 3.8,
-      "autoTotal": 5934,
-      "infra": 304,
-      "semrushCalls": 15651,
-      "semrushUnits": 77994,
+      "autoTotal": 5824,
+      "infra": 364,
+      "semrushCalls": 15704,
+      "semrushUnits": 77696,
       "semrushCache": 0,
-      "opecCalls": 3491,
-      "opecCredits": 633,
-      "opecCost": 97.71
+      "opecCalls": 3526,
+      "opecCredits": 576,
+      "opecCost": 81.89
     },
     "hoje": {
-      "created": 78,
-      "lost": 125,
-      "lost462": 124,
-      "csScored": 125,
-      "csApproved": 1,
-      "csReproved": 124,
-      "csRate": 0.8,
-      "autoTotal": 150,
-      "infra": 24,
-      "semrushCalls": 455,
-      "semrushUnits": 2309,
+      "created": 118,
+      "lost": 161,
+      "lost462": 148,
+      "csScored": 158,
+      "csApproved": 5,
+      "csReproved": 153,
+      "csRate": 3.2,
+      "autoTotal": 195,
+      "infra": 38,
+      "semrushCalls": 544,
+      "semrushUnits": 2830,
       "semrushCache": 0,
-      "opecCalls": 0,
-      "opecCredits": 0,
-      "opecCost": 0
+      "opecCalls": 219,
+      "opecCredits": 50,
+      "opecCost": 3.25
     }
   },
   "lossReasons": [
     {
       "key": "lost_weak_pure_brand",
       "label": "Marca fraca",
-      "d7": 751,
-      "d15": 2035,
-      "d30": 4060,
-      "hoje": 122,
-      "share": 68.4,
-      "ratePerDay7": 107.3,
-      "ratePerDay30": 135.3,
+      "d7": 832,
+      "d15": 1984,
+      "d30": 3996,
+      "hoje": 147,
+      "share": 68.6,
+      "ratePerDay7": 118.9,
+      "ratePerDay30": 133.2,
       "recoverable": true,
       "tecnico": false
     },
@@ -90,77 +90,77 @@
       "key": "lost_other",
       "label": "Outros (não classificado)",
       "d7": 5,
-      "d15": 11,
-      "d30": 315,
-      "hoje": 0,
-      "share": 5.3,
+      "d15": 12,
+      "d30": 282,
+      "hoje": 1,
+      "share": 4.8,
       "ratePerDay7": 0.7,
-      "ratePerDay30": 10.5,
-      "recoverable": false,
-      "tecnico": false
-    },
-    {
-      "key": "gd_no_opportunity",
-      "label": "Golpes: sem oportunidade",
-      "d7": 10,
-      "d15": 17,
-      "d30": 277,
-      "hoje": 1,
-      "share": 4.7,
-      "ratePerDay7": 1.4,
-      "ratePerDay30": 9.2,
-      "recoverable": false,
-      "tecnico": false
-    },
-    {
-      "key": "lost_no_potential",
-      "label": "lost_no_potential",
-      "d7": 12,
-      "d15": 28,
-      "d30": 247,
-      "hoje": 1,
-      "share": 4.2,
-      "ratePerDay7": 1.7,
-      "ratePerDay30": 8.2,
+      "ratePerDay30": 9.4,
       "recoverable": false,
       "tecnico": false
     },
     {
       "key": "cs_endpoint_failed",
       "label": "Company Score: endpoint falhou",
-      "d7": 165,
-      "d15": 211,
-      "d30": 217,
-      "hoje": 24,
-      "share": 3.7,
-      "ratePerDay7": 23.6,
-      "ratePerDay30": 7.2,
+      "d7": 194,
+      "d15": 264,
+      "d30": 270,
+      "hoje": 31,
+      "share": 4.6,
+      "ratePerDay7": 27.7,
+      "ratePerDay30": 9,
       "recoverable": false,
       "tecnico": true
+    },
+    {
+      "key": "lost_no_potential",
+      "label": "lost_no_potential",
+      "d7": 8,
+      "d15": 29,
+      "d30": 248,
+      "hoje": 1,
+      "share": 4.3,
+      "ratePerDay7": 1.1,
+      "ratePerDay30": 8.3,
+      "recoverable": false,
+      "tecnico": false
+    },
+    {
+      "key": "gd_no_opportunity",
+      "label": "Golpes: sem oportunidade",
+      "d7": 6,
+      "d15": 17,
+      "d30": 228,
+      "hoje": 0,
+      "share": 3.9,
+      "ratePerDay7": 0.9,
+      "ratePerDay30": 7.6,
+      "recoverable": false,
+      "tecnico": false
     },
     {
       "key": "bbp_seller_signal_error",
       "label": "bbp_seller_signal_error",
       "d7": 0,
       "d15": 0,
-      "d30": 146,
+      "d30": 144,
       "hoje": 0,
       "share": 2.5,
       "ratePerDay7": 0,
-      "ratePerDay30": 4.9,
+      "ratePerDay30": 4.8,
       "recoverable": false,
       "tecnico": false
     },
     {
       "key": "lost_cs_low",
       "label": "Company Score baixo",
-      "d7": 22,
+      "d7": 26,
       "d15": 67,
-      "d30": 134,
-      "hoje": 2,
-      "share": 2.3,
-      "ratePerDay7": 3.1,
-      "ratePerDay30": 4.5,
+      "d30": 137,
+      "hoje": 5,
+      "share": 2.4,
+      "ratePerDay7": 3.7,
+      "ratePerDay30": 4.6,
       "recoverable": true,
       "tecnico": false
     },
@@ -171,7 +171,7 @@
       "d15": 108,
       "d30": 114,
       "hoje": 0,
-      "share": 1.9,
+      "share": 2,
       "ratePerDay7": 0,
       "ratePerDay30": 3.8,
       "recoverable": true,
@@ -180,13 +180,13 @@
     {
       "key": "pescaria_travada",
       "label": "Pescaria travada (loop)",
-      "d7": 0,
-      "d15": 2,
-      "d30": 85,
-      "hoje": 0,
-      "share": 1.4,
-      "ratePerDay7": 0,
-      "ratePerDay30": 2.8,
+      "d7": 7,
+      "d15": 9,
+      "d30": 92,
+      "hoje": 7,
+      "share": 1.6,
+      "ratePerDay7": 1,
+      "ratePerDay30": 3.1,
       "recoverable": false,
       "tecnico": true
     },
@@ -195,11 +195,11 @@
       "label": "Sem contato encontrado",
       "d7": 0,
       "d15": 26,
-      "d30": 65,
+      "d30": 63,
       "hoje": 0,
       "share": 1.1,
       "ratePerDay7": 0,
-      "ratePerDay30": 2.2,
+      "ratePerDay30": 2.1,
       "recoverable": true,
       "tecnico": false
     }
@@ -207,71 +207,71 @@
   "providers": [
     {
       "name": "apollo",
-      "calls": 47247,
+      "calls": 46735,
       "successRate": 94,
       "errorRate": 6,
-      "credits": 7766,
-      "brl": 388.3
+      "credits": 7494,
+      "brl": 374.7
     },
     {
       "name": "findymail",
-      "calls": 7906,
+      "calls": 7754,
       "successRate": 30,
       "errorRate": 70,
-      "credits": 2173,
-      "brl": 869.2
+      "credits": 2134,
+      "brl": 853.6
     },
     {
       "name": "debounce",
-      "calls": 1872,
-      "successRate": 81,
-      "errorRate": 19,
-      "credits": 1725,
-      "brl": 34.5
-    },
-    {
-      "name": "fullenrich",
-      "calls": 3896,
-      "successRate": 13,
-      "errorRate": 87,
-      "credits": 366,
-      "brl": 183
+      "calls": 1883,
+      "successRate": 79,
+      "errorRate": 21,
+      "credits": 1749,
+      "brl": 34.98
     },
     {
       "name": "cnpja",
-      "calls": 361,
-      "successRate": 79,
-      "errorRate": 21,
-      "credits": 361,
-      "brl": 90.25
+      "calls": 403,
+      "successRate": 82,
+      "errorRate": 18,
+      "credits": 403,
+      "brl": 100.75
+    },
+    {
+      "name": "fullenrich",
+      "calls": 3937,
+      "successRate": 11,
+      "errorRate": 89,
+      "credits": 330,
+      "brl": 165
     },
     {
       "name": "lusha",
-      "calls": 1159,
-      "successRate": 10,
-      "errorRate": 90,
+      "calls": 1334,
+      "successRate": 9,
+      "errorRate": 91,
       "credits": 330,
       "brl": 0
     },
     {
+      "name": "enrique",
+      "calls": 282,
+      "successRate": 1,
+      "errorRate": 99,
+      "credits": 0,
+      "brl": 0
+    },
+    {
       "name": "gemini",
-      "calls": 15225,
+      "calls": 15207,
       "successRate": 75,
       "errorRate": 25,
       "credits": 0,
       "brl": 0
     },
     {
-      "name": "enrique",
-      "calls": 256,
-      "successRate": 0,
-      "errorRate": 100,
-      "credits": 0,
-      "brl": 0
-    },
-    {
       "name": "brasilapi",
-      "calls": 1268,
+      "calls": 1207,
       "successRate": 90,
       "errorRate": 10,
       "credits": 0,
@@ -298,10 +298,10 @@
     "cs462": 0,
     "bb463": 0,
     "bbp464": 1,
-    "golpes465": 0,
+    "golpes465": 1,
     "vm466": 0,
     "garimpo467": 0,
-    "prospeccao434": 627
+    "prospeccao434": 617
   },
   "sources": {
     "pipedrive": "ok",
@@ -359,17 +359,9 @@
       10,
       2
     ],
-    "2026-08-19": [
-      0,
-      0,
-      3,
-      0,
-      0,
-      1
-    ],
     "2026-09-03": [
       0,
-      187,
+      59,
       2,
       1,
       1,
@@ -404,7 +396,7 @@
       66,
       0,
       0,
-      1,
+      3,
       0
     ],
     "2026-09-29": [
@@ -506,8 +498,8 @@
     "2026-08-20": [
       1,
       0,
-      7,
-      2,
+      6,
+      1,
       1,
       0
     ],
@@ -522,7 +514,7 @@
     "2026-08-26": [
       2,
       0,
-      201,
+      199,
       3,
       30,
       0
@@ -593,7 +585,7 @@
     ],
     "2026-09-02": [
       1,
-      44,
+      0,
       0,
       1,
       0,
@@ -607,9 +599,17 @@
       2,
       0
     ],
+    "2026-10-05": [
+      1,
+      112,
+      4,
+      1,
+      1,
+      1
+    ],
     "2026-10-04": [
       0,
-      78,
+      138,
       0,
       0,
       0,
@@ -689,7 +689,8 @@
     ]
   },
   "cohortLostCSDaily": {
-    "2026-10-04": 78,
+    "2026-10-05": 112,
+    "2026-10-04": 138,
     "2026-10-03": 75,
     "2026-10-02": 66,
     "2026-10-01": 97,
@@ -720,54 +721,53 @@
     "2026-09-06": 95,
     "2026-09-05": 146,
     "2026-09-04": 233,
-    "2026-09-03": 187,
-    "2026-09-02": 44
+    "2026-09-03": 59
   },
   "csHistogram": {
     "threshold": 2,
     "buckets": [
       {
         "range": "0–1",
-        "total": 3910,
+        "total": 3891,
         "approved": 0,
-        "reproved": 3910
+        "reproved": 3891
       },
       {
         "range": "1–2",
-        "total": 103,
+        "total": 105,
         "approved": 0,
-        "reproved": 103
+        "reproved": 105
       },
       {
         "range": "2–3",
-        "total": 86,
-        "approved": 86,
+        "total": 85,
+        "approved": 85,
         "reproved": 0
       },
       {
         "range": "3–4",
-        "total": 53,
-        "approved": 53,
+        "total": 52,
+        "approved": 52,
         "reproved": 0
       },
       {
         "range": "≥4",
-        "total": 19,
-        "approved": 19,
+        "total": 18,
+        "approved": 18,
         "reproved": 0
       }
     ],
-    "avgApproved": 2.79,
-    "avgReproved": 0.04,
-    "distinctDeals": 4171
+    "avgApproved": 2.78,
+    "avgReproved": 0.05,
+    "distinctDeals": 4151
   },
   "csDimensions": {
     "max": 1,
-    "nApproved": 158,
-    "nReproved": 4013,
+    "nApproved": 155,
+    "nReproved": 3996,
     "approved": {
       "semrush": 0.91,
-      "investment": 0.75,
+      "investment": 0.74,
       "employees": 0.65,
       "instagram": 0.47
     },
@@ -779,7 +779,7 @@
     },
     "missingReproved": {
       "volume": 35,
-      "investment": 55,
+      "investment": 54,
       "employees": 95,
       "instagram": 96
     }
@@ -788,9 +788,9 @@
     {
       "type": "lost_weak_pure_brand",
       "label": "Marca fraca",
-      "count": 4060,
-      "count7": 751,
-      "deals": 4058,
+      "count": 3996,
+      "count7": 832,
+      "deals": 3994,
       "unresolved": 0,
       "maxRetries": 0,
       "stage": "company_score",
@@ -817,9 +817,9 @@
     {
       "type": "lost_other",
       "label": "Outros (não classificado)",
-      "count": 315,
+      "count": 282,
       "count7": 5,
-      "deals": 307,
+      "deals": 274,
       "unresolved": 0,
       "maxRetries": 0,
       "stage": "company_score",
@@ -836,7 +836,7 @@
           "c": 4
         },
         {
-          "n": "Casa do Papel",
+          "n": "vale do sol",
           "c": 2
         }
       ],
@@ -844,44 +844,44 @@
       "recoverable": false
     },
     {
-      "type": "gd_no_opportunity",
-      "label": "Golpes: sem oportunidade",
-      "count": 277,
-      "count7": 10,
-      "deals": 276,
-      "unresolved": 0,
-      "maxRetries": 2068,
-      "stage": "product_gd",
-      "detail": "GD 0/4 (0 takedown, 13 suspeitos) < 2",
-      "mttrHours": 11.2,
-      "oldestUnresolvedDays": 0,
+      "type": "cs_endpoint_failed",
+      "label": "Company Score: endpoint falhou",
+      "count": 270,
+      "count7": 194,
+      "deals": 269,
+      "unresolved": 5,
+      "maxRetries": 0,
+      "stage": "company_score",
+      "detail": "Deal não encontrado",
+      "mttrHours": 0.2,
+      "oldestUnresolvedDays": 30,
       "topOrgs": [
         {
-          "n": "Emescam",
+          "n": "3cinova",
           "c": 2
         },
         {
-          "n": "eset",
+          "n": "Uniformes do ABC",
           "c": 1
         },
         {
-          "n": "UNIMAR",
+          "n": "Portal da Saudade",
           "c": 1
         }
       ],
-      "tecnico": false,
+      "tecnico": true,
       "recoverable": false
     },
     {
       "type": "lost_no_potential",
       "label": "lost_no_potential",
-      "count": 247,
-      "count7": 12,
-      "deals": 247,
+      "count": 248,
+      "count7": 8,
+      "deals": 248,
       "unresolved": 0,
       "maxRetries": 0,
-      "stage": "product_gd",
-      "detail": "PS GD 0/4 — sem oportunidade",
+      "stage": "monitoria",
+      "detail": "Loop de pescaria encerrado: campanha camp-pd-20693-1777492118486 terminal há >24h, 0 agressores e 0 anúncios em ambas as fontes, e o serp-monitor recusa nova va",
       "mttrHours": 0,
       "oldestUnresolvedDays": 0,
       "topOrgs": [
@@ -902,57 +902,57 @@
       "recoverable": false
     },
     {
-      "type": "cs_endpoint_failed",
-      "label": "Company Score: endpoint falhou",
-      "count": 217,
-      "count7": 165,
-      "deals": 216,
-      "unresolved": 5,
-      "maxRetries": 0,
-      "stage": "company_score",
-      "detail": "Deal não encontrado",
-      "mttrHours": 0.2,
-      "oldestUnresolvedDays": 29,
+      "type": "gd_no_opportunity",
+      "label": "Golpes: sem oportunidade",
+      "count": 228,
+      "count7": 6,
+      "deals": 228,
+      "unresolved": 0,
+      "maxRetries": 2068,
+      "stage": "product_gd",
+      "detail": "GD 0/4 (0 takedown, 13 suspeitos) < 2",
+      "mttrHours": 0,
+      "oldestUnresolvedDays": 0,
       "topOrgs": [
         {
-          "n": "3cinova",
-          "c": 2
-        },
-        {
-          "n": "Navio Cabaré",
+          "n": "eset",
           "c": 1
         },
         {
-          "n": "Myra",
+          "n": "UNIMAR",
+          "c": 1
+        },
+        {
+          "n": "Grau Técnico",
           "c": 1
         }
       ],
-      "tecnico": true,
+      "tecnico": false,
       "recoverable": false
     },
     {
       "type": "bbp_seller_signal_error",
       "label": "bbp_seller_signal_error",
-      "count": 146,
+      "count": 144,
       "count7": 0,
-      "deals": 144,
+      "deals": 143,
       "unresolved": 36,
       "maxRetries": 1290,
       "stage": "monitoria",
       "detail": "vc_upstream_error: buy-box-signal HTTP 502",
-      "mttrHours": 96.8,
-      "oldestUnresolvedDays": 20,
+      "mttrHours": 98.6,
+      "oldestUnresolvedDays": 21,
       "topOrgs": [
         {
           "n": "Livre e Leve",
           "c": 2
         },
         {
-          "n": "Pingoo Casa",
-          "c": 2
+          "n": "Make Peace Cr",
+          "c": 1
         },
         {
-          "n": "Make Peace Cr",
+          "n": "Estival",
           "c": 1
         }
       ],
@@ -962,13 +962,13 @@
     {
       "type": "lost_cs_low",
       "label": "Company Score baixo",
-      "count": 134,
-      "count7": 22,
-      "deals": 131,
+      "count": 137,
+      "count7": 26,
+      "deals": 134,
       "unresolved": 0,
       "maxRetries": 0,
       "stage": "company_score",
-      "detail": "CS 0.5/4.0 < 2",
+      "detail": "CS 1.5/4.0 < 2",
       "mttrHours": 0,
       "oldestUnresolvedDays": 0,
       "topOrgs": [
@@ -981,7 +981,7 @@
           "c": 2
         },
         {
-          "n": "Luthier",
+          "n": "Typebot",
           "c": 1
         }
       ],
@@ -999,7 +999,7 @@
       "stage": "contatos",
       "detail": "Enrique 0 canal (0 contatos, 0 email, tentativa 3). Retry automático agendado.",
       "mttrHours": 22.7,
-      "oldestUnresolvedDays": 25,
+      "oldestUnresolvedDays": 26,
       "topOrgs": [
         {
           "n": "Hoover",
@@ -1020,26 +1020,26 @@
     {
       "type": "pescaria_travada",
       "label": "Pescaria travada (loop)",
-      "count": 85,
-      "count7": 0,
-      "deals": 85,
-      "unresolved": 76,
+      "count": 92,
+      "count7": 7,
+      "deals": 92,
+      "unresolved": 83,
       "maxRetries": 108,
       "stage": "monitoria_evento",
-      "detail": "Travado há 861min em Monitoria",
+      "detail": "Travado há 948min em Monitoria",
       "mttrHours": 93.5,
-      "oldestUnresolvedDays": 23,
+      "oldestUnresolvedDays": 24,
       "topOrgs": [
         {
-          "n": "Rufato",
+          "n": "Cajado Digital / Unihorizontes",
           "c": 1
         },
         {
-          "n": "Café Italle",
+          "n": "Avancy Mídia",
           "c": 1
         },
         {
-          "n": "DNA365",
+          "n": "Zentor",
           "c": 1
         }
       ],
@@ -1049,15 +1049,15 @@
     {
       "type": "enrique_only_no_contact",
       "label": "Sem contato encontrado",
-      "count": 65,
+      "count": 63,
       "count7": 0,
-      "deals": 65,
-      "unresolved": 54,
+      "deals": 63,
+      "unresolved": 53,
       "maxRetries": 5,
       "stage": "contatos",
       "detail": "Enrique buy_box indisponível (no_provider_passed_gate). Cooldown permanente (Apollo off). Retry manual: /api/garimpo/retry/72546",
-      "mttrHours": 90.2,
-      "oldestUnresolvedDays": 29,
+      "mttrHours": 99.2,
+      "oldestUnresolvedDays": 30,
       "topOrgs": [
         {
           "n": "OXS OXYGEN YOUR LIFE",
@@ -1078,15 +1078,15 @@
     {
       "type": "bbp_aguardando_monitoria",
       "label": "bbp_aguardando_monitoria",
-      "count": 37,
+      "count": 36,
       "count7": 1,
-      "deals": 37,
+      "deals": 36,
       "unresolved": 17,
       "maxRetries": 119,
       "stage": "monitoria",
       "detail": "Monitoria VC (buy box) ainda não concluída — aguardando a pescaria terminar pra pontuar o Product Score BBP. Card mantido na etapa, NÃO reprovado.",
-      "mttrHours": 188.3,
-      "oldestUnresolvedDays": 25,
+      "mttrHours": 185.4,
+      "oldestUnresolvedDays": 26,
       "topOrgs": [
         {
           "n": "Elizabeth Arden",
@@ -1115,7 +1115,7 @@
       "stage": "contatos",
       "detail": "Produto Principal não definido ou inválido (raw=null) — não consigo determinar destino",
       "mttrHours": 24,
-      "oldestUnresolvedDays": 25,
+      "oldestUnresolvedDays": 26,
       "topOrgs": [
         {
           "n": "Construtora Tenda",
@@ -1137,7 +1137,7 @@
       "type": "lost_invalid_data",
       "label": "Dado inválido",
       "count": 32,
-      "count7": 6,
+      "count7": 7,
       "deals": 32,
       "unresolved": 0,
       "maxRetries": 0,
@@ -1147,15 +1147,15 @@
       "oldestUnresolvedDays": 0,
       "topOrgs": [
         {
+          "n": "Pedir Agora Gás",
+          "c": 1
+        },
+        {
           "n": "Pedido em Trajeto",
           "c": 1
         },
         {
           "n": "Frete Now",
-          "c": 1
-        },
-        {
-          "n": "Conheça o PayPal Empresa",
           "c": 1
         }
       ],
@@ -1165,9 +1165,9 @@
     {
       "type": "lost_low_volume",
       "label": "Volume / mercado baixo",
-      "count": 28,
-      "count7": 5,
-      "deals": 28,
+      "count": 26,
+      "count7": 3,
+      "deals": 26,
       "unresolved": 0,
       "maxRetries": 0,
       "stage": "monitoria",
@@ -1192,57 +1192,28 @@
       "recoverable": false
     },
     {
-      "type": "gd_waiting_api",
-      "label": "gd_waiting_api",
-      "count": 22,
-      "count7": 2,
-      "deals": 22,
-      "unresolved": 2,
-      "maxRetries": 23,
-      "stage": "product_gd",
-      "detail": "branddi-fraud indisponível (fetch_error)",
-      "mttrHours": 76.1,
-      "oldestUnresolvedDays": 4,
-      "topOrgs": [
-        {
-          "n": "Even Apartamentos",
-          "c": 1
-        },
-        {
-          "n": "Prata Fina",
-          "c": 1
-        },
-        {
-          "n": "Rick Doces",
-          "c": 1
-        }
-      ],
-      "tecnico": false,
-      "recoverable": false
-    },
-    {
       "type": "lost_duplicate",
       "label": "Duplicidade",
-      "count": 20,
-      "count7": 3,
-      "deals": 20,
+      "count": 21,
+      "count7": 5,
+      "deals": 21,
       "unresolved": 0,
       "maxRetries": 0,
       "stage": "company_score",
-      "detail": "Duplicado por domínio: deal #48728 \"Anson Dental Online Store | Brand Bidding\" (lost)",
+      "detail": "Duplicado por domínio: deal #2347 \"Avant- Luz para você | Buy Box Protection\" (lost)",
       "mttrHours": 0,
       "oldestUnresolvedDays": 0,
       "topOrgs": [
         {
+          "n": "Easy",
+          "c": 1
+        },
+        {
+          "n": "F5 Office",
+          "c": 1
+        },
+        {
           "n": "Anson Dental",
-          "c": 1
-        },
-        {
-          "n": "Upper Tools",
-          "c": 1
-        },
-        {
-          "n": "Só Berços ",
           "c": 1
         }
       ],
@@ -1252,15 +1223,15 @@
     {
       "type": "garimpo_no_contacts",
       "label": "Garimpo: 0 contatos",
-      "count": 17,
+      "count": 16,
       "count7": 0,
-      "deals": 17,
-      "unresolved": 11,
+      "deals": 16,
+      "unresolved": 10,
       "maxRetries": 2,
       "stage": "contatos",
       "detail": "Apollo + Apify retornaram 0 decisores (tentativa 3). Retry automático agendado.",
       "mttrHours": 7.4,
-      "oldestUnresolvedDays": 29,
+      "oldestUnresolvedDays": 25,
       "topOrgs": [
         {
           "n": "Band-Aid",
@@ -1281,9 +1252,9 @@
     {
       "type": "lost_nonbr_junk",
       "label": "Lixo / não-brasileiro",
-      "count": 15,
+      "count": 14,
       "count7": 3,
-      "deals": 15,
+      "deals": 14,
       "unresolved": 0,
       "maxRetries": 0,
       "stage": "company_score",
@@ -1310,15 +1281,15 @@
     {
       "type": "outside_brazil",
       "label": "outside_brazil",
-      "count": 9,
+      "count": 8,
       "count7": 1,
-      "deals": 9,
-      "unresolved": 7,
+      "deals": 8,
+      "unresolved": 6,
       "maxRetries": 0,
       "stage": "pre_monitoria",
       "detail": "Empresa fora do BR (Apollo: Germany, sem CNPJ) — Branddi é BR-only",
       "mttrHours": 22.2,
-      "oldestUnresolvedDays": 30,
+      "oldestUnresolvedDays": 15,
       "topOrgs": [
         {
           "n": "contabo",
@@ -1339,9 +1310,9 @@
     {
       "type": "lost_outside_brazil",
       "label": "lost_outside_brazil",
-      "count": 9,
+      "count": 8,
       "count7": 1,
-      "deals": 9,
+      "deals": 8,
       "unresolved": 0,
       "maxRetries": 0,
       "stage": "company_score",
@@ -1366,35 +1337,6 @@
       "recoverable": false
     },
     {
-      "type": "cs_missing_dimensions",
-      "label": "Dimensões insuficientes",
-      "count": 8,
-      "count7": 0,
-      "deals": 8,
-      "unresolved": 6,
-      "maxRetries": 0,
-      "stage": "company_score",
-      "detail": "Faltam dimensões: employees(unresolved), instagram(unresolved) (2/4, tentativa 1)",
-      "mttrHours": 8,
-      "oldestUnresolvedDays": 30,
-      "topOrgs": [
-        {
-          "n": "Cupón Chalezinho Gramado",
-          "c": 1
-        },
-        {
-          "n": "Grupo Yellow",
-          "c": 1
-        },
-        {
-          "n": "M7 Agência de Marketing",
-          "c": 1
-        }
-      ],
-      "tecnico": false,
-      "recoverable": true
-    },
-    {
       "type": "enrique_providers_degraded",
       "label": "enrique_providers_degraded",
       "count": 8,
@@ -1417,6 +1359,35 @@
         },
         {
           "n": "BEL COL DERMCOSMÉTICOS",
+          "c": 1
+        }
+      ],
+      "tecnico": false,
+      "recoverable": false
+    },
+    {
+      "type": "gd_waiting_api",
+      "label": "gd_waiting_api",
+      "count": 6,
+      "count7": 2,
+      "deals": 6,
+      "unresolved": 2,
+      "maxRetries": 2,
+      "stage": "product_gd",
+      "detail": "branddi-fraud indisponível (fetch_error)",
+      "mttrHours": 2.5,
+      "oldestUnresolvedDays": 5,
+      "topOrgs": [
+        {
+          "n": "Even Apartamentos",
+          "c": 1
+        },
+        {
+          "n": "Prata Fina",
+          "c": 1
+        },
+        {
+          "n": "Rick Doces",
           "c": 1
         }
       ],
@@ -1482,6 +1453,35 @@
       "recoverable": true
     },
     {
+      "type": "cs_missing_dimensions",
+      "label": "Dimensões insuficientes",
+      "count": 6,
+      "count7": 0,
+      "deals": 6,
+      "unresolved": 5,
+      "maxRetries": 0,
+      "stage": "company_score",
+      "detail": "Faltam dimensões: employees(unresolved), instagram(unresolved) (2/4, tentativa 1)",
+      "mttrHours": 4,
+      "oldestUnresolvedDays": 27,
+      "topOrgs": [
+        {
+          "n": "Cupón Chalezinho Gramado",
+          "c": 1
+        },
+        {
+          "n": "Grupo Yellow",
+          "c": 1
+        },
+        {
+          "n": "M7 Agência de Marketing",
+          "c": 1
+        }
+      ],
+      "tecnico": false,
+      "recoverable": true
+    },
+    {
       "type": "is_branddi_client",
       "label": "is_branddi_client",
       "count": 5,
@@ -1492,7 +1492,7 @@
       "stage": "pre_monitoria",
       "detail": "Raia Empreendimentos é cliente Branddi — não prospectar",
       "mttrHours": 0.3,
-      "oldestUnresolvedDays": 16,
+      "oldestUnresolvedDays": 17,
       "topOrgs": [
         {
           "n": "Raia Empreendimentos",
@@ -1521,7 +1521,7 @@
       "stage": "monitoria",
       "detail": "TypeError: fetch failed",
       "mttrHours": 184.3,
-      "oldestUnresolvedDays": 25,
+      "oldestUnresolvedDays": 26,
       "topOrgs": [
         {
           "n": "Grs",
@@ -1550,7 +1550,7 @@
       "stage": "monitoria",
       "detail": "BUG: ORG #64664 (Cecon Tickets) chegou em Monitoria sem topKeywords. Company Score deveria ter forçado fallback (termo puro). Investigar manualmente.",
       "mttrHours": 59,
-      "oldestUnresolvedDays": 21,
+      "oldestUnresolvedDays": 22,
       "topOrgs": [
         {
           "n": "Cecon Tickets",
@@ -1622,14 +1622,14 @@
       "type": "finalizacao_319_falhou",
       "label": "finalizacao_319_falhou",
       "count": 2,
-      "count7": 1,
+      "count7": 0,
       "deals": 2,
       "unresolved": 2,
       "maxRetries": 0,
       "stage": "monitoria_evento",
       "detail": "principalEmail.toLowerCase is not a function",
       "mttrHours": null,
-      "oldestUnresolvedDays": 11,
+      "oldestUnresolvedDays": 12,
       "topOrgs": [
         {
           "n": "Digital Growth",
@@ -1696,7 +1696,7 @@
       "stage": "inbound",
       "detail": "Card saiu de MQL (208) sem organização vinculada — monitorias BB/GD não solicitadas. Vincular a organização (com site) destrava; a varredura do Inbound retoma o",
       "mttrHours": null,
-      "oldestUnresolvedDays": 19,
+      "oldestUnresolvedDays": 20,
       "topOrgs": [
         {
           "n": "Help Viagens",
@@ -1729,10 +1729,10 @@
     }
   ],
   "lossSummary": {
-    "total": 5934,
-    "tecnico": 304,
-    "recuperavel": 4408,
-    "legitima": 1222
+    "total": 5824,
+    "tecnico": 364,
+    "recuperavel": 4342,
+    "legitima": 1118
   },
   "lossMeta": {
     "labels": {
@@ -1788,9 +1788,9 @@
     ]
   },
   "semrushBalance": {
-    "units": 1698580,
-    "perDay": 2600,
-    "runwayDays": 653
+    "units": 1681450,
+    "perDay": 2590,
+    "runwayDays": 649
   },
   "providerRates": {
     "apollo": 0.05,
@@ -2052,8 +2052,8 @@
           "cr": 157
         },
         "apollo": {
-          "c": 5449,
-          "s": 5259,
+          "c": 5454,
+          "s": 5264,
           "cr": 278
         },
         "gemini": {
@@ -2393,28 +2393,28 @@
       },
       "prov": {
         "findymail": {
-          "c": 408,
-          "s": 163,
-          "cr": 161
+          "c": 411,
+          "s": 165,
+          "cr": 163
         },
         "fullenrich": {
-          "c": 215,
+          "c": 216,
           "s": 39,
           "cr": 31
         },
         "apollo": {
-          "c": 2133,
-          "s": 2055,
-          "cr": 666
+          "c": 2140,
+          "s": 2062,
+          "cr": 673
         },
         "gemini": {
-          "c": 286,
-          "s": 243,
+          "c": 290,
+          "s": 246,
           "cr": 0
         },
         "brasilapi": {
-          "c": 70,
-          "s": 64,
+          "c": 72,
+          "s": 66,
           "cr": 0
         },
         "cnpja": {
@@ -2500,13 +2500,13 @@
           "cr": 251
         },
         "apollo": {
-          "c": 2166,
-          "s": 2094,
+          "c": 2170,
+          "s": 2098,
           "cr": 683
         },
         "gemini": {
-          "c": 338,
-          "s": 263,
+          "c": 340,
+          "s": 265,
           "cr": 0
         },
         "brasilapi": {
@@ -2623,14 +2623,14 @@
     },
     "2026-09-05": {
       "created": 155,
-      "lost": 229,
-      "lost462": 166,
-      "csScored": 167,
-      "csApproved": 3,
-      "autoTotal": 231,
+      "lost": 211,
+      "lost462": 158,
+      "csScored": 139,
+      "csApproved": 2,
+      "autoTotal": 161,
       "infra": 1,
-      "semrushUnits": 3102,
-      "semrushCalls": 609,
+      "semrushUnits": 2609,
+      "semrushCalls": 512,
       "semrushHits": 0,
       "contactsNew": 0,
       "cEmail": 0,
@@ -2642,78 +2642,71 @@
       "opecCredits": 111,
       "opecCost": 19.57,
       "csB": [
-        162,
+        136,
+        1,
         2,
-        3,
         0,
         0
       ],
       "csBA": [
         0,
         0,
-        3,
+        2,
         0,
         0
       ],
-      "csSA": 6.75,
-      "csNA": 3,
-      "csSR": 2.5,
-      "csNR": 164,
+      "csSA": 4,
+      "csNA": 2,
+      "csSR": 1.25,
+      "csNR": 137,
       "loss": {
-        "lost_weak_pure_brand": 185,
+        "lost_weak_pure_brand": 157,
         "lost_invalid_data": 2,
-        "lost_cs_low": 2,
-        "cs_endpoint_failed": 1,
-        "enrique_only_no_contact": 2,
-        "garimpo_no_contacts": 1,
-        "lost_duplicate": 1,
-        "lost_other": 33,
-        "lost_low_volume": 2,
-        "cs_missing_dimensions": 1,
-        "lost_nonbr_junk": 1
+        "lost_cs_low": 1,
+        "cs_endpoint_failed": 1
       },
       "prov": {
         "apollo": {
-          "c": 647,
-          "s": 623,
-          "cr": 168
+          "c": 121,
+          "s": 116,
+          "cr": 19
         },
         "debounce": {
-          "c": 44,
-          "s": 43,
-          "cr": 44
+          "c": 6,
+          "s": 6,
+          "cr": 6
         },
         "findymail": {
-          "c": 142,
-          "s": 44,
-          "cr": 41
+          "c": 16,
+          "s": 0,
+          "cr": 0
         },
         "fullenrich": {
-          "c": 49,
-          "s": 17,
-          "cr": 13
+          "c": 8,
+          "s": 1,
+          "cr": 1
         },
         "gemini": {
-          "c": 70,
-          "s": 58,
+          "c": 17,
+          "s": 11,
           "cr": 0
         },
         "brasilapi": {
-          "c": 19,
-          "s": 17,
+          "c": 6,
+          "s": 5,
           "cr": 0
         },
         "cnpja": {
-          "c": 2,
+          "c": 1,
           "s": 0,
-          "cr": 2
+          "cr": 1
         }
       }
     },
     "2026-09-02": {
-      "created": 46,
-      "lost": 142,
-      "lost462": 66,
+      "created": 2,
+      "lost": 71,
+      "lost462": 0,
       "csScored": 0,
       "csApproved": 0,
       "autoTotal": 0,
@@ -2733,7 +2726,7 @@
     },
     "2026-08-30": {
       "created": 7,
-      "lost": 9,
+      "lost": 7,
       "lost462": 0,
       "csScored": 0,
       "csApproved": 0,
@@ -2754,7 +2747,7 @@
     },
     "2026-08-27": {
       "created": 65,
-      "lost": 98,
+      "lost": 60,
       "lost462": 1,
       "csScored": 0,
       "csApproved": 0,
@@ -2774,8 +2767,8 @@
       "opecCost": 24.4
     },
     "2026-08-26": {
-      "created": 206,
-      "lost": 147,
+      "created": 204,
+      "lost": 132,
       "lost462": 2,
       "csScored": 0,
       "csApproved": 0,
@@ -2796,7 +2789,7 @@
     },
     "2026-08-22": {
       "created": 11,
-      "lost": 4,
+      "lost": 3,
       "lost462": 0,
       "csScored": 0,
       "csApproved": 0,
@@ -2816,8 +2809,8 @@
       "opecCost": 10.7
     },
     "2026-08-20": {
-      "created": 10,
-      "lost": 12,
+      "created": 8,
+      "lost": 3,
       "lost462": 0,
       "csScored": 0,
       "csApproved": 0,
@@ -2832,14 +2825,110 @@
       "cPhone": 0,
       "cApollo": 0,
       "cVerified": 0,
-      "opecCalls": 52,
-      "opecCredits": 18,
-      "opecCost": 2.05
+      "opecCalls": 0,
+      "opecCredits": 0,
+      "opecCost": 0
+    },
+    "2026-10-05": {
+      "created": 118,
+      "lost": 161,
+      "lost462": 148,
+      "csScored": 158,
+      "csApproved": 5,
+      "autoTotal": 195,
+      "infra": 38,
+      "semrushUnits": 2830,
+      "semrushCalls": 544,
+      "semrushHits": 0,
+      "contactsNew": 0,
+      "cEmail": 0,
+      "cLinkedin": 0,
+      "cPhone": 0,
+      "cApollo": 0,
+      "cVerified": 0,
+      "opecCalls": 219,
+      "opecCredits": 50,
+      "opecCost": 3.25,
+      "csB": [
+        149,
+        4,
+        2,
+        2,
+        1
+      ],
+      "csBA": [
+        0,
+        0,
+        2,
+        2,
+        1
+      ],
+      "csSA": 15,
+      "csNA": 5,
+      "csSR": 7,
+      "csNR": 153,
+      "loss": {
+        "pescaria_travada": 7,
+        "lost_weak_pure_brand": 147,
+        "lost_duplicate": 2,
+        "lost_invalid_data": 1,
+        "cs_endpoint_failed": 31,
+        "lost_cs_low": 5,
+        "lost_other": 1,
+        "lost_no_potential": 1
+      },
+      "prov": {
+        "apollo": {
+          "c": 1014,
+          "s": 984,
+          "cr": 144
+        },
+        "enrique": {
+          "c": 24,
+          "s": 2,
+          "cr": 0
+        },
+        "fullenrich": {
+          "c": 139,
+          "s": 0,
+          "cr": 0
+        },
+        "lusha": {
+          "c": 139,
+          "s": 0,
+          "cr": 0
+        },
+        "findymail": {
+          "c": 172,
+          "s": 33,
+          "cr": 30
+        },
+        "gemini": {
+          "c": 293,
+          "s": 271,
+          "cr": 0
+        },
+        "cnpja": {
+          "c": 38,
+          "s": 38,
+          "cr": 38
+        },
+        "brasilapi": {
+          "c": 32,
+          "s": 31,
+          "cr": 0
+        },
+        "debounce": {
+          "c": 98,
+          "s": 66,
+          "cr": 96
+        }
+      }
     },
     "2026-09-01": {
       "created": 9,
-      "lost": 181,
-      "lost462": 126,
+      "lost": 43,
+      "lost462": 0,
       "csScored": 0,
       "csApproved": 0,
       "autoTotal": 0,
@@ -2880,8 +2969,8 @@
     },
     "2026-08-29": {
       "created": 7,
-      "lost": 15,
-      "lost462": 3,
+      "lost": 7,
+      "lost462": 0,
       "csScored": 0,
       "csApproved": 0,
       "autoTotal": 0,
@@ -2901,7 +2990,7 @@
     },
     "2026-08-28": {
       "created": 19,
-      "lost": 23,
+      "lost": 21,
       "lost462": 0,
       "csScored": 0,
       "csApproved": 0,
@@ -2922,7 +3011,7 @@
     },
     "2026-08-21": {
       "created": 21,
-      "lost": 29,
+      "lost": 7,
       "lost462": 0,
       "csScored": 0,
       "csApproved": 0,
@@ -2940,6 +3029,99 @@
       "opecCalls": 112,
       "opecCredits": 49,
       "opecCost": 2.45
+    },
+    "2026-10-04": {
+      "created": 138,
+      "lost": 191,
+      "lost462": 189,
+      "csScored": 190,
+      "csApproved": 1,
+      "autoTotal": 238,
+      "infra": 46,
+      "semrushUnits": 3698,
+      "semrushCalls": 863,
+      "semrushHits": 0,
+      "contactsNew": 0,
+      "cEmail": 0,
+      "cLinkedin": 0,
+      "cPhone": 0,
+      "cApollo": 0,
+      "cVerified": 0,
+      "opecCalls": 15,
+      "opecCredits": 2,
+      "opecCost": 0.1,
+      "csB": [
+        188,
+        1,
+        0,
+        1,
+        0
+      ],
+      "csBA": [
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "csSR": 2.75,
+      "csNR": 189,
+      "csSA": 3,
+      "csNA": 1,
+      "loss": {
+        "lost_weak_pure_brand": 187,
+        "cs_endpoint_failed": 46,
+        "lost_cs_low": 3,
+        "lost_no_potential": 1,
+        "gd_no_opportunity": 1
+      },
+      "prov": {
+        "debounce": {
+          "c": 31,
+          "s": 18,
+          "cr": 31
+        },
+        "apollo": {
+          "c": 299,
+          "s": 297,
+          "cr": 82
+        },
+        "enrique": {
+          "c": 8,
+          "s": 0,
+          "cr": 0
+        },
+        "fullenrich": {
+          "c": 42,
+          "s": 0,
+          "cr": 0
+        },
+        "lusha": {
+          "c": 42,
+          "s": 0,
+          "cr": 0
+        },
+        "findymail": {
+          "c": 49,
+          "s": 7,
+          "cr": 6
+        },
+        "gemini": {
+          "c": 58,
+          "s": 54,
+          "cr": 0
+        },
+        "cnpja": {
+          "c": 5,
+          "s": 5,
+          "cr": 5
+        },
+        "brasilapi": {
+          "c": 5,
+          "s": 5,
+          "cr": 0
+        }
+      }
     },
     "2026-09-30": {
       "created": 109,
@@ -3901,8 +4083,8 @@
           "cr": 33
         },
         "apollo": {
-          "c": 1936,
-          "s": 1874,
+          "c": 1937,
+          "s": 1875,
           "cr": 513
         },
         "gemini": {
@@ -4286,14 +4468,14 @@
     },
     "2026-09-04": {
       "created": 249,
-      "lost": 358,
-      "lost462": 269,
-      "csScored": 213,
-      "csApproved": 5,
-      "autoTotal": 323,
+      "lost": 54,
+      "lost462": 0,
+      "csScored": 0,
+      "csApproved": 0,
+      "autoTotal": 0,
       "infra": 0,
-      "semrushUnits": 4024,
-      "semrushCalls": 802,
+      "semrushUnits": 0,
+      "semrushCalls": 0,
       "semrushHits": 0,
       "contactsNew": 0,
       "cEmail": 0,
@@ -4303,80 +4485,12 @@
       "cVerified": 0,
       "opecCalls": 36,
       "opecCredits": 15,
-      "opecCost": 0.75,
-      "csB": [
-        207,
-        1,
-        2,
-        2,
-        1
-      ],
-      "csBA": [
-        0,
-        0,
-        2,
-        2,
-        1
-      ],
-      "csSR": 1.75,
-      "csNR": 208,
-      "csSA": 14.5,
-      "csNA": 5,
-      "loss": {
-        "lost_cs_low": 2,
-        "lost_weak_pure_brand": 248,
-        "gd_no_opportunity": 49,
-        "gd_waiting_api": 16,
-        "outside_brazil": 1,
-        "lost_outside_brazil": 1,
-        "cs_missing_dimensions": 1,
-        "lost_invalid_data": 1,
-        "lost_other": 1,
-        "bbp_aguardando_monitoria": 1,
-        "bbp_seller_signal_error": 2
-      },
-      "prov": {
-        "gemini": {
-          "c": 318,
-          "s": 300,
-          "cr": 0
-        },
-        "brasilapi": {
-          "c": 87,
-          "s": 87,
-          "cr": 0
-        },
-        "apollo": {
-          "c": 1281,
-          "s": 1241,
-          "cr": 348
-        },
-        "debounce": {
-          "c": 78,
-          "s": 72,
-          "cr": 63
-        },
-        "findymail": {
-          "c": 240,
-          "s": 51,
-          "cr": 33
-        },
-        "fullenrich": {
-          "c": 94,
-          "s": 34,
-          "cr": 24
-        },
-        "enrique": {
-          "c": 5,
-          "s": 0,
-          "cr": 0
-        }
-      }
+      "opecCost": 0.75
     },
     "2026-09-03": {
-      "created": 190,
-      "lost": 316,
-      "lost462": 239,
+      "created": 62,
+      "lost": 69,
+      "lost462": 0,
       "csScored": 0,
       "csApproved": 0,
       "autoTotal": 0,
@@ -4393,89 +4507,6 @@
       "opecCalls": 101,
       "opecCredits": 12,
       "opecCost": 0.57
-    },
-    "2026-10-04": {
-      "created": 78,
-      "lost": 125,
-      "lost462": 124,
-      "csScored": 125,
-      "csApproved": 1,
-      "autoTotal": 150,
-      "infra": 24,
-      "semrushUnits": 2309,
-      "semrushCalls": 455,
-      "semrushHits": 0,
-      "contactsNew": 0,
-      "cEmail": 0,
-      "cLinkedin": 0,
-      "cPhone": 0,
-      "cApollo": 0,
-      "cVerified": 0,
-      "opecCalls": 0,
-      "opecCredits": 0,
-      "opecCost": 0,
-      "csB": [
-        123,
-        1,
-        0,
-        1,
-        0
-      ],
-      "csBA": [
-        0,
-        0,
-        0,
-        1,
-        0
-      ],
-      "csSR": 2.75,
-      "csNR": 124,
-      "csSA": 3,
-      "csNA": 1,
-      "loss": {
-        "lost_weak_pure_brand": 122,
-        "lost_cs_low": 2,
-        "cs_endpoint_failed": 24,
-        "lost_no_potential": 1,
-        "gd_no_opportunity": 1
-      },
-      "prov": {
-        "fullenrich": {
-          "c": 6,
-          "s": 0,
-          "cr": 0
-        },
-        "lusha": {
-          "c": 6,
-          "s": 0,
-          "cr": 0
-        },
-        "findymail": {
-          "c": 10,
-          "s": 4,
-          "cr": 3
-        },
-        "debounce": {
-          "c": 2,
-          "s": 2,
-          "cr": 2
-        },
-        "apollo": {
-          "c": 35,
-          "s": 35,
-          "cr": 8
-        },
-        "gemini": {
-          "c": 4,
-          "s": 4,
-          "cr": 0
-        },
-        "enrique": {
-          "c": 1,
-          "s": 0,
-          "cr": 0
-        }
-      }
     },
     "2026-10-03": {
       "created": 75,
@@ -4825,7 +4856,7 @@
     },
     "2026-08-25": {
       "created": 4,
-      "lost": 39,
+      "lost": 0,
       "lost462": 0,
       "csScored": 0,
       "csApproved": 0,
@@ -4846,7 +4877,7 @@
     },
     "2026-08-24": {
       "created": 8,
-      "lost": 9,
+      "lost": 5,
       "lost462": 0,
       "csScored": 0,
       "csApproved": 0,
@@ -4867,7 +4898,7 @@
     },
     "2026-08-23": {
       "created": 5,
-      "lost": 19,
+      "lost": 17,
       "lost462": 0,
       "csScored": 0,
       "csApproved": 0,
@@ -4885,211 +4916,10 @@
       "opecCalls": 627,
       "opecCredits": 86,
       "opecCost": 9.55
-    },
-    "2026-08-19": {
-      "created": 3,
-      "lost": 0,
-      "lost462": 0,
-      "csScored": 0,
-      "csApproved": 0,
-      "autoTotal": 0,
-      "infra": 0,
-      "semrushUnits": 0,
-      "semrushCalls": 0,
-      "semrushHits": 0,
-      "contactsNew": 0,
-      "cEmail": 0,
-      "cLinkedin": 0,
-      "cPhone": 0,
-      "cApollo": 0,
-      "cVerified": 0,
-      "opecCalls": 0,
-      "opecCredits": 0,
-      "opecCost": 0
     }
   },
   "truncations": [],
   "incidentHistory": [
-    {
-      "date": "2026-08-21",
-      "types": {
-        "lost_weak_pure_brand": {
-          "count": 9672,
-          "unresolved": 0,
-          "deals": 9658
-        },
-        "lost_other": {
-          "count": 495,
-          "unresolved": 0,
-          "deals": 476
-        },
-        "enrique_only_no_contact": {
-          "count": 247,
-          "unresolved": 121,
-          "deals": 236
-        },
-        "lost_cs_low": {
-          "count": 215,
-          "unresolved": 0,
-          "deals": 215
-        },
-        "enrique_providers_degraded": {
-          "count": 150,
-          "unresolved": 125,
-          "deals": 149
-        },
-        "garimpo_no_contacts": {
-          "count": 142,
-          "unresolved": 70,
-          "deals": 135
-        },
-        "bbp_vc_monitoria_ausente": {
-          "count": 141,
-          "unresolved": 18,
-          "deals": 141
-        },
-        "pescaria_travada": {
-          "count": 127,
-          "unresolved": 92,
-          "deals": 127
-        },
-        "gd_waiting_api": {
-          "count": 99,
-          "unresolved": 82,
-          "deals": 96
-        },
-        "garimpo_no_channel": {
-          "count": 98,
-          "unresolved": 51,
-          "deals": 96
-        },
-        "gd_no_opportunity": {
-          "count": 73,
-          "unresolved": 41,
-          "deals": 73
-        },
-        "lost_invalid_data": {
-          "count": 49,
-          "unresolved": 0,
-          "deals": 49
-        },
-        "lost_low_volume": {
-          "count": 45,
-          "unresolved": 0,
-          "deals": 45
-        },
-        "bbp_neon_query_error": {
-          "count": 34,
-          "unresolved": 2,
-          "deals": 34
-        },
-        "lost_duplicate": {
-          "count": 31,
-          "unresolved": 0,
-          "deals": 28
-        },
-        "cs_missing_dimensions": {
-          "count": 23,
-          "unresolved": 9,
-          "deals": 23
-        },
-        "bbp_vc_signal_error": {
-          "count": 16,
-          "unresolved": 6,
-          "deals": 16
-        },
-        "reprovado_sem_campanha": {
-          "count": 15,
-          "unresolved": 7,
-          "deals": 15
-        },
-        "invalid_produto_principal": {
-          "count": 12,
-          "unresolved": 2,
-          "deals": 10
-        },
-        "lost_ps_low": {
-          "count": 12,
-          "unresolved": 0,
-          "deals": 12
-        },
-        "dominio_indecidivel": {
-          "count": 12,
-          "unresolved": 10,
-          "deals": 12
-        },
-        "lost_nonbr_junk": {
-          "count": 9,
-          "unresolved": 0,
-          "deals": 8
-        },
-        "dominio_suspeito": {
-          "count": 9,
-          "unresolved": 9,
-          "deals": 9
-        },
-        "cs_endpoint_failed": {
-          "count": 6,
-          "unresolved": 6,
-          "deals": 6
-        },
-        "outside_brazil": {
-          "count": 5,
-          "unresolved": 5,
-          "deals": 5
-        },
-        "lost_outside_brazil": {
-          "count": 5,
-          "unresolved": 0,
-          "deals": 5
-        },
-        "lost_branddi_client": {
-          "count": 4,
-          "unresolved": 0,
-          "deals": 4
-        },
-        "enrique_http_504": {
-          "count": 4,
-          "unresolved": 1,
-          "deals": 4
-        },
-        "is_branddi_client": {
-          "count": 3,
-          "unresolved": 3,
-          "deals": 3
-        },
-        "no_keywords_after_cs": {
-          "count": 2,
-          "unresolved": 2,
-          "deals": 2
-        },
-        "invalid_domain_domain_empty": {
-          "count": 2,
-          "unresolved": 1,
-          "deals": 2
-        },
-        "orphan_pescaria_closed": {
-          "count": 2,
-          "unresolved": 2,
-          "deals": 2
-        },
-        "pescaria_is_branddi_client": {
-          "count": 1,
-          "unresolved": 0,
-          "deals": 1
-        },
-        "bb4d_failed": {
-          "count": 1,
-          "unresolved": 0,
-          "deals": 1
-        },
-        "email_nao_enviado": {
-          "count": 1,
-          "unresolved": 1,
-          "deals": 1
-        }
-      }
-    },
     {
       "date": "2026-08-22",
       "types": {
@@ -12631,6 +12461,181 @@
         "lost_ps_low": {
           "count": 6,
           "unresolved": 0,
+          "deals": 6
+        },
+        "is_branddi_client": {
+          "count": 5,
+          "unresolved": 4,
+          "deals": 5
+        },
+        "bbp_scores_upsert_failed": {
+          "count": 5,
+          "unresolved": 2,
+          "deals": 5
+        },
+        "no_keywords_after_cs": {
+          "count": 4,
+          "unresolved": 3,
+          "deals": 4
+        },
+        "cs_fetch_failed": {
+          "count": 2,
+          "unresolved": 0,
+          "deals": 2
+        },
+        "enrique_fetch_error": {
+          "count": 2,
+          "unresolved": 0,
+          "deals": 2
+        },
+        "finalizacao_319_falhou": {
+          "count": 2,
+          "unresolved": 2,
+          "deals": 2
+        },
+        "bbp_neon_query_error": {
+          "count": 1,
+          "unresolved": 0,
+          "deals": 1
+        },
+        "cs_exception": {
+          "count": 1,
+          "unresolved": 0,
+          "deals": 1
+        },
+        "missing_org": {
+          "count": 1,
+          "unresolved": 1,
+          "deals": 1
+        },
+        "enrique_http_504": {
+          "count": 1,
+          "unresolved": 0,
+          "deals": 1
+        }
+      }
+    },
+    {
+      "date": "2026-10-05",
+      "types": {
+        "lost_weak_pure_brand": {
+          "count": 3996,
+          "unresolved": 0,
+          "deals": 3994
+        },
+        "lost_other": {
+          "count": 282,
+          "unresolved": 0,
+          "deals": 274
+        },
+        "cs_endpoint_failed": {
+          "count": 270,
+          "unresolved": 5,
+          "deals": 269
+        },
+        "lost_no_potential": {
+          "count": 248,
+          "unresolved": 0,
+          "deals": 248
+        },
+        "gd_no_opportunity": {
+          "count": 228,
+          "unresolved": 0,
+          "deals": 228
+        },
+        "bbp_seller_signal_error": {
+          "count": 144,
+          "unresolved": 36,
+          "deals": 143
+        },
+        "lost_cs_low": {
+          "count": 137,
+          "unresolved": 0,
+          "deals": 134
+        },
+        "garimpo_no_channel": {
+          "count": 114,
+          "unresolved": 80,
+          "deals": 114
+        },
+        "pescaria_travada": {
+          "count": 92,
+          "unresolved": 83,
+          "deals": 92
+        },
+        "enrique_only_no_contact": {
+          "count": 63,
+          "unresolved": 53,
+          "deals": 63
+        },
+        "bbp_aguardando_monitoria": {
+          "count": 36,
+          "unresolved": 17,
+          "deals": 36
+        },
+        "invalid_produto_principal": {
+          "count": 33,
+          "unresolved": 17,
+          "deals": 33
+        },
+        "lost_invalid_data": {
+          "count": 32,
+          "unresolved": 0,
+          "deals": 32
+        },
+        "lost_low_volume": {
+          "count": 26,
+          "unresolved": 0,
+          "deals": 26
+        },
+        "lost_duplicate": {
+          "count": 21,
+          "unresolved": 0,
+          "deals": 21
+        },
+        "garimpo_no_contacts": {
+          "count": 16,
+          "unresolved": 10,
+          "deals": 16
+        },
+        "lost_nonbr_junk": {
+          "count": 14,
+          "unresolved": 0,
+          "deals": 14
+        },
+        "outside_brazil": {
+          "count": 8,
+          "unresolved": 6,
+          "deals": 8
+        },
+        "lost_outside_brazil": {
+          "count": 8,
+          "unresolved": 0,
+          "deals": 8
+        },
+        "enrique_providers_degraded": {
+          "count": 8,
+          "unresolved": 0,
+          "deals": 8
+        },
+        "gd_waiting_api": {
+          "count": 6,
+          "unresolved": 2,
+          "deals": 6
+        },
+        "lost_branddi_client": {
+          "count": 6,
+          "unresolved": 0,
+          "deals": 6
+        },
+        "lost_ps_low": {
+          "count": 6,
+          "unresolved": 0,
+          "deals": 6
+        },
+        "cs_missing_dimensions": {
+          "count": 6,
+          "unresolved": 5,
           "deals": 6
         },
         "is_branddi_client": {
